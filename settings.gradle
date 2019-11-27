@@ -1,0 +1,4 @@
+rootProject.name = 'Calendar'
+include ':app'
+include ':logic'
+include ':persistance'
