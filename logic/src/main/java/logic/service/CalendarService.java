@@ -1,29 +1,29 @@
 package logic.service;
 
-import logic.model.User;
+import logic.model.Calendar;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import javax.persistence.Query;
 import java.util.List;
 
-public class UserService {
+public class CalendarService {
 
     private Session session;
 
-    public UserService() {
+    public CalendarService() {
         session = HibernateProvider.getSession();
     }
 
-    public void addUser(User user){
+    public void addCalendar(Calendar calendar){
         Transaction transaction = session.getTransaction();
         transaction.begin();
-        session.persist(user);
+        session.persist(calendar);
         transaction.commit();
     }
 
-    public List<User> getUsers(){
-        Query q = session.createQuery("from User");
+    public List<Calendar> getCalendars(){
+        Query q = session.createQuery("from Calendar");
         return q.getResultList();
     }
 }
