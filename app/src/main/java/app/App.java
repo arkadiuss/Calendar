@@ -3,7 +3,9 @@
  */
 package app;
 
+import logic.model.Calendar;
 import logic.model.User;
+import logic.service.CalendarService;
 import logic.service.UserService;
 
 public class App {
@@ -15,5 +17,15 @@ public class App {
         UserService service = new UserService();
 
         service.addUser(user);
+
+        Calendar calendar = new Calendar("someName", user);
+        Calendar calendar2 = new Calendar("otherName", user);
+        calendar2.setDescription("desc");
+
+        CalendarService calendarService = new CalendarService();
+        calendarService.addCalendar(calendar);
+        calendarService.addCalendar(calendar2);
+
+        user.getCalendars().forEach(System.out::println);
     }
 }

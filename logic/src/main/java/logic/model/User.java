@@ -1,6 +1,8 @@
 package logic.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -12,6 +14,9 @@ public class User {
 
     private String username;
     private String password;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<Calendar> calendars = new HashSet<>();
 
     public User() {
     }
@@ -25,7 +30,11 @@ public class User {
         return username;
     }
 
-    public String getPassword() {
-        return password;
+    public void addCalendar(Calendar calendar){
+        calendars.add(calendar);
+    }
+
+    public Set<Calendar> getCalendars() {
+        return calendars;
     }
 }

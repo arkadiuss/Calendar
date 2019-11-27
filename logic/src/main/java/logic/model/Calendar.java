@@ -15,6 +15,10 @@ public class Calendar {
     private String name;
     private String description;
 
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User user;
+
     @OneToMany
     @JoinColumn(name = "calendarId")
     private Set<Event> events = new HashSet<>();
@@ -22,13 +26,23 @@ public class Calendar {
     public Calendar() {
     }
 
-    public Calendar(String name, String description) {
+    public Calendar(String name, User user) {
         this.name = name;
+        this.user = user;
+        user.addCalendar(this);
+    }
+
+    public void setDescription(String description) {
         this.description = description;
     }
 
     public void addEvent(Event event){
         events.add(event);
         event.setCalendarId(id);
+    }
+
+    @Override
+    public String toString(){
+        return "Calendar " + name;
     }
 }

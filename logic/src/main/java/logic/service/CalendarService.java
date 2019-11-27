@@ -1,6 +1,7 @@
 package logic.service;
 
 import logic.model.Calendar;
+import logic.model.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
