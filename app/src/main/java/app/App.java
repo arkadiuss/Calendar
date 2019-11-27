@@ -4,11 +4,16 @@
 package app;
 
 import logic.model.User;
+import logic.service.UserService;
 
 public class App {
     public static void main(String[] args)
     {
         User user = new User("u1", "aps");
         System.out.println("Hello "+user.getUsername());
+
+        UserService service = new UserService();
+
+        service.addUser(user);
     }
 }
