@@ -39,7 +39,6 @@ public class RegisterViewPresenter {
 
     @FXML
     private void handleSignUp(ActionEvent actionEvent) {
-        System.out.println("Validate input: " + validateInput());
         if (validateInput()) {
             User user = new User(usernameField.getText(), passwordField.getText(), emailField.getText());
             userService.addUser(user);
@@ -48,12 +47,12 @@ public class RegisterViewPresenter {
     }
 
     private boolean validateInput() {
-        if (isEmailValid(emailField.getText())) {
+        if (!isEmailValid(emailField.getText())) {
             AlertPopup.showAlert("Email should be in xxx@domain.com");
             return false;
         }
-        if (!usernameField.getText().isEmpty() && isEmailValid(emailField.getText())
-                && !passwordField.getText().isEmpty()) {
+        if (usernameField.getText().isEmpty() ||
+                passwordField.getText().isEmpty()) {
             AlertPopup.showAlert("Username and password cannot be empty");
             return false;
         }

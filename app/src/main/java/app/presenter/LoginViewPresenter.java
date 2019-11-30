@@ -30,8 +30,8 @@ public class LoginViewPresenter {
     }
 
     private boolean isInputValid() {
-        if (!Strings.isNullOrEmpty(userNameField.getText())
-                && !Strings.isNullOrEmpty(passwordField.getText())) {
+        if (Strings.isNullOrEmpty(userNameField.getText())
+                || Strings.isNullOrEmpty(passwordField.getText())) {
             AlertPopup.showAlert("Username and password cannot be empty");
             return false;
         }
