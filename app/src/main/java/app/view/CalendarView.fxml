@@ -2,22 +2,26 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="526.0" prefWidth="889.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.presenter.CalendarViewPresenter">
+<HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="526.0" prefWidth="889.0" style="-fx-background-image: url('https://www.myfreetextures.com/wp-content/uploads/2011/06/brushedsteel4.jpg');" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.presenter.CalendarViewPresenter">
     <children>
         <VBox prefHeight="526.0" prefWidth="185.0" />
         <VBox prefHeight="526.0" prefWidth="570.0">
             <children>
             <HBox alignment="CENTER" prefHeight="68.0" prefWidth="544.0" spacing="30.0">
                <children>
-                  <Label text="Selected date:" />
+                  <Label text="Selected date:" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
                   <DatePicker fx:id="datePicker" onAction="#handleDatePickerChange" />
                   <Button fx:id="setCurrentDateButton" mnemonicParsing="false" onAction="#handleSetCurrentDateButton" text="Set current" />
                </children></HBox>
                 <TabPane prefHeight="395.0" prefWidth="544.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
-                        <Tab fx:id="dayViewTab" text="Day" />
-                        <Tab fx:id="weekViewTab" text="Week" />
+<!--                        <Tab fx:id="dayViewTab" text="Day" />-->
+<!--                        <Tab fx:id="weekViewTab" text="Week" />-->
                         <Tab fx:id="monthViewTab" text="Month" />
                     </tabs>
                 </TabPane>

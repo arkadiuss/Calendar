@@ -28,7 +28,21 @@ public class MonthView {
         this.calendarViewPresenter = calendarViewPresenter;
         currentYearMonth = yearMonth;
 
+        List<Label> dayLabels = ImmutableList.of("Monday", "Tuesday", "Wednesday", "Thursday",
+                "Friday", "Saturday", "Sunday")
+                .stream().map(Label::new).collect(Collectors.toList());
+
+        GridPane dayLabelsGrid = new GridPane();
+        dayLabelsGrid.setStyle("-fx-background-color: #FFFFFF");
+        int dayCount = 0;
+        for (Label dayLabel : dayLabels) {
+            dayLabel.setPrefSize(100, 30);
+            dayLabel.setAlignment(Pos.BASELINE_CENTER);
+            dayLabelsGrid.add(dayLabel, dayCount++, 0);
+        }
+
         GridPane monthGrid = new GridPane();
+        monthGrid.setStyle("-fx-background-color: #FFFFFF");
         monthGrid.setGridLinesVisible(true);
 
         long weeksCount = monthWeeksCount(currentYearMonth);
@@ -40,18 +54,6 @@ public class MonthView {
                 monthGrid.add(dayAnchorPane, day_row, week_row);
                 monthDaysAnchors.add(dayAnchorPane);
             }
-        }
-
-        List<Label> dayLabels = ImmutableList.of("Monday", "Tuesday", "Wednesday", "Thursday",
-                "Friday", "Saturday", "Sunday")
-                .stream().map(Label::new).collect(Collectors.toList());
-
-        GridPane dayLabelsGrid = new GridPane();
-        int dayCount = 0;
-        for (Label dayLabel : dayLabels) {
-            dayLabel.setPrefSize(100, 30);
-            dayLabel.setAlignment(Pos.BASELINE_CENTER);
-            dayLabelsGrid.add(dayLabel, dayCount++, 0);
         }
 
         fillDayNumbers();
@@ -73,6 +75,9 @@ public class MonthView {
             Label label = new Label(String.valueOf(dateIterator.getDayOfMonth()));
             dayAnchorPane.setLeftAnchor(label, 4.0);
             dayAnchorPane.getChildren().add(label);
+            dayAnchorPane.setStyle("-fx-background-color: #FFFFFF;" +
+                    " -fx-border-color: black; -fx-border-width: 1px 1px 1px 1px");
+
 
             dayAnchorPane.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
                 calendarViewPresenter.setSelectedDate(dayAnchorPane.getDate());
