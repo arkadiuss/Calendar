@@ -1,5 +1,6 @@
 package app.presenter;
 
+import app.controller.StartController;
 import com.google.common.base.Strings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +22,7 @@ public class LoginViewPresenter {
     public Button cancelButton;
     private Stage dialogStage;
     private UserService userService;
+    private StartController startController;
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
@@ -40,6 +42,7 @@ public class LoginViewPresenter {
                 User user = optionalUser.get();
                 System.out.println(user.getUsername());
                 dialogStage.close();
+                startController.showCalendar();
                 //todo: start calendar and close all windows
             } else {
                 //todo:

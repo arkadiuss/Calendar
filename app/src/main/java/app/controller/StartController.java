@@ -7,12 +7,14 @@ import app.presenter.WelcomeViewPresenter;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import logic.service.UserService;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public class StartController {
@@ -25,6 +27,26 @@ public class StartController {
         this.userService = new UserService();
     }
 
+
+    public void showCalendar(){
+        this.primaryStage.setTitle("Welcome");
+        // load layout from FXML file
+        FXMLLoader loader = new FXMLLoader();
+        try {
+            URL url = new File("src/main/java/app/view/CalendarView.fxml").toURI().toURL();
+            loader.setLocation(url);
+            HBox root = loader.load();
+
+            Scene scene = new Scene(root);
+            this.primaryStage.setTitle("Calendar");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public void initRootLayout() {
         try {
             this.primaryStage.setTitle("Welcome");
