@@ -81,6 +81,7 @@ public class StartController {
             LoginViewPresenter presenter = loader.getController();
             presenter.setUserService(userService);
             presenter.setDialogStage(dialogStage);
+            presenter.setStartController(this);
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();

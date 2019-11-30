@@ -33,7 +33,9 @@ public class LoginViewPresenter {
                 && !Strings.isNullOrEmpty(passwordField.getText());
     }
 
-
+    public void setStartController(StartController startController){
+        this.startController = startController;
+    }
     public void handleSignIn(ActionEvent actionEvent) {
         System.out.println("HANDLING!!!");
         if (isInputValid()) {
