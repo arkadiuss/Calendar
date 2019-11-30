@@ -53,7 +53,7 @@ public class CalendarViewPresenter {
 
     public void setMonthViewContent(){
         YearMonth yearMonth = YearMonth.of(selectedDate.getYear(), selectedDate.getMonth());
-        MonthView monthViewContent = new MonthView(yearMonth);
+        MonthView monthViewContent = new MonthView(this, yearMonth);
         VBox monthTabContent = monthViewContent.getMonthViewVBox();
         monthViewTab.setContent(monthTabContent);
     }

@@ -1,29 +1,39 @@
 package app.view.month;
 
+import app.presenter.CalendarViewPresenter;
 import com.google.common.collect.ImmutableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.YearMonth;
+import java.time.temporal.TemporalAdjusters;
+import java.time.temporal.WeekFields;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class MonthView {
+    private CalendarViewPresenter calendarViewPresenter;
     private List<DayAnchorPane> monthDaysAnchors = new LinkedList<>();
     private VBox monthViewVBox;
     private YearMonth currentYearMonth;
 
-
-    public MonthView(YearMonth yearMonth) {
+    public MonthView(CalendarViewPresenter calendarViewPresenter, YearMonth yearMonth) {
+        this.calendarViewPresenter = calendarViewPresenter;
         currentYearMonth = yearMonth;
 
         GridPane monthGrid = new GridPane();
         monthGrid.setGridLinesVisible(true);
-        for (int week_row = 0; week_row < 5; week_row++) {
+
+        long weeksCount = monthWeeksCount(currentYearMonth);
+
+        for (int week_row = 0; week_row < weeksCount; week_row++) {
             for (int day_row = 0; day_row < 7; day_row++) {
                 DayAnchorPane dayAnchorPane = new DayAnchorPane();
                 dayAnchorPane.setPrefSize(100, 100);
@@ -49,7 +59,6 @@ public class MonthView {
 
     }
 
-
     public void fillDayNumbers() {
         LocalDate calendarStartDate = LocalDate.of(currentYearMonth.getYear(),
                 currentYearMonth.getMonthValue(), 1);
@@ -60,14 +69,19 @@ public class MonthView {
         }
 
         for (DayAnchorPane dayAnchorPane : monthDaysAnchors) {
+            dayAnchorPane.setDate(dateIterator);
             Label label = new Label(String.valueOf(dateIterator.getDayOfMonth()));
             dayAnchorPane.setLeftAnchor(label, 4.0);
             dayAnchorPane.getChildren().add(label);
 
-            if(dateIterator.equals(LocalDate.now())){
+            dayAnchorPane.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+                calendarViewPresenter.setSelectedDate(dayAnchorPane.getDate());
+            });
+
+            if (dateIterator.equals(LocalDate.now())) {
                 dayAnchorPane.setStyle("-fx-background-color: #FFCFFF;" +
                         " -fx-border-color: black; -fx-border-width: 1px 1px 1px 1px");
-            }else if (dateIterator.getMonth() == calendarStartDate.getMonth()) {
+            } else if (dateIterator.getMonth() == calendarStartDate.getMonth()) {
                 dayAnchorPane.setStyle("-fx-background-color: #89CFFF;" +
                         " -fx-border-color: black; -fx-border-width: 1px 1px 1px 1px");
             }
@@ -75,6 +89,21 @@ public class MonthView {
         }
     }
 
+    private long monthWeeksCount(YearMonth yearMonth) {
+        LocalDate startDate = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), 1);
+        LocalDate endDate = startDate.plusMonths(1).minusDays(1);
+
+        return startDate
+                .with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
+                .datesUntil(
+                        endDate
+                                .with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
+                                .plusWeeks(1),
+                        Period.ofWeeks(1)
+                )
+                .map(localDate -> localDate.get(WeekFields.ISO.weekOfWeekBasedYear()))
+                .count();
+    }
 
     public VBox getMonthViewVBox() {
         return monthViewVBox;
