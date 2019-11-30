@@ -5,11 +5,14 @@ import app.presenter.LoginViewPresenter;
 import app.presenter.WelcomeViewPresenter;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 public class StartController {
 
@@ -25,9 +28,11 @@ public class StartController {
 
             // load layout from FXML file
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(App.class
-                    .getResource("app/view/WelcomeView.fxml"));
-            BorderPane rootLayout = (BorderPane) loader.load();
+            System.out.println(App.class.getResource("//view"));
+            URL url = new File("src/main/java/app/view/WelcomeView.fxml").toURI().toURL();
+            System.out.println("LOCATION " + url);
+            loader.setLocation(url);
+            AnchorPane rootLayout = loader.load();
 
             // set initial data into controller
             WelcomeViewPresenter controller = loader.getController();
@@ -49,9 +54,9 @@ public class StartController {
         try {
             // Load the fxml file and create a new stage for the dialog
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(App.class
-                    .getResource("view/LoginView.fxml"));
-            BorderPane page = (BorderPane) loader.load();
+            URL url = new File("src/main/java/app/view/LoginView.fxml").toURI().toURL();
+            loader.setLocation(url);
+            AnchorPane page = loader.load();
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
