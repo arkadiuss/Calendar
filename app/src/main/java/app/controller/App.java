@@ -11,7 +11,7 @@ import logic.service.UserService;
 public class App  {
     public static void main(String[] args)
     {
-        User user = new User("u1", "aps");
+        User user = new User("u1", "aps", "user1@mail.com");
         System.out.println("Hello " + user.getUsername());
 
         UserService service = new UserService();
