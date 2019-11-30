@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.presenter.CalendarViewPresenter">
+<HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="526.0" prefWidth="889.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.presenter.CalendarViewPresenter">
     <children>
-        <VBox prefHeight="400.0" prefWidth="100.0"/>
-        <VBox prefHeight="400.0" prefWidth="383.0">
+        <VBox prefHeight="526.0" prefWidth="185.0" />
+        <VBox prefHeight="526.0" prefWidth="570.0">
             <children>
-                <TabPane prefHeight="399.0" prefWidth="383.0" tabClosingPolicy="UNAVAILABLE">
+            <HBox alignment="CENTER" prefHeight="68.0" prefWidth="544.0" spacing="30.0">
+               <children>
+                  <Label text="Selected date:" />
+                  <DatePicker fx:id="datePicker" onAction="#handleDatePickerChange" />
+                  <Button fx:id="setCurrentDateButton" mnemonicParsing="false" onAction="#handleSetCurrentDateButton" text="Set current" />
+               </children></HBox>
+                <TabPane prefHeight="395.0" prefWidth="544.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
-                        <Tab fx:id="dayView" text="Day"/>
-                        <Tab fx:id="weekView" text="Week"/>
-                        <Tab fx:id="monthView" text="Month"/>
-                        <Tab fx:id="yearView" text="Year"/>
+                        <Tab fx:id="dayViewTab" text="Day" />
+                        <Tab fx:id="weekViewTab" text="Week" />
+                        <Tab fx:id="monthViewTab" text="Month" />
                     </tabs>
                 </TabPane>
             </children>
         </VBox>
-        <VBox prefHeight="200.0" prefWidth="100.0"/>
+        <VBox prefHeight="526.0" prefWidth="212.0" />
     </children>
 </HBox>
