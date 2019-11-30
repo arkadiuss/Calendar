@@ -28,12 +28,9 @@ public class StartController {
     public void initRootLayout() {
         try {
             this.primaryStage.setTitle("Welcome");
-
             // load layout from FXML file
             FXMLLoader loader = new FXMLLoader();
-            System.out.println(App.class.getResource("//view"));
             URL url = new File("src/main/java/app/view/WelcomeView.fxml").toURI().toURL();
-            System.out.println("LOCATION " + url);
             loader.setLocation(url);
             AnchorPane rootLayout = loader.load();
 
@@ -49,7 +46,6 @@ public class StartController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public void showLoginWindow() {
@@ -57,16 +53,7 @@ public class StartController {
             // Load the fxml file and create a new stage for the dialog
             FXMLLoader loader = new FXMLLoader();
             URL url = new File("src/main/java/app/view/LoginView.fxml").toURI().toURL();
-            loader.setLocation(url);
-            AnchorPane page = loader.load();
-
-            // Create the dialog Stage.
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Login");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(primaryStage);
-            Scene scene = new Scene(page);
-            dialogStage.setScene(scene);
+            Stage dialogStage = getStage(loader, url, "Login");
 
             // Set the person into the presenter.
             LoginViewPresenter presenter = loader.getController();
@@ -87,16 +74,7 @@ public class StartController {
             // Load the fxml file and create a new stage for the dialog
             FXMLLoader loader = new FXMLLoader();
             URL url = new File("src/main/java/app/view/RegisterView.fxml").toURI().toURL();
-            loader.setLocation(url);
-            AnchorPane page = loader.load();
-
-            // Create the dialog Stage.
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Register");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(primaryStage);
-            Scene scene = new Scene(page);
-            dialogStage.setScene(scene);
+            Stage dialogStage = getStage(loader, url, "Register");
 
             // Set the person into the presenter.
             RegisterViewPresenter presenter = loader.getController();
@@ -110,5 +88,19 @@ public class StartController {
             //todo: add some troubleshooting
             e.printStackTrace();
         }
+    }
+
+    private Stage getStage(FXMLLoader loader, URL url, String register) throws IOException {
+        loader.setLocation(url);
+        AnchorPane page = loader.load();
+
+        // Create the dialog Stage.
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle(register);
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(primaryStage);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+        return dialogStage;
     }
 }
