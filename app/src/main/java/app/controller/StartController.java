@@ -1,6 +1,7 @@
 package app.controller;
 
 import app.App;
+import app.presenter.CalendarViewPresenter;
 import app.presenter.LoginViewPresenter;
 import app.presenter.RegisterViewPresenter;
 import app.presenter.WelcomeViewPresenter;
@@ -16,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.LocalDate;
 
 public class StartController {
 
@@ -39,6 +41,10 @@ public class StartController {
 
             Scene scene = new Scene(root);
             this.primaryStage.setTitle("Calendar");
+
+            CalendarViewPresenter controller = loader.getController();
+            controller.setSelectedDate(LocalDate.now());
+
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (MalformedURLException e) {
