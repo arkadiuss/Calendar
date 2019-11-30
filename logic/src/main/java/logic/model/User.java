@@ -14,6 +14,7 @@ public class User {
 
     private String username;
     private String password;
+    private String email;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Calendar> calendars = new HashSet<>();
@@ -21,13 +22,18 @@ public class User {
     public User() {
     }
 
-    public User(String username, String password) {
+    public User(String username, String password, String email) {
         this.username = username;
         this.password = password;
+        this.email = email;
     }
 
     public String getUsername() {
         return username;
+    }
+
+    public String getEmail(){
+        return email;
     }
 
     public void addCalendar(Calendar calendar) {
