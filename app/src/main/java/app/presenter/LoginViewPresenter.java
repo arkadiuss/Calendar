@@ -6,6 +6,7 @@ import com.google.common.base.Strings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import logic.model.User;
@@ -18,7 +19,7 @@ public class LoginViewPresenter {
     @FXML
     public TextField userNameField;
     @FXML
-    public TextField passwordField;
+    public PasswordField passwordField;
     public Button signInButton;
     public Button cancelButton;
     private Stage dialogStage;
@@ -49,12 +50,11 @@ public class LoginViewPresenter {
                 dialogStage.close();
                 startController.showCalendar();
             } else {
-                AlertPopup.showAlert(String.format("User %s does not exist", userNameField.getText()));
+                AlertPopup.showAlert(String.format("User %s does not exist or wrong password", userNameField.getText()));
             }
         } else {
             //todo: maybe popup?
             System.out.println("Username and password cannot be empty");
-
         }
     }
 

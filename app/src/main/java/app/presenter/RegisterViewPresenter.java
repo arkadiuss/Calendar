@@ -3,9 +3,8 @@ package app.presenter;
 import app.util.AlertPopup;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import logic.model.User;
 import logic.service.UserService;
@@ -15,7 +14,7 @@ public class RegisterViewPresenter {
     public TextField usernameField;
 
     @FXML
-    public TextField passwordField;
+    public PasswordField passwordField;
 
     @FXML
     public TextField emailField;

@@ -23,8 +23,8 @@
                         <Label text="Email address" textFill="WHITE" GridPane.rowIndex="1" />
                         <Label text="Password" textFill="WHITE" GridPane.rowIndex="2" />
                         <TextField fx:id="usernameField" GridPane.columnIndex="1" />
-                  <TextField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                     </children>
                 </GridPane>
             </center>
