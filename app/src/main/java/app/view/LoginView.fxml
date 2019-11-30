@@ -42,8 +42,8 @@
          <bottom>
             <HBox alignment="CENTER" prefHeight="70.0" prefWidth="308.0" spacing="40.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" text="Sign In" />
-                  <Button cancelButton="true" defaultButton="true" mnemonicParsing="false" text="Cancel" />
+                  <Button fx:id="signInButton" onAction="#handleSignIn" mnemonicParsing="false" text="Sign In" />
+                  <Button fx:id="cancelButton" onAction="#handleCancel" cancelButton="true" defaultButton="true" mnemonicParsing="false" text="Cancel" />
                </children>
             </HBox>
          </bottom></BorderPane>

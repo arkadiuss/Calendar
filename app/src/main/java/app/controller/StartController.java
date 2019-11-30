@@ -7,7 +7,6 @@ import app.presenter.WelcomeViewPresenter;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import logic.service.UserService;
@@ -48,7 +47,6 @@ public class StartController {
             primaryStage.show();
 
         } catch (IOException e) {
-            // don't do this in common apps
             e.printStackTrace();
         }
 
@@ -72,6 +70,7 @@ public class StartController {
 
             // Set the person into the presenter.
             LoginViewPresenter presenter = loader.getController();
+            presenter.setUserService(userService);
             presenter.setDialogStage(dialogStage);
 
             // Show the dialog and wait until the user closes it
