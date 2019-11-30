@@ -3,29 +3,47 @@
  */
 package app.controller;
 
+import javafx.application.Application;
+import javafx.stage.Stage;
 import logic.model.Calendar;
 import logic.model.User;
 import logic.service.CalendarService;
 import logic.service.UserService;
 
-public class App  {
-    public static void main(String[] args)
-    {
-        User user = new User("u1", "aps", "user1@mail.com");
-        System.out.println("Hello " + user.getUsername());
+import javax.swing.*;
 
-        UserService service = new UserService();
+public class App extends Application {
 
-        service.addUser(user);
+    private Stage primaryStage;
 
-        Calendar calendar = new Calendar("someName", user);
-        Calendar calendar2 = new Calendar("otherName", user);
-        calendar2.setDescription("desc");
+    @Override
+    public void start(Stage stage) throws Exception {
+        this.primaryStage = primaryStage;
+        this.primaryStage.setTitle("My first JavaFX app");
 
-        CalendarService calendarService = new CalendarService();
-        calendarService.addCalendar(calendar);
-        calendarService.addCalendar(calendar2);
-
-        user.getCalendars().forEach(System.out::println);
+        this.appController = new AccountAppController(primaryStage);
+        this.appController.initRootLayout();
     }
+    
+//    public static void main(String[] args)
+//    {
+//        User user = new User("u1", "aps");
+//        System.out.println("Hello " + user.getUsername());
+//
+//        UserService service = new UserService();
+//
+//        service.addUser(user);
+//
+//        Calendar calendar = new Calendar("someName", user);
+//        Calendar calendar2 = new Calendar("otherName", user);
+//        calendar2.setDescription("desc");
+//
+//        CalendarService calendarService = new CalendarService();
+//        calendarService.addCalendar(calendar);
+//        calendarService.addCalendar(calendar2);
+//
+//        user.getCalendars().forEach(System.out::println);
+//    }
+
+
 }
