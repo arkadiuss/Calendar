@@ -9,8 +9,6 @@ import javafx.stage.Stage;
 import logic.model.User;
 import logic.service.UserService;
 
-import javax.swing.text.html.Option;
-import java.util.Objects;
 import java.util.Optional;
 
 public class LoginViewPresenter {
