@@ -6,7 +6,7 @@ plugins {
 
 javafx {
     version = "11"
-    modules = [ 'javafx.controls, javafx.util' ]
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 dependencies {
     implementation 'com.google.guava:guava:27.0.1-jre'

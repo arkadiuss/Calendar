@@ -26,7 +26,7 @@ public class StartController {
             // load layout from FXML file
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(App.class
-                    .getResource("view/WelcomeView.fxml"));
+                    .getResource("app/view/WelcomeView.fxml"));
             BorderPane rootLayout = (BorderPane) loader.load();
 
             // set initial data into controller
