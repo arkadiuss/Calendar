@@ -1,6 +1,7 @@
 package app.presenter;
 
 import app.controller.StartController;
+import app.util.AlertPopup;
 import com.google.common.base.Strings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,26 +30,26 @@ public class LoginViewPresenter {
     }
 
     private boolean isInputValid() {
-        return !Strings.isNullOrEmpty(userNameField.getText())
-                && !Strings.isNullOrEmpty(passwordField.getText());
+        if (!Strings.isNullOrEmpty(userNameField.getText())
+                && !Strings.isNullOrEmpty(passwordField.getText())) {
+            AlertPopup.showAlert("Username and password cannot be empty");
+            return false;
+        }
+        return true;
     }
 
-    public void setStartController(StartController startController){
+    public void setStartController(StartController startController) {
         this.startController = startController;
     }
+
     public void handleSignIn(ActionEvent actionEvent) {
-        System.out.println("HANDLING!!!");
         if (isInputValid()) {
             Optional<User> optionalUser = userService.getUser(userNameField.getText(), passwordField.getText());
             if (optionalUser.isPresent()) {
-                User user = optionalUser.get();
-                System.out.println(user.getUsername());
                 dialogStage.close();
                 startController.showCalendar();
-                //todo: start calendar and close all windows
             } else {
-                //todo:
-                System.out.println("Couldn't find user");
+                AlertPopup.showAlert(String.format("User %s does not exist", userNameField.getText()));
             }
         } else {
             //todo: maybe popup?

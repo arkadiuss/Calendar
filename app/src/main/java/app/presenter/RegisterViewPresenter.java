@@ -1,8 +1,11 @@
 package app.presenter;
 
+import app.util.AlertPopup;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import logic.model.User;
 import logic.service.UserService;
@@ -36,9 +39,8 @@ public class RegisterViewPresenter {
 
     @FXML
     private void handleSignUp(ActionEvent actionEvent) {
-        //todo validation messages (eg. email invalid)
         System.out.println("Validate input: " + validateInput());
-        if(validateInput()){
+        if (validateInput()) {
             User user = new User(usernameField.getText(), passwordField.getText(), emailField.getText());
             userService.addUser(user);
             dialogStage.close();
@@ -46,9 +48,18 @@ public class RegisterViewPresenter {
     }
 
     private boolean validateInput() {
-        return !usernameField.getText().isEmpty() && isEmailValid(emailField.getText())
-                && !passwordField.getText().isEmpty();
+        if (isEmailValid(emailField.getText())) {
+            AlertPopup.showAlert("Email should be in xxx@domain.com");
+            return false;
+        }
+        if (!usernameField.getText().isEmpty() && isEmailValid(emailField.getText())
+                && !passwordField.getText().isEmpty()) {
+            AlertPopup.showAlert("Username and password cannot be empty");
+            return false;
+        }
+        return true;
     }
+
 
     private boolean isEmailValid(String email) {
         String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
