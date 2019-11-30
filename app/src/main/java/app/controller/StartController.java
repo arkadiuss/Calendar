@@ -2,6 +2,7 @@ package app.controller;
 
 import app.App;
 import app.presenter.LoginViewPresenter;
+import app.presenter.RegisterViewPresenter;
 import app.presenter.WelcomeViewPresenter;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,6 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import logic.service.UserService;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,10 +18,12 @@ import java.net.URL;
 
 public class StartController {
 
+    private final UserService userService;
     private Stage primaryStage;
 
     public StartController(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        this.userService = new UserService();
     }
 
     public void initRootLayout() {
@@ -68,6 +72,36 @@ public class StartController {
 
             // Set the person into the presenter.
             LoginViewPresenter presenter = loader.getController();
+            presenter.setDialogStage(dialogStage);
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+        } catch (IOException e) {
+            //todo: add some troubleshooting
+            e.printStackTrace();
+        }
+    }
+
+    public void showRegisterWindow() {
+        try {
+            // Load the fxml file and create a new stage for the dialog
+            FXMLLoader loader = new FXMLLoader();
+            URL url = new File("src/main/java/app/view/RegisterView.fxml").toURI().toURL();
+            loader.setLocation(url);
+            AnchorPane page = loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Register");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the person into the presenter.
+            RegisterViewPresenter presenter = loader.getController();
+            presenter.setUserService(userService);
             presenter.setDialogStage(dialogStage);
 
             // Show the dialog and wait until the user closes it

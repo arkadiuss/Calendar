@@ -17,7 +17,7 @@ public class WelcomeViewPresenter {
 
     @FXML
     public void handleSignUp(ActionEvent actionEvent) {
-
+        startController.showRegisterWindow();
     }
 
     @FXML
@@ -28,4 +28,5 @@ public class WelcomeViewPresenter {
     public void setAppController(StartController startController) {
         this.startController = startController;
     }
+
 }

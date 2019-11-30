@@ -4,9 +4,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="529.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.view.RegisterView">
+<AnchorPane prefHeight="400.0" prefWidth="564.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.presenter.RegisterViewPresenter">
     <children>
-        <BorderPane layoutX="82.0" layoutY="39.0" prefHeight="322.0" prefWidth="365.0">
+        <BorderPane layoutX="100.0" layoutY="39.0" prefHeight="322.0" prefWidth="365.0">
             <center>
                 <GridPane prefHeight="251.0" prefWidth="553.0" BorderPane.alignment="CENTER">
                     <columnConstraints>
@@ -22,17 +22,17 @@
                         <Label text="Username" />
                         <Label text="Email address" GridPane.rowIndex="1" />
                         <Label text="Password" GridPane.rowIndex="2" />
-                        <TextField GridPane.columnIndex="1" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="usernameField" GridPane.columnIndex="1" />
+                  <TextField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                     </children>
                 </GridPane>
             </center>
             <bottom>
                 <HBox alignment="CENTER" prefHeight="51.0" prefWidth="553.0" spacing="40.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Button mnemonicParsing="false" text="Sign Up" />
-                        <Button alignment="CENTER" cancelButton="true" contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false" text="Cancel" />
+                        <Button fx:id="signUpButton" mnemonicParsing="false" onAction="#handleSignUp" text="Sign Up" />
+                        <Button fx:id="cancelButton" alignment="CENTER" cancelButton="true" contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#handleCancel" text="Cancel" />
                     </children>
                 </HBox>
             </bottom>
