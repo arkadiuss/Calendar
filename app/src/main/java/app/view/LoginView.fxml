@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="325.0" prefWidth="451.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.presenter.LoginViewPresenter">
+<AnchorPane prefHeight="325.0" prefWidth="451.0" style="-fx-background-image: url(&quot;https://cdn.hipwallpaper.com/m/56/88/BmVIlk.jpg&quot;);" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.presenter.LoginViewPresenter">
    <children>
-      <BorderPane layoutX="72.0" layoutY="39.0" prefHeight="268.0" prefWidth="308.0">
+      <BorderPane layoutX="51.0" layoutY="38.0" prefHeight="268.0" prefWidth="329.0">
          <center>
             <GridPane BorderPane.alignment="CENTER">
               <columnConstraints>
@@ -25,25 +25,25 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Username" />
-                  <Label text="Password" GridPane.rowIndex="1" />
+                  <Label text="Username" textFill="#f5ecec" />
+                  <Label text="Password" textFill="#fffefe" GridPane.rowIndex="1" />
                   <TextField fx:id="userNameField" GridPane.columnIndex="1" />
                   <TextField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </center>
          <top>
-            <Label prefHeight="38.0" prefWidth="83.0" text="Sign In" BorderPane.alignment="CENTER">
+            <Label prefHeight="38.0" prefWidth="83.0" text="Sign In" textFill="#f8f8f8" BorderPane.alignment="CENTER">
                <font>
-                  <Font size="24.0" />
+                  <Font name="System Bold" size="25.0" />
                </font>
             </Label>
          </top>
          <bottom>
             <HBox alignment="CENTER" prefHeight="70.0" prefWidth="308.0" spacing="40.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="signInButton" onAction="#handleSignIn" mnemonicParsing="false" text="Sign In" />
-                  <Button fx:id="cancelButton" onAction="#handleCancel" cancelButton="true" defaultButton="true" mnemonicParsing="false" text="Cancel" />
+                  <Button fx:id="signInButton" mnemonicParsing="false" onAction="#handleSignIn" text="Sign In" />
+                  <Button fx:id="cancelButton" cancelButton="true" defaultButton="true" mnemonicParsing="false" onAction="#handleCancel" text="Cancel" />
                </children>
             </HBox>
          </bottom></BorderPane>

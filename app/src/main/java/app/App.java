@@ -23,26 +23,4 @@ public class App extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
-//    public static void main(String[] args)
-//    {
-//        User user = new User("u1", "aps");
-//        System.out.println("Hello " + user.getUsername());
-//
-//        UserService service = new UserService();
-//
-//        service.addUser(user);
-//
-//        Calendar calendar = new Calendar("someName", user);
-//        Calendar calendar2 = new Calendar("otherName", user);
-//        calendar2.setDescription("desc");
-//
-//        CalendarService calendarService = new CalendarService();
-//        calendarService.addCalendar(calendar);
-//        calendarService.addCalendar(calendar2);
-//
-//        user.getCalendars().forEach(System.out::println);
-//    }
-
-
 }
