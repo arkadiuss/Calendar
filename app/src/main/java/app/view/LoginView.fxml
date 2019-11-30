@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="325.0" prefWidth="451.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.view.LoginView">
+<AnchorPane prefHeight="325.0" prefWidth="451.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.presenter.LoginViewPresenter">
    <children>
       <BorderPane layoutX="72.0" layoutY="39.0" prefHeight="268.0" prefWidth="308.0">
          <center>
@@ -20,8 +27,8 @@
                <children>
                   <Label text="Username" />
                   <Label text="Password" GridPane.rowIndex="1" />
-                  <TextField GridPane.columnIndex="1" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="userNameField" GridPane.columnIndex="1" />
+                  <TextField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </center>
@@ -35,8 +42,8 @@
          <bottom>
             <HBox alignment="CENTER" prefHeight="70.0" prefWidth="308.0" spacing="40.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" text="Sign In" />
-                  <Button cancelButton="true" defaultButton="true" mnemonicParsing="false" text="Cancel" />
+                  <Button fx:id="signInButton" onAction="#handleSignIn" mnemonicParsing="false" text="Sign In" />
+                  <Button fx:id="cancelButton" onAction="#handleCancel" cancelButton="true" defaultButton="true" mnemonicParsing="false" text="Cancel" />
                </children>
             </HBox>
          </bottom></BorderPane>
