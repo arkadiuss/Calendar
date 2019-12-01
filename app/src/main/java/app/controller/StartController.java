@@ -49,8 +49,7 @@ public class StartController {
             CalendarViewPresenter controller = loader.getController();
             controller.setSelectedDate(LocalDate.now());
             controller.setCurrentUser(user);
-            Calendar calendar = new Calendar(user.getUsername(), user);
-            controller.calendarsList.getItems().add(calendar);
+            user.getCalendars().forEach((calendar -> controller.calendarsList.getItems().add(calendar)));
 
             controller.calendarsList.setCellFactory(listView ->
                     new CalendarListViewCell((lc) -> {
