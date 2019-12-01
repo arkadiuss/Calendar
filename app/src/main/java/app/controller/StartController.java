@@ -19,6 +19,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class StartController {
 
@@ -49,10 +51,8 @@ public class StartController {
             Calendar calendar = new Calendar(user.getUsername(), user);
             controller.calendarsList.getItems().add(calendar);
 
-            controller.calendarsList.setCellFactory(listView -> new CalendarListViewCell((lc) -> {
-                controller.calendarsList.getItems().remove(lc);
-                System.out.println(lc.getText());
-            }));
+            controller.calendarsList.setCellFactory(listView ->
+                    new CalendarListViewCell((lc) -> controller.calendarsList.getItems().remove(lc)));
 
             primaryStage.setScene(scene);
             primaryStage.show();

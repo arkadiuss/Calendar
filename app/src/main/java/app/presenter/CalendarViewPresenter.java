@@ -36,6 +36,7 @@ public class CalendarViewPresenter {
     @FXML
     public Button addCalendarButton;
     public Label welcomeLabel;
+    public VBox leftVbox;
 
     private User currentUser;
 

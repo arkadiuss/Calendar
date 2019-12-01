@@ -27,4 +27,8 @@ public class CalendarService {
         Query q = session.createQuery("from Calendar");
         return q.getResultList();
     }
+
+    public void deleteCalendar(Calendar calendar){
+        session.delete(calendar);
+    }
 }

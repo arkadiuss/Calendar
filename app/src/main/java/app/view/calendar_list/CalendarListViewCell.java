@@ -12,10 +12,9 @@ import logic.model.Calendar;
 import java.util.function.Consumer;
 
 public class CalendarListViewCell extends ListCell<Calendar> {
-    private Consumer<ListCell<Calendar>> removeCalendarCallback;
+    private Consumer<Calendar> removeCalendarCallback;
 
-
-    public CalendarListViewCell(Consumer<ListCell<Calendar>> removeCalendarCallback) {
+    public CalendarListViewCell(Consumer<Calendar> removeCalendarCallback) {
         this.removeCalendarCallback = removeCalendarCallback;
     }
 
@@ -24,7 +23,7 @@ public class CalendarListViewCell extends ListCell<Calendar> {
         super.updateItem(calendar, empty);
         System.out.println("TIME FOR UPDATE" + calendar + empty);
 
-        if (calendar != null) {
+        if (calendar != null && !empty) {
             HBox root = new HBox(10);
             root.setAlignment(Pos.CENTER_LEFT);
             root.setPadding(new Insets(5, 5, 5, 5));
@@ -37,8 +36,8 @@ public class CalendarListViewCell extends ListCell<Calendar> {
 
             Button btnAddFriend = new Button("Remove");
             btnAddFriend.setOnAction(event -> {
-                System.out.println("Remove " + calendar.getName());
-                removeCalendarCallback.accept(this);
+                removeCalendarCallback.accept(calendar);
+
             });
             CheckBox checkBox = new CheckBox();
             checkBox.setOnAction(event -> {
@@ -56,17 +55,4 @@ public class CalendarListViewCell extends ListCell<Calendar> {
         }
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CalendarListViewCell that = (CalendarListViewCell) o;
-        return Objects.equal(removeCalendarCallback, that.removeCalendarCallback);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(removeCalendarCallback);
-    }
 }
