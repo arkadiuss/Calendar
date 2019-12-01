@@ -51,6 +51,7 @@ public class StartController {
 
             controller.calendarsList.setCellFactory(listView -> new CalendarListViewCell((lc) -> {
                 controller.calendarsList.getItems().remove(lc);
+                System.out.println(lc.getText());
             }));
 
             primaryStage.setScene(scene);

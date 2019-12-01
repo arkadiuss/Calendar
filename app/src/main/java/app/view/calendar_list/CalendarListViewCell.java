@@ -1,5 +1,6 @@
 package app.view.calendar_list;
 
+import com.google.common.base.Objects;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -21,6 +22,7 @@ public class CalendarListViewCell extends ListCell<Calendar> {
     @Override
     public void updateItem(Calendar calendar, boolean empty) {
         super.updateItem(calendar, empty);
+        System.out.println("TIME FOR UPDATE" + calendar + empty);
 
         if (calendar != null) {
             HBox root = new HBox(10);
@@ -52,5 +54,19 @@ public class CalendarListViewCell extends ListCell<Calendar> {
             setText(null);
             setGraphic(null);
         }
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CalendarListViewCell that = (CalendarListViewCell) o;
+        return Objects.equal(removeCalendarCallback, that.removeCalendarCallback);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(removeCalendarCallback);
     }
 }

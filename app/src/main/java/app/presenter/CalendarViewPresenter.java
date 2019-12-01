@@ -35,6 +35,7 @@ public class CalendarViewPresenter {
     public TextField newCalendarName;
     @FXML
     public Button addCalendarButton;
+    public Label welcomeLabel;
 
     private User currentUser;
 
@@ -77,5 +78,6 @@ public class CalendarViewPresenter {
 
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
+        welcomeLabel.setText(String.format("Welcome, %s", currentUser.getUsername()));
     }
 }
