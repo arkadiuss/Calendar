@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="526.0" prefWidth="889.0" spacing="10.0" style="-fx-background-image: url(&quot;https://img.elo7.com.br/product/main/1766639/papel-de-parede-madeira-envelhecida-02-papel-de-parede-madeira-hd.jpg&quot;);" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.presenter.CalendarViewPresenter">
+<HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="526.0" prefWidth="889.0" spacing="10.0" style="-fx-background-image: url('https://www.myfreetextures.com/wp-content/uploads/2011/06/brushedsteel4.jpg');" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.presenter.CalendarViewPresenter">
     <children>
         <VBox fx:id="leftVbox" prefHeight="516.0" prefWidth="284.0" spacing="80.0">
             <children>
