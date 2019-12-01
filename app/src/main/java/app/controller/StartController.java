@@ -13,6 +13,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import logic.model.Calendar;
 import logic.model.User;
+import logic.service.CalendarService;
 import logic.service.UserService;
 
 import java.io.File;
@@ -52,7 +53,11 @@ public class StartController {
             controller.calendarsList.getItems().add(calendar);
 
             controller.calendarsList.setCellFactory(listView ->
-                    new CalendarListViewCell((lc) -> controller.calendarsList.getItems().remove(lc)));
+                    new CalendarListViewCell((lc) -> {
+                        controller.calendarsList.getItems().remove(lc);
+                        CalendarService calendarService = new CalendarService();
+                        calendarService.deleteCalendar(lc);
+                    }));
 
             primaryStage.setScene(scene);
             primaryStage.show();
