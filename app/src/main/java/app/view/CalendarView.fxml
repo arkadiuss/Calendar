@@ -1,32 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="526.0" prefWidth="889.0" style="-fx-background-image: url('https://www.myfreetextures.com/wp-content/uploads/2011/06/brushedsteel4.jpg');" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.presenter.CalendarViewPresenter">
+<HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="526.0" prefWidth="889.0" spacing="10.0"
+      style="-fx-background-image: url('https://www.myfreetextures.com/wp-content/uploads/2011/06/brushedsteel4.jpg');"
+      xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="app.presenter.CalendarViewPresenter">
     <children>
-        <VBox prefHeight="526.0" prefWidth="185.0" />
+        <VBox prefHeight="516.0" prefWidth="284.0" spacing="80.0">
+            <children>
+                <ListView fx:id="calendarsList" prefHeight="250.0" prefWidth="207.0">
+                    <VBox.margin>
+                        <Insets top="100.0"/>
+                    </VBox.margin>
+                </ListView>
+                <VBox prefHeight="200.0" prefWidth="100.0" spacing="50.0">
+                    <children>
+                        <TextField fx:id="newCalendarName"/>
+                        <Button fx:id="addCalendarButton" alignment="CENTER" mnemonicParsing="false" text="Add"
+                                onAction="#handleAddNewCalendar">
+                            <opaqueInsets>
+                                <Insets left="50.0"/>
+                            </opaqueInsets>
+                            <VBox.margin>
+                                <Insets left="75.0"/>
+                            </VBox.margin>
+                        </Button>
+                    </children>
+                </VBox>
+            </children>
+        </VBox>
         <VBox prefHeight="526.0" prefWidth="570.0">
             <children>
-            <HBox alignment="CENTER" prefHeight="68.0" prefWidth="544.0" spacing="30.0">
-               <children>
-                  <Label text="Selected date:" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font></Label>
-                  <DatePicker fx:id="datePicker" onAction="#handleDatePickerChange" />
-                  <Button fx:id="setCurrentDateButton" mnemonicParsing="false" onAction="#handleSetCurrentDateButton" text="Set current" />
-               </children></HBox>
+                <HBox alignment="CENTER" prefHeight="68.0" prefWidth="544.0" spacing="30.0">
+                    <children>
+                        <Label text="Selected date:" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="14.0"/>
+                            </font>
+                        </Label>
+                        <DatePicker fx:id="datePicker" onAction="#handleDatePickerChange"/>
+                        <Button fx:id="setCurrentDateButton" mnemonicParsing="false"
+                                onAction="#handleSetCurrentDateButton" text="Set current"/>
+                    </children>
+                </HBox>
                 <TabPane prefHeight="395.0" prefWidth="544.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
-<!--                        <Tab fx:id="dayViewTab" text="Day" />-->
-<!--                        <Tab fx:id="weekViewTab" text="Week" />-->
-                        <Tab fx:id="monthViewTab" text="Month" />
+                        <!--                        <Tab fx:id="dayViewTab" text="Day" />-->
+                        <!--                        <Tab fx:id="weekViewTab" text="Week" />-->
+                        <Tab fx:id="monthViewTab" text="Month"/>
                     </tabs>
                 </TabPane>
             </children>
         </VBox>
-        <VBox prefHeight="526.0" prefWidth="212.0" />
+        <VBox prefHeight="526.0" prefWidth="212.0"/>
     </children>
 </HBox>

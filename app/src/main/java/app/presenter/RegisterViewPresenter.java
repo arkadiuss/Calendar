@@ -40,6 +40,9 @@ public class RegisterViewPresenter {
     private void handleSignUp(ActionEvent actionEvent) {
         if (validateInput()) {
             User user = new User(usernameField.getText(), passwordField.getText(), emailField.getText());
+            if (userService.getUser(usernameField.getText(), passwordField.getText()).isPresent()) {
+                AlertPopup.showAlert("User already exists");
+            }
             userService.addUser(user);
             dialogStage.close();
         }

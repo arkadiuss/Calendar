@@ -1,21 +1,22 @@
 package app.controller;
 
-import app.App;
 import app.presenter.CalendarViewPresenter;
 import app.presenter.LoginViewPresenter;
 import app.presenter.RegisterViewPresenter;
 import app.presenter.WelcomeViewPresenter;
+import app.view.calendar_list.CalendarListViewCell;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import logic.model.Calendar;
+import logic.model.User;
 import logic.service.UserService;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
 
@@ -30,7 +31,7 @@ public class StartController {
     }
 
 
-    public void showCalendar(){
+    public void showCalendar(User user) {
         this.primaryStage.setTitle("Welcome");
         // load layout from FXML file
         FXMLLoader loader = new FXMLLoader();
@@ -44,15 +45,32 @@ public class StartController {
 
             CalendarViewPresenter controller = loader.getController();
             controller.setSelectedDate(LocalDate.now());
+            controller.setCurrentUser(user);
+            Calendar calendar = new Calendar(user.getUsername(), user);
+            controller.calendarsList.getItems().add(calendar);
+            controller.calendarsList.getItems().add(calendar);
+            controller.calendarsList.getItems().add(calendar);
+            controller.calendarsList.getItems().add(calendar);
+
+            controller.calendarsList.setCellFactory(listView -> new CalendarListViewCell((lc) -> {
+                controller.calendarsList.getItems().remove(lc);
+            }));
+
+//            controller.calendarsList.setCellFactory(CheckBoxListCell.forListView((Callback<String, ObservableValue<Boolean>>) item -> {
+//                BooleanProperty observable = new SimpleBooleanProperty();
+//                observable.addListener((obs, wasSelected, isNowSelected) ->
+//                        System.out.println("Check box for " + item + " changed from " + wasSelected + " to " + isNowSelected)
+//                );
+//                return observable;
+//            }));
 
             primaryStage.setScene(scene);
             primaryStage.show();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     public void initRootLayout() {
         try {
             this.primaryStage.setTitle("Welcome");

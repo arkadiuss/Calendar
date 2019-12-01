@@ -48,14 +48,12 @@ public class LoginViewPresenter {
             Optional<User> optionalUser = userService.getUser(userNameField.getText(), passwordField.getText());
             if (optionalUser.isPresent()) {
                 dialogStage.close();
-                startController.showCalendar();
+                startController.showCalendar(optionalUser.get());
             } else {
                 AlertPopup.showAlert(String.format("User %s does not exist or wrong password", userNameField.getText()));
             }
-        } else {
-            //todo: maybe popup?
-            System.out.println("Username and password cannot be empty");
         }
+
     }
 
     public void handleCancel(ActionEvent actionEvent) {
