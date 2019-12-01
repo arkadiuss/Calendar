@@ -48,21 +48,10 @@ public class StartController {
             controller.setCurrentUser(user);
             Calendar calendar = new Calendar(user.getUsername(), user);
             controller.calendarsList.getItems().add(calendar);
-            controller.calendarsList.getItems().add(calendar);
-            controller.calendarsList.getItems().add(calendar);
-            controller.calendarsList.getItems().add(calendar);
 
             controller.calendarsList.setCellFactory(listView -> new CalendarListViewCell((lc) -> {
                 controller.calendarsList.getItems().remove(lc);
             }));
-
-//            controller.calendarsList.setCellFactory(CheckBoxListCell.forListView((Callback<String, ObservableValue<Boolean>>) item -> {
-//                BooleanProperty observable = new SimpleBooleanProperty();
-//                observable.addListener((obs, wasSelected, isNowSelected) ->
-//                        System.out.println("Check box for " + item + " changed from " + wasSelected + " to " + isNowSelected)
-//                );
-//                return observable;
-//            }));
 
             primaryStage.setScene(scene);
             primaryStage.show();

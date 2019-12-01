@@ -21,6 +21,7 @@ public class CalendarListViewCell extends ListCell<Calendar> {
     @Override
     public void updateItem(Calendar calendar, boolean empty) {
         super.updateItem(calendar, empty);
+
         if (calendar != null) {
             HBox root = new HBox(10);
             root.setAlignment(Pos.CENTER_LEFT);
@@ -47,6 +48,9 @@ public class CalendarListViewCell extends ListCell<Calendar> {
 
             setText(null);
             setGraphic(root);
+        } else {
+            setText(null);
+            setGraphic(null);
         }
     }
 }
