@@ -28,6 +28,8 @@ import java.util.Date;
 
 public class CalendarViewPresenter {
     @FXML
+    private Button addEventButton;
+    @FXML
     private DatePicker eventDatePicker;
     @FXML
     private ComboBox calendarsCombobox;
@@ -147,14 +149,23 @@ public class CalendarViewPresenter {
                 || Strings.isNullOrEmpty(placeNameField.getText()) || calendarsCombobox.getValue() == null
                 || eventDatePicker.getValue() == null) {
             AlertPopup.showAlert("Event properties cannot be empty");
-        } else{
+        } else {
             Calendar calendar = (Calendar) calendarsCombobox.getValue();
             calendar.addEvent(new Event(eventNameField.getText(),
                     new Place(placeNameField.getText(), addressNameField.getText()),
                     java.sql.Date.valueOf(eventDatePicker.getValue())));
             //todo add rx
-            calendarService.updateCalendar(calendar);
+            calendarService.updateCalendar(calendar).observeOn(JavaFxScheduler.platform())
+                    .subscribe(() -> {
+                        addEventButton.setText("Adding event...");
+                        addEventButton.setDisable(true);
+                    }, error -> {
+                        addEventButton.setText("Add event");
+                        addEventButton.setDisable(false);
+                    });
         }
+        addEventButton.setText("Add event");
+        addEventButton.setDisable(false);
 
     }
 }
