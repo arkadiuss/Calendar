@@ -1,44 +1,34 @@
 package logic.service;
 
-import com.google.common.collect.Iterables;
+import io.reactivex.Completable;
+import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
+import logic.dao.UserDao;
 import logic.model.User;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import java.util.List;
 import java.util.Optional;
 
 public class UserService {
-
-    private Session session;
+    private UserDao userDao;
 
     public UserService() {
-        session = HibernateProvider.getSession();
+        this.userDao = new UserDao();
     }
 
-    public void addUser(User user) {
-        Transaction transaction = session.getTransaction();
-        transaction.begin();
-        session.persist(user);
-        transaction.commit();
+    public Single<User> getUser(String name, String password) {
+        return Single.fromCallable(() -> userDao.getUser(name, password))
+                .map(Optional::orElseThrow)
+                .subscribeOn(Schedulers.io());
     }
 
-    public List<User> getUsers() {
-        TypedQuery<User> q = session.createQuery("from User", User.class);
-        return q.getResultList();
+    public Single<Boolean> checkIfUserExists(String name, String password) {
+        return Single.fromCallable(() -> userDao.getUser(name, password))
+                .map(Optional::isPresent)
+                .subscribeOn(Schedulers.io());
     }
 
-
-    public Optional<User> getUser(String name, String password) {
-        TypedQuery<User> q = session.createQuery("from User as u where u.username = :name" +
-                " and u.password = :password", User.class);
-        q.setParameter("name", name);
-        q.setParameter("password", password);
-        if (q.getResultList().size() == 1)
-            return Optional.of(Iterables.getOnlyElement(q.getResultList()));
-        else
-            return Optional.empty();
+    public Completable addUser(User user) {
+        return Completable.fromAction(() -> userDao.addUser(user))
+                .subscribeOn(Schedulers.io());
     }
 }

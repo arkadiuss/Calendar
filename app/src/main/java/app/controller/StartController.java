@@ -11,26 +11,20 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import logic.model.Calendar;
 import logic.model.User;
-import logic.service.CalendarService;
-import logic.service.UserService;
+import logic.dao.CalendarDao;
+import logic.dao.UserDao;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class StartController {
-
-    private final UserService userService;
     private Stage primaryStage;
 
     public StartController(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.userService = new UserService();
     }
 
 
@@ -49,14 +43,6 @@ public class StartController {
             CalendarViewPresenter controller = loader.getController();
             controller.setSelectedDate(LocalDate.now());
             controller.setCurrentUser(user);
-            user.getCalendars().forEach((calendar -> controller.calendarsList.getItems().add(calendar)));
-
-            controller.calendarsList.setCellFactory(listView ->
-                    new CalendarListViewCell((lc) -> {
-                        controller.calendarsList.getItems().remove(lc);
-                        CalendarService calendarService = new CalendarService();
-                        calendarService.deleteCalendar(lc);
-                    }));
 
             primaryStage.setScene(scene);
             primaryStage.show();
@@ -97,7 +83,6 @@ public class StartController {
 
             // Set the person into the presenter.
             LoginViewPresenter presenter = loader.getController();
-            presenter.setUserService(userService);
             presenter.setDialogStage(dialogStage);
             presenter.setStartController(this);
 
@@ -119,7 +104,6 @@ public class StartController {
 
             // Set the person into the presenter.
             RegisterViewPresenter presenter = loader.getController();
-            presenter.setUserService(userService);
             presenter.setDialogStage(dialogStage);
 
             // Show the dialog and wait until the user closes it

@@ -1,13 +1,21 @@
 package app.presenter;
 
+import app.exceptions.UserAlreadyExistException;
 import app.util.AlertPopup;
+import io.reactivex.Scheduler;
+import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import logic.model.User;
+import logic.dao.UserDao;
 import logic.service.UserService;
+
+import java.util.concurrent.TimeUnit;
 
 public class RegisterViewPresenter {
     @FXML
@@ -17,17 +25,16 @@ public class RegisterViewPresenter {
     public PasswordField passwordField;
 
     @FXML
+    public Button signUpButton;
+
+    @FXML
     public TextField emailField;
 
     private Stage dialogStage;
-    private UserService userService;
+    private UserService userService = new UserService();
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
-    }
-
-    public void setUserService(UserService userService) {
-        this.userService = userService;
     }
 
     @FXML
@@ -35,16 +42,27 @@ public class RegisterViewPresenter {
         dialogStage.close();
     }
 
-
     @FXML
     private void handleSignUp(ActionEvent actionEvent) {
         if (validateInput()) {
+            signUpButton.setText("Checking...");
+            signUpButton.setDisable(true);
             User user = new User(usernameField.getText(), passwordField.getText(), emailField.getText());
-            if (userService.getUser(usernameField.getText(), passwordField.getText()).isPresent()) {
-                AlertPopup.showAlert("User already exists");
-            }
-            userService.addUser(user);
-            dialogStage.close();
+            userService.checkIfUserExists(usernameField.getText(), passwordField.getText())
+                    .observeOn(JavaFxScheduler.platform())
+                    .flatMapCompletable(exists -> {
+                        if(exists) throw new UserAlreadyExistException();
+                        signUpButton.setText("Adding...");
+                        return userService.addUser(user);
+                    })
+                    .observeOn(JavaFxScheduler.platform())
+                    .subscribe(() -> {
+                        signUpButton.setText("Done!");
+                        dialogStage.close();
+                    }, error -> {
+                        AlertPopup.showAlert("User already exists");
+                        signUpButton.setDisable(false);
+                    });
         }
     }
 

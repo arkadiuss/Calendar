@@ -9,12 +9,13 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import logic.model.Calendar;
 
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class CalendarListViewCell extends ListCell<Calendar> {
-    private Consumer<Calendar> removeCalendarCallback;
+    private BiConsumer<Calendar, Button> removeCalendarCallback;
 
-    public CalendarListViewCell(Consumer<Calendar> removeCalendarCallback) {
+    public CalendarListViewCell(BiConsumer<Calendar, Button> removeCalendarCallback) {
         this.removeCalendarCallback = removeCalendarCallback;
     }
 
@@ -33,9 +34,9 @@ public class CalendarListViewCell extends ListCell<Calendar> {
             HBox.setHgrow(region, Priority.ALWAYS);
             root.getChildren().add(region);
 
-            Button btnAddFriend = new Button("Remove");
-            btnAddFriend.setOnAction(event -> {
-                removeCalendarCallback.accept(calendar);
+            Button removeButton = new Button("Delete");
+            removeButton.setOnAction(event -> {
+                removeCalendarCallback.accept(calendar, removeButton);
 
             });
             CheckBox checkBox = new CheckBox();
@@ -44,7 +45,7 @@ public class CalendarListViewCell extends ListCell<Calendar> {
                 System.out.println("Calendar in use: " + checkBox.selectedProperty().getValue());
             });
 
-            root.getChildren().addAll(btnAddFriend, checkBox);
+            root.getChildren().addAll(removeButton, checkBox);
 
             setText(null);
             setGraphic(root);

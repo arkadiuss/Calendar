@@ -1,34 +1,38 @@
 package logic.service;
 
+import io.reactivex.Completable;
+import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
+import logic.dao.CalendarDao;
 import logic.model.Calendar;
-import logic.model.User;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
-import javax.persistence.Query;
 import java.util.List;
 
 public class CalendarService {
-
-    private Session session;
+    private CalendarDao calendarDao;
 
     public CalendarService() {
-        session = HibernateProvider.getSession();
+        this.calendarDao = new CalendarDao();
     }
 
-    public void addCalendar(Calendar calendar){
-        Transaction transaction = session.getTransaction();
-        transaction.begin();
-        session.persist(calendar);
-        transaction.commit();
+    public Single<List<Calendar>> getCalendars() {
+        return Single.fromCallable(() -> calendarDao.getCalendars())
+                .subscribeOn(Schedulers.io());
     }
 
-    public List<Calendar> getCalendars(){
-        Query q = session.createQuery("from Calendar");
-        return q.getResultList();
+    public Completable addCalendar(Calendar calendar) {
+        return Completable.fromAction(() -> calendarDao.addCalendar(calendar))
+                .subscribeOn(Schedulers.io());
     }
 
-    public void deleteCalendar(Calendar calendar){
-        session.delete(calendar);
+    public Completable deleteCalendar(Calendar calendar) {
+        return Completable.fromAction(() -> calendarDao.deleteCalendar(calendar))
+                .subscribeOn(Schedulers.io());
+    }
+
+
+    public Completable updateCalendar(Calendar calendar){
+        return Completable.fromAction(() -> calendarDao.updateCalendar(calendar))
+                .subscribeOn(Schedulers.io());
     }
 }
