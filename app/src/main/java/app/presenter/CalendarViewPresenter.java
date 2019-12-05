@@ -91,12 +91,14 @@ public class CalendarViewPresenter {
                             .observeOn(JavaFxScheduler.platform())
                             .subscribe(() -> {
                                 this.calendarsList.getItems().remove(calendar);
+                                this.calendarsCombobox.getItems().remove(calendar);
                             }, error -> {
                                 deleteButton.setDisable(false);
                                 deleteButton.setText("Remove");
                                 System.out.println(error.toString());
                             });
                 }));
+        calendarsCombobox.getItems().addAll(currentUser.getCalendars());
     }
 
     public void handleAddNewCalendar(ActionEvent actionEvent) {
@@ -117,6 +119,7 @@ public class CalendarViewPresenter {
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(calendars -> {
                     calendarsList.getItems().add(calendar);
+                    calendarsCombobox.getItems().add(calendar);
                     addCalendarButton.setText("Add");
                     addCalendarButton.setDisable(false);
                 }, error -> {
@@ -135,5 +138,15 @@ public class CalendarViewPresenter {
         this.currentUser = currentUser;
         currentUser.getCalendars().forEach((calendar -> this.calendarsList.getItems().add(calendar)));
         welcomeLabel.setText(String.format("Welcome, %s", currentUser.getUsername()));
+    }
+
+    public void handleAddEvent(ActionEvent event) {
+        if (Strings.isNullOrEmpty(eventNameField.getText()) || Strings.isNullOrEmpty(addressNameField.getText())
+                || Strings.isNullOrEmpty(placeNameField.getText()) || calendarsCombobox.getSelectionModel().isEmpty()) {
+            AlertPopup.showAlert("Event properties cannot be empty");
+        } else {
+            //todo add event
+        }
+
     }
 }
