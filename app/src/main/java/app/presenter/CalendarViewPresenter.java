@@ -28,6 +28,14 @@ import java.util.Date;
 
 public class CalendarViewPresenter {
     @FXML
+    private ComboBox calendarsCombobox;
+    @FXML
+    private TextField eventNameField;
+    @FXML
+    private TextField placeNameField;
+    @FXML
+    private TextField addressNameField;
+    @FXML
     private HBox root;
     @FXML
     private Tab dayViewTab;
