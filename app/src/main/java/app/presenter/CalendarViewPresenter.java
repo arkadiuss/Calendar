@@ -1,12 +1,15 @@
 package app.presenter;
 
 import app.exceptions.UserAlreadyExistException;
+import app.presenter.day.DayViewPresenter;
 import app.util.AlertPopup;
+import app.util.ViewUtils;
 import app.view.calendar_list.CalendarListViewCell;
 import app.view.month.MonthView;
 import com.google.common.base.Strings;
 import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -23,6 +26,7 @@ import logic.service.UserService;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -60,11 +64,15 @@ public class CalendarViewPresenter {
         this.selectedDate = selectedDate;
         datePicker.setValue(selectedDate);
         setMonthViewContent();
+        setDayViewContent();
+        setWeekViewContent();
     }
 
     public void handleDatePickerChange(ActionEvent actionEvent) {
         selectedDate = datePicker.getValue();
         setMonthViewContent();
+        setDayViewContent();
+        setWeekViewContent();
     }
 
     public void handleSetCurrentDateButton(ActionEvent actionEvent) {
@@ -121,6 +129,16 @@ public class CalendarViewPresenter {
         MonthView monthViewContent = new MonthView(this, yearMonth);
         VBox monthTabContent = monthViewContent.getMonthViewVBox();
         monthViewTab.setContent(monthTabContent);
+    }
+
+    public void setDayViewContent() {
+        ViewUtils.LoadedView lw = ViewUtils.loadView("day/DayView.fxml");
+        ((DayViewPresenter)lw.controller).setEvents(new ArrayList<>());
+        dayViewTab.setContent(lw.view);
+    }
+
+    public void setWeekViewContent() {
+        weekViewTab.setContent(ViewUtils.loadView("week/WeekView.fxml").view);
     }
 
     public void setCurrentUser(User currentUser) {

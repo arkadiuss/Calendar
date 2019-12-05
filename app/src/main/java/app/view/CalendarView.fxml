@@ -79,8 +79,8 @@
                 </HBox>
                 <TabPane prefHeight="395.0" prefWidth="544.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
-                        <!--                        <Tab fx:id="dayViewTab" text="Day" />-->
-                        <!--                        <Tab fx:id="weekViewTab" text="Week" />-->
+                        <Tab fx:id="dayViewTab" text="Day" />
+                        <Tab fx:id="weekViewTab" text="Week" />
                         <Tab fx:id="monthViewTab" text="Month" />
                     </tabs>
                 </TabPane>
