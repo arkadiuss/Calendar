@@ -100,7 +100,6 @@ public class CalendarViewPresenter {
                                 System.out.println(error.toString());
                             });
                 }));
-        calendarsCombobox.getItems().addAll(currentUser.getCalendars());
     }
 
     public void handleAddNewCalendar(ActionEvent actionEvent) {
@@ -140,19 +139,21 @@ public class CalendarViewPresenter {
         this.currentUser = currentUser;
         currentUser.getCalendars().forEach((calendar -> this.calendarsList.getItems().add(calendar)));
         welcomeLabel.setText(String.format("Welcome, %s", currentUser.getUsername()));
+        calendarsCombobox.getItems().addAll(currentUser.getCalendars());
     }
 
     public void handleAddEvent(ActionEvent event) {
         if (Strings.isNullOrEmpty(eventNameField.getText()) || Strings.isNullOrEmpty(addressNameField.getText())
-                || Strings.isNullOrEmpty(placeNameField.getText()) || calendarsCombobox.getValue() != null
-                || eventDatePicker.getValue() != null) {
+                || Strings.isNullOrEmpty(placeNameField.getText()) || calendarsCombobox.getValue() == null
+                || eventDatePicker.getValue() == null) {
             AlertPopup.showAlert("Event properties cannot be empty");
-        } else {
-            //todo add event
+        } else{
             Calendar calendar = (Calendar) calendarsCombobox.getValue();
             calendar.addEvent(new Event(eventNameField.getText(),
                     new Place(placeNameField.getText(), addressNameField.getText()),
                     java.sql.Date.valueOf(eventDatePicker.getValue())));
+            //todo add rx
+            calendarService.updateCalendar(calendar);
         }
 
     }
