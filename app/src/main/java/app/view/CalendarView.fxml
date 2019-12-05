@@ -94,7 +94,8 @@
             <TextField fx:id="eventNameField" text="Event Name" />
             <TextField fx:id="placeNameField" text="Place Name" />
             <TextField fx:id="addressNameField" text="Address" />
-            <Button mnemonicParsing="false" text="Button" onAction="#handleAddEvent">
+            <DatePicker fx:id="eventDatePicker" promptText="Date" />
+            <Button mnemonicParsing="false" onAction="#handleAddEvent" text="Button">
                <VBox.margin>
                   <Insets left="40.0" top="20.0" />
                </VBox.margin>

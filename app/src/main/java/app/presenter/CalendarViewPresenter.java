@@ -28,6 +28,8 @@ import java.util.Date;
 
 public class CalendarViewPresenter {
     @FXML
+    private DatePicker eventDatePicker;
+    @FXML
     private ComboBox calendarsCombobox;
     @FXML
     private TextField eventNameField;
@@ -142,10 +144,15 @@ public class CalendarViewPresenter {
 
     public void handleAddEvent(ActionEvent event) {
         if (Strings.isNullOrEmpty(eventNameField.getText()) || Strings.isNullOrEmpty(addressNameField.getText())
-                || Strings.isNullOrEmpty(placeNameField.getText()) || calendarsCombobox.getSelectionModel().isEmpty()) {
+                || Strings.isNullOrEmpty(placeNameField.getText()) || calendarsCombobox.getValue() != null
+                || eventDatePicker.getValue() != null) {
             AlertPopup.showAlert("Event properties cannot be empty");
         } else {
             //todo add event
+            Calendar calendar = (Calendar) calendarsCombobox.getValue();
+            calendar.addEvent(new Event(eventNameField.getText(),
+                    new Place(placeNameField.getText(), addressNameField.getText()),
+                    java.sql.Date.valueOf(eventDatePicker.getValue())));
         }
 
     }
