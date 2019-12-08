@@ -43,4 +43,25 @@ public class Event {
         reminders.add(reminder);
         reminder.setEventId(id);
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Place getPlace() {
+        return place;
+    }
+
+    public LocalDateTime getStartDateTime() {
+        return startDateTime;
+    }
+
+    public LocalDateTime getEndDateTime() {
+        return endDateTime;
+    }
+
+    public int getCalendarId() {
+        return calendarId;
+    }
+
 }
