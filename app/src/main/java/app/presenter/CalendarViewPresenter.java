@@ -1,26 +1,21 @@
 package app.presenter;
 
-import app.exceptions.UserAlreadyExistException;
 import app.util.AlertPopup;
 import app.view.calendar_list.CalendarListViewCell;
 import app.view.month.MonthView;
 import com.google.common.base.Strings;
 import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
-import javafx.event.ActionEvent;
 import logic.model.Calendar;
 import logic.model.Event;
 import logic.model.Place;
 import logic.model.User;
-import logic.dao.CalendarDao;
 import logic.service.CalendarService;
-import logic.service.UserService;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Date;
@@ -91,6 +86,7 @@ public class CalendarViewPresenter {
                 new CalendarListViewCell((calendar, deleteButton) -> {
                     deleteButton.setDisable(true);
                     deleteButton.setText("Deleting...");
+                    currentUser.getCalendars().remove(calendar);
                     calendarService.deleteCalendar(calendar)
                             .observeOn(JavaFxScheduler.platform())
                             .subscribe(() -> {
@@ -126,6 +122,9 @@ public class CalendarViewPresenter {
                     addCalendarButton.setText("Add");
                     addCalendarButton.setDisable(false);
                 }, error -> {
+                    System.out.println(error);
+                    addCalendarButton.setText("Add");
+                    addCalendarButton.setDisable(false);
 //todo: print error about unadded calendar
                 });
     }

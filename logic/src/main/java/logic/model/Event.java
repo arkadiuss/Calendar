@@ -17,7 +17,9 @@ public class Event {
     @Embedded
     private Place place;
     private Date date;
-    private int calendarId;
+
+    @ManyToOne
+    private Calendar calendar;
 
     @OneToMany
     @JoinColumn(name = "reminderId")
@@ -32,12 +34,12 @@ public class Event {
         this.date = date;
     }
 
-    public void setCalendarId(int calendarId) {
-        this.calendarId = calendarId;
-    }
-
     public void addReminder(Reminder reminder){
         reminders.add(reminder);
         reminder.setEventId(id);
+    }
+
+    public void addCalendar(Calendar calendar) {
+        this.calendar = calendar;
     }
 }
