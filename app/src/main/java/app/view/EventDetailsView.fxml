@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="430.0" prefWidth="600.0" style="-fx-background-image: url('https://www.myfreetextures.com/wp-content/uploads/2011/06/brushedsteel4.jpg');" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.presenter.EventDetailsViewPresenter">
+    <children>
+        <BorderPane layoutX="117.0" layoutY="24.0" prefHeight="352.0" prefWidth="367.0">
+            <top>
+                <Label text="Event details" textFill="WHITE" BorderPane.alignment="CENTER">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Label>
+            </top>
+            <center>
+                <GridPane BorderPane.alignment="CENTER">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label text="Calendar" textFill="WHITE" />
+                        <Label fx:id="calendarNameLabel" text="Calendar name" textFill="WHITE" GridPane.columnIndex="1" />
+                        <Label text="Event name" textFill="WHITE" GridPane.rowIndex="1" />
+                        <TextField fx:id="eventNameField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Place name" textFill="WHITE" GridPane.rowIndex="2" />
+                        <Label text="Address" textFill="WHITE" GridPane.rowIndex="3" />
+                        <Label text="Start date" textFill="WHITE" GridPane.rowIndex="4" />
+                        <Label text="Start time" textFill="WHITE" GridPane.rowIndex="5" />
+                        <Label text="End date" textFill="WHITE" GridPane.rowIndex="6" />
+                        <Label text="End time" textFill="WHITE" GridPane.rowIndex="7" />
+                        <TextField fx:id="placeNameField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="addressField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <DatePicker fx:id="startDateField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <DatePicker fx:id="endDateField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                            <children>
+                                <Spinner fx:id="spinnerStartHour" BorderPane.alignment="CENTER">
+                                    <valueFactory>
+                                        <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" initialValue="0" max="23" min="0" />
+                                    </valueFactory>
+                                </Spinner>
+                                <Spinner fx:id="spinnerStartMinute" BorderPane.alignment="CENTER">
+                                    <valueFactory>
+                                        <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" initialValue="0" max="59" min="0" />
+                                    </valueFactory>
+                                </Spinner>
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                            <children>
+                                <Spinner fx:id="spinnerEndHour" BorderPane.alignment="CENTER">
+                                    <valueFactory>
+                                        <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" initialValue="0" max="23" min="0" />
+                                    </valueFactory>
+                                </Spinner>
+                                <Spinner fx:id="spinnerEndMinute" BorderPane.alignment="CENTER">
+                                    <valueFactory>
+                                        <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" initialValue="0" max="59" min="0" />
+                                    </valueFactory>
+                                </Spinner>
+                            </children>
+                        </HBox>
+                    </children>
+                </GridPane>
+            </center>
+        </BorderPane>
+    </children>
+</AnchorPane>

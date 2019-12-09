@@ -1,6 +1,7 @@
 package logic.model;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,7 +17,8 @@ public class Event {
     private String title;
     @Embedded
     private Place place;
-    private Date date;
+    private LocalDateTime startDateTime;
+    private LocalDateTime endDateTime;
 
     @ManyToOne
     private Calendar calendar;
@@ -28,10 +30,11 @@ public class Event {
     public Event() {
     }
 
-    public Event(String title, Place place, Date date) {
+    public Event(String title, Place place, LocalDateTime startDateTime, LocalDateTime endDateTime) {
         this.title = title;
         this.place = place;
-        this.date = date;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
     }
 
     public void addReminder(Reminder reminder){
@@ -41,5 +44,21 @@ public class Event {
 
     public void addCalendar(Calendar calendar) {
         this.calendar = calendar;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Place getPlace() {
+        return place;
+    }
+
+    public LocalDateTime getStartDateTime() {
+        return startDateTime;
+    }
+
+    public LocalDateTime getEndDateTime() {
+        return endDateTime;
     }
 }

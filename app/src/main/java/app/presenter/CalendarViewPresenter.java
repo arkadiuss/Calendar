@@ -16,16 +16,28 @@ import logic.model.Place;
 import logic.model.User;
 import logic.service.CalendarService;
 
+import java.time.*;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class CalendarViewPresenter {
     @FXML
-    private Button addEventButton;
+    public Spinner spinnerStartHour;
     @FXML
-    private DatePicker eventDatePicker;
+    public Spinner spinnerStartMinute;
+    @FXML
+    public Spinner spinnerEndHour;
+    @FXML
+    public Spinner spinnerEndMinute;
+    @FXML
+    private DatePicker eventStartDatePicker;
+    @FXML
+    private DatePicker eventEndDatePicker;
+    @FXML
+    private Button addEventButton;
     @FXML
     private ComboBox calendarsCombobox;
     @FXML
@@ -106,11 +118,11 @@ public class CalendarViewPresenter {
             return;
         }
         Calendar calendar = new Calendar(newCalendarName.getText(), currentUser);
-        calendar.addEvent(new Event("XMAS", new Place("EVERYWHERE", "EVERYWHERE"), new Date(2019, 12, 24)));
-        calendar.addEvent(new Event("event1", new Place("EVERYWHERE", "EVERYWHERE"), new Date(2019, 12, 6)));
-        calendar.addEvent(new Event("event2", new Place("EVERYWHERE", "EVERYWHERE"), new Date(2019, 12, 5)));
-        calendar.addEvent(new Event("event3", new Place("EVERYWHERE", "EVERYWHERE"), new Date(2019, 12, 7)));
-        calendar.addEvent(new Event("event4", new Place("EVERYWHERE", "EVERYWHERE"), new Date(2019, 12, 7)));
+//        calendar.addEvent(new Event("XMAS", new Place("EVERYWHERE", "EVERYWHERE"), new LocalDateTime(2019, 12, 24)));
+//        calendar.addEvent(new Event("event1", new Place("EVERYWHERE", "EVERYWHERE"), new Date(2019, 12, 6)));
+//        calendar.addEvent(new Event("event2", new Place("EVERYWHERE", "EVERYWHERE"), new Date(2019, 12, 5)));
+//        calendar.addEvent(new Event("event3", new Place("EVERYWHERE", "EVERYWHERE"), new Date(2019, 12, 7)));
+//        calendar.addEvent(new Event("event4", new Place("EVERYWHERE", "EVERYWHERE"), new Date(2019, 12, 7)));
         addCalendarButton.setText("Adding...");
         addCalendarButton.setDisable(true);
         calendarService.addCalendar(calendar)
@@ -146,22 +158,39 @@ public class CalendarViewPresenter {
     public void handleAddEvent(ActionEvent event) {
         if (Strings.isNullOrEmpty(eventNameField.getText()) || Strings.isNullOrEmpty(addressNameField.getText())
                 || Strings.isNullOrEmpty(placeNameField.getText()) || calendarsCombobox.getValue() == null
-                || eventDatePicker.getValue() == null) {
+                || eventStartDatePicker.getValue() == null || eventEndDatePicker.getValue() == null) {
             AlertPopup.showAlert("Event properties cannot be empty");
         } else {
             Calendar calendar = (Calendar) calendarsCombobox.getValue();
-            calendar.addEvent(new Event(eventNameField.getText(),
-                    new Place(placeNameField.getText(), addressNameField.getText()),
-                    java.sql.Date.valueOf(eventDatePicker.getValue())));
-            //todo add rx
-            calendarService.updateCalendar(calendar).observeOn(JavaFxScheduler.platform())
-                    .subscribe(() -> {
-                        addEventButton.setText("Adding event...");
-                        addEventButton.setDisable(true);
-                    }, error -> {
-                        addEventButton.setText("Add event");
-                        addEventButton.setDisable(false);
-                    });
+
+            LocalDate startDate = eventStartDatePicker.getValue();
+            LocalDate endDate = eventEndDatePicker.getValue();
+
+            LocalTime startTime = LocalTime.of((Integer) spinnerStartHour.getValue(),
+                    (Integer) spinnerStartMinute.getValue());
+            LocalTime endTime = LocalTime.of((Integer) spinnerEndHour.getValue(),
+                    (Integer) spinnerEndMinute.getValue());
+
+            LocalDateTime startDateTime = LocalDateTime.of(startDate.getYear(), startDate.getMonth(),
+                    startDate.getDayOfMonth(), startTime.getHour(), startTime.getMinute());
+            LocalDateTime endDateTime = LocalDateTime.of(endDate.getYear(), endDate.getMonth(),
+                    endDate.getDayOfMonth(), endTime.getHour(), endTime.getMinute());
+
+            if (startDateTime.compareTo(endDateTime) >= 0) {
+                AlertPopup.showAlert("End time and date must be later than start time and date");
+            } else {
+                calendar.addEvent(new Event(eventNameField.getText(),
+                        new Place(placeNameField.getText(), addressNameField.getText()), startDateTime, endDateTime));
+                //todo add rx
+                calendarService.updateCalendar(calendar).observeOn(JavaFxScheduler.platform())
+                        .subscribe(() -> {
+                            addEventButton.setText("Adding event...");
+                            addEventButton.setDisable(true);
+                        }, error -> {
+                            addEventButton.setText("Add event");
+                            addEventButton.setDisable(false);
+                        });
+            }
         }
         addEventButton.setText("Add event");
         addEventButton.setDisable(false);
