@@ -4,7 +4,6 @@ import app.presenter.CalendarViewPresenter;
 import app.presenter.LoginViewPresenter;
 import app.presenter.RegisterViewPresenter;
 import app.presenter.WelcomeViewPresenter;
-import app.view.calendar_list.CalendarListViewCell;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -12,8 +11,6 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import logic.model.User;
-import logic.dao.CalendarDao;
-import logic.dao.UserDao;
 
 import java.io.File;
 import java.io.IOException;
