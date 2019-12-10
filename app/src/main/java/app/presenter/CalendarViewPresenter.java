@@ -1,6 +1,7 @@
 package app.presenter;
 
 import app.presenter.day.DayViewPresenter;
+import app.presenter.week.WeekViewPresenter;
 import app.util.AlertPopup;
 import app.util.ViewUtils;
 import app.view.calendar_list.CalendarListViewCell;
@@ -22,6 +23,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.YearMonth;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -169,7 +171,10 @@ public class CalendarViewPresenter {
 
 
     public void setWeekViewContent() {
-        weekViewTab.setContent(ViewUtils.loadView("week/WeekView.fxml").view);
+
+        ViewUtils.LoadedView loadedView = ViewUtils.loadView("week/WeekView.fxml");
+        ((WeekViewPresenter) loadedView.controller).setCurrentDate(selectedDate);
+        weekViewTab.setContent(loadedView.view);
     }
 
     private void updateView() {
