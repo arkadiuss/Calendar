@@ -19,7 +19,10 @@ public class Event {
     private Place place;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
-    private int calendarId;
+    private Date date;
+
+    @ManyToOne
+    private Calendar calendar;
 
     @OneToMany
     @JoinColumn(name = "reminderId")
@@ -35,13 +38,13 @@ public class Event {
         this.endDateTime = endDateTime;
     }
 
-    public void setCalendarId(int calendarId) {
-        this.calendarId = calendarId;
-    }
-
     public void addReminder(Reminder reminder){
         reminders.add(reminder);
         reminder.setEventId(id);
+    }
+
+    public void addCalendar(Calendar calendar) {
+        this.calendar = calendar;
     }
 
     public String getTitle() {
@@ -58,10 +61,6 @@ public class Event {
 
     public LocalDateTime getEndDateTime() {
         return endDateTime;
-    }
-
-    public int getCalendarId() {
-        return calendarId;
     }
 
 }

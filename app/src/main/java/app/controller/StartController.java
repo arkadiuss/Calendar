@@ -1,7 +1,10 @@
 package app.controller;
 
 import app.presenter.*;
-import app.view.calendar_list.CalendarListViewCell;
+import app.presenter.CalendarViewPresenter;
+import app.presenter.LoginViewPresenter;
+import app.presenter.RegisterViewPresenter;
+import app.presenter.WelcomeViewPresenter;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -10,16 +13,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import logic.model.Calendar;
 import logic.model.Event;
-import logic.model.Place;
 import logic.model.User;
-import logic.dao.CalendarDao;
-import logic.dao.UserDao;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class StartController {
     private Stage primaryStage;

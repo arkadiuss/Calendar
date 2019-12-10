@@ -19,7 +19,7 @@ public class Calendar {
     @JoinColumn(name = "userId")
     private User user;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "calendarId")
     private Set<Event> events = new HashSet<>();
 
@@ -38,7 +38,7 @@ public class Calendar {
 
     public void addEvent(Event event){
         events.add(event);
-        event.setCalendarId(id);
+        event.addCalendar(this);
     }
 
     public String getName() {
