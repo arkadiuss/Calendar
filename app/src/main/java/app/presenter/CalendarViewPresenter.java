@@ -18,8 +18,9 @@ import logic.model.Place;
 import logic.model.User;
 import logic.service.CalendarService;
 
-import java.time.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.YearMonth;
 import java.util.ArrayList;
 
@@ -154,7 +155,7 @@ public class CalendarViewPresenter {
 
     public void setDayViewContent() {
         ViewUtils.LoadedView lw = ViewUtils.loadView("day/DayView.fxml");
-        ((DayViewPresenter)lw.controller).setEvents(new ArrayList<>());
+        ((DayViewPresenter) lw.controller).setEvents(new ArrayList<>());
         dayViewTab.setContent(lw.view);
     }
 
@@ -172,7 +173,8 @@ public class CalendarViewPresenter {
     public void handleAddEvent(ActionEvent event) {
         if (Strings.isNullOrEmpty(eventNameField.getText()) || Strings.isNullOrEmpty(addressNameField.getText())
                 || Strings.isNullOrEmpty(placeNameField.getText()) || calendarsCombobox.getValue() == null
-                || eventStartDatePicker.getValue() == null || eventEndDatePicker.getValue() == null) {
+                || eventStartDatePicker.getValue() == null || eventEndDatePicker.getValue() == null ||
+                spinnerStartHour.getValue() == null || spinnerEndMinute.getValue() == null) {
             AlertPopup.showAlert("Event properties cannot be empty");
         } else {
             Calendar calendar = (Calendar) calendarsCombobox.getValue();
