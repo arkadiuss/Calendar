@@ -9,15 +9,12 @@ import javafx.scene.layout.VBox;
 import logic.model.Event;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 public class WeekViewDayPresenter {
     public AnchorPane dayPane;
-    private static final double DAY_PX_HEIGHT = 52.0;
+    private static final double DAY_PX_HEIGHT = 56.0;
     private static final double DAY_PX_WIDTH = 75.0;
     private List<Event> events;
 

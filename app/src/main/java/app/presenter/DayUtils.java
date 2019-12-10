@@ -30,7 +30,7 @@ public class DayUtils {
             label.setPrefWidth(width);
             label.setLayoutX(offsetX);
             label.setPrefHeight(countHeight(e,height));
-            label.setStyle("-fx-background-color: #0000FF;");
+            label.setStyle("-fx-background-color: #0099FF; -fx-text-fill: #000000");
             label.setLayoutY(countOffset(e,height));
             label.setOnMouseClicked(event -> {
                 ViewUtils.LoadedView view = ViewUtils.loadView("EventDetailsView.fxml");
