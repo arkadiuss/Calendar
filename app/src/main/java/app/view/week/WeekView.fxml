@@ -4,9 +4,11 @@
 <?import javafx.scene.layout.*?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.presenter.week.WeekViewPresenter">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="app.presenter.week.WeekViewPresenter">
    <children>
-      <ScrollPane prefHeight="400.0" prefWidth="600.0" fitToWidth="true" fitToHeight="true">
+      <ScrollPane prefHeight="400.0" prefWidth="531" fitToWidth="true" fitToHeight="true">
          <content>
             <HBox fx:id="weekPane"/>
          </content>

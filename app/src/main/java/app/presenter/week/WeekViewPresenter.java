@@ -13,7 +13,7 @@ public class WeekViewPresenter {
     @FXML
     public void initialize(){
         for(int i=0; i<7; i++) {
-            Node n = ViewUtils.loadView("day/DayView.fxml").view;
+            Node n = ViewUtils.loadView("week/WeekViewDay.fxml").view;
             n.prefWidth(weekPane.getWidth()/7.0);
             n.prefHeight(weekPane.getHeight());
             weekPane.getChildren().add(n);
