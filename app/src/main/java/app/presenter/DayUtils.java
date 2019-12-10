@@ -1,7 +1,12 @@
 package app.presenter;
 
+import app.util.ViewUtils;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import logic.model.Event;
 
 import java.time.LocalDate;
@@ -19,7 +24,6 @@ public class DayUtils {
                         date.isEqual(e.getStartDateTime().toLocalDate()) ||
                         date.isEqual(e.getEndDateTime().toLocalDate()))
                 .collect(Collectors.toList());
-        System.out.println(Arrays.deepToString(interestingEvents.toArray()));
         interestingEvents.forEach(e -> {
             Label label = new Label(e.getTitle());
 
@@ -28,6 +32,14 @@ public class DayUtils {
             label.setPrefHeight(countHeight(e,height));
             label.setStyle("-fx-background-color: #0099FF; -fx-text-fill: #000000");
             label.setLayoutY(countOffset(e,height));
+            label.setOnMouseClicked(event -> {
+                ViewUtils.LoadedView view = ViewUtils.loadView("EventDetailsView.fxml");
+                ((EventDetailsViewPresenter)view.controller).setEvent(e);
+                Stage stage = new Stage();
+                stage.setTitle("Event details");
+                stage.setScene(new Scene((Parent) view.view, 600, 450));
+                stage.show();
+            });
             pane.getChildren().add(label);
         });
     }
