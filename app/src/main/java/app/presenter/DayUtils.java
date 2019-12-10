@@ -1,6 +1,5 @@
 package app.presenter;
 
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import logic.model.Event;
@@ -27,7 +26,7 @@ public class DayUtils {
             label.setPrefWidth(width);
             label.setLayoutX(offsetX);
             label.setPrefHeight(countHeight(e,height));
-            label.setStyle("-fx-background-color: #0000FF;");
+            label.setStyle("-fx-background-color: #0099FF; -fx-text-fill: #000000");
             label.setLayoutY(countOffset(e,height));
             pane.getChildren().add(label);
         });
