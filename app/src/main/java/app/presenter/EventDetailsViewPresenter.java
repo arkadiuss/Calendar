@@ -1,7 +1,10 @@
 package app.presenter;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import logic.model.Calendar;
 import logic.model.Event;
@@ -62,7 +65,6 @@ public class EventDetailsViewPresenter {
         spinnerStartMinute.getValueFactory().setValue(startDateTime.getMinute());
         spinnerEndHour.getValueFactory().setValue(endDateTime.getHour());
         spinnerEndMinute.getValueFactory().setValue(endDateTime.getMinute());
-
     }
 
 }
