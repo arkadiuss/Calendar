@@ -20,13 +20,13 @@ public class ViewUtils {
         }
     }
 
-    public static <T> LoadedView<T> loadView(String location){
+    public static LoadedView loadView(String location){
         FXMLLoader loader = new FXMLLoader();
         URL url = null;
         try {
             url = new File("src/main/java/app/view/" + location).toURI().toURL();
             loader.setLocation(url);
-            return new LoadedView<T>(loader.load(), (T)loader.getController());
+            return new LoadedView(loader.load(), loader.getController());
         } catch (IOException e) {
             e.printStackTrace();
         }
