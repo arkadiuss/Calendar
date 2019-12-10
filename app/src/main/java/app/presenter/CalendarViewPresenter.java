@@ -92,7 +92,6 @@ public class CalendarViewPresenter {
 
     @FXML
     public void initialize() {
-        //todo: make it working, bo nie działa xD
         this.calendarsList.setCellFactory(listView ->
                 new CalendarListViewCell((calendar, deleteButton) -> {
                     deleteButton.setDisable(true);
