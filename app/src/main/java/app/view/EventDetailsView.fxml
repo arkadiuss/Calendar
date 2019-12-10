@@ -31,8 +31,6 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Label text="Calendar" textFill="WHITE" />
-                        <Label fx:id="calendarNameLabel" text="Calendar name" textFill="WHITE" GridPane.columnIndex="1" />
                         <Label text="Event name" textFill="WHITE" GridPane.rowIndex="1" />
                         <TextField fx:id="eventNameField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label text="Place name" textFill="WHITE" GridPane.rowIndex="2" />

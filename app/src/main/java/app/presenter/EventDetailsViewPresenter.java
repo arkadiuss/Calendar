@@ -14,8 +14,6 @@ import java.time.LocalDateTime;
 public class EventDetailsViewPresenter {
 
     @FXML
-    public Label calendarNameLabel;
-    @FXML
     public TextField eventNameField;
     @FXML
     public TextField placeNameField;
@@ -39,6 +37,7 @@ public class EventDetailsViewPresenter {
 
     public void setEvent(Event event) {
         this.event = event;
+        fillWithEventData();
     }
 
     public void setCalendar(Calendar calendar) {
@@ -50,7 +49,7 @@ public class EventDetailsViewPresenter {
     }
 
     public void fillWithEventData() {
-        calendarNameLabel.setText(calendar.getName());
+//        calendarNameLabel.setText(calendar.getName());
         eventNameField.setText(event.getTitle());
         placeNameField.setText(event.getPlace().getName());
         addressField.setText(event.getPlace().getAddress());
