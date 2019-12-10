@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.presenter.day.DayViewPresenter">
+   <children>
+      <ScrollPane layoutX="-1.0" layoutY="-1.0" prefHeight="400.0" prefWidth="550.0" fitToWidth="true">
+         <content>
+             <AnchorPane fx:id="dayPane">
+                <children>
+                    <VBox fx:id="hoursPane" prefHeight="1260"></VBox>
+                </children>
+             </AnchorPane>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

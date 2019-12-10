@@ -1,7 +1,10 @@
 package app.presenter;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import logic.model.Calendar;
 import logic.model.Event;
@@ -10,8 +13,6 @@ import java.time.LocalDateTime;
 
 public class EventDetailsViewPresenter {
 
-    @FXML
-    public Label calendarNameLabel;
     @FXML
     public TextField eventNameField;
     @FXML
@@ -36,6 +37,7 @@ public class EventDetailsViewPresenter {
 
     public void setEvent(Event event) {
         this.event = event;
+        fillWithEventData();
     }
 
     public void setCalendar(Calendar calendar) {
@@ -47,7 +49,7 @@ public class EventDetailsViewPresenter {
     }
 
     public void fillWithEventData() {
-        calendarNameLabel.setText(calendar.getName());
+//        calendarNameLabel.setText(calendar.getName());
         eventNameField.setText(event.getTitle());
         placeNameField.setText(event.getPlace().getName());
         addressField.setText(event.getPlace().getAddress());
@@ -62,7 +64,6 @@ public class EventDetailsViewPresenter {
         spinnerStartMinute.getValueFactory().setValue(startDateTime.getMinute());
         spinnerEndHour.getValueFactory().setValue(endDateTime.getHour());
         spinnerEndMinute.getValueFactory().setValue(endDateTime.getMinute());
-
     }
 
 }

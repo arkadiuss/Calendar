@@ -19,8 +19,7 @@ public class Calendar {
     @JoinColumn(name = "userId")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "calendarId")
+    @OneToMany(mappedBy = "calendar", cascade = CascadeType.ALL)
     private Set<Event> events = new HashSet<>();
 
     public Calendar() {
@@ -39,6 +38,10 @@ public class Calendar {
     public void addEvent(Event event){
         events.add(event);
         event.addCalendar(this);
+    }
+
+    public Set<Event> getEvents() {
+        return events;
     }
 
     public String getName() {

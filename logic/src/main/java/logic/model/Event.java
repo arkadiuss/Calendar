@@ -19,8 +19,10 @@ public class Event {
     private Place place;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
+    private Date date;
 
     @ManyToOne
+    @JoinColumn(name = "calendarId")
     private Calendar calendar;
 
     @OneToMany
@@ -60,5 +62,15 @@ public class Event {
 
     public LocalDateTime getEndDateTime() {
         return endDateTime;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "title='" + title + '\'' +
+                ", startDateTime=" + startDateTime +
+                ", endDateTime=" + endDateTime +
+                '}';
     }
 }

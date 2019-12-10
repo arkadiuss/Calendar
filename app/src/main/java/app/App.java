@@ -6,6 +6,7 @@ package app;
 import app.controller.StartController;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import logic.model.User;
 import logic.service.UserService;
 
 public class App extends Application {

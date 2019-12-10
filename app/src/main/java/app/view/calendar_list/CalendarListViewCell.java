@@ -1,6 +1,5 @@
 package app.view.calendar_list;
 
-import com.google.common.base.Objects;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -14,9 +13,12 @@ import java.util.function.Consumer;
 
 public class CalendarListViewCell extends ListCell<Calendar> {
     private BiConsumer<Calendar, Button> removeCalendarCallback;
+    private BiConsumer<Calendar, Boolean> selectCalendarCallback;
 
-    public CalendarListViewCell(BiConsumer<Calendar, Button> removeCalendarCallback) {
+    public CalendarListViewCell(BiConsumer<Calendar, Button> removeCalendarCallback,
+                                BiConsumer<Calendar, Boolean> selectCalendarCallback) {
         this.removeCalendarCallback = removeCalendarCallback;
+        this.selectCalendarCallback = selectCalendarCallback;
     }
 
     @Override
@@ -41,7 +43,7 @@ public class CalendarListViewCell extends ListCell<Calendar> {
             });
             CheckBox checkBox = new CheckBox();
             checkBox.setOnAction(event -> {
-                //todo in next iteration, when events added
+                selectCalendarCallback.accept(calendar, checkBox.isSelected());
                 System.out.println("Calendar in use: " + checkBox.selectedProperty().getValue());
             });
 
