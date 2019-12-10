@@ -1,5 +1,6 @@
 package app.presenter.day;
 
+import app.presenter.DayUtils;
 import app.util.ViewUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -44,35 +45,7 @@ public class DayViewPresenter {
     }
 
     private void applyEvents() {
-        List<Event> interestingEvents = events.stream()
-                .filter(e -> (selectedDate.isBefore(e.getEndDateTime().toLocalDate()) &&
-                        selectedDate.isAfter(e.getStartDateTime().toLocalDate())) ||
-                        selectedDate.isEqual(e.getStartDateTime().toLocalDate()) ||
-                        selectedDate.isEqual(e.getEndDateTime().toLocalDate()))
-                .collect(Collectors.toList());
-        System.out.println(Arrays.deepToString(interestingEvents.toArray()));
-        interestingEvents.forEach(e -> {
-            Label label = new Label(e.getTitle());
-
-            label.setPrefWidth(DAY_PX_WIDTH);
-            label.setLayoutX(60);
-            label.setPrefHeight(countHeight(e));
-            label.setStyle("-fx-background-color: #0000FF;");
-            label.setLayoutY(countOffset(e));
-            dayPane.getChildren().add(label);
-        });
-    }
-
-    private double countHeight(Event e) {
-        long minutes = e.getStartDateTime().until(e.getEndDateTime(), ChronoUnit.MINUTES);
-        double hours = minutes/60.0;
-        return hours * DAY_PX_HEIGHT;
-    }
-
-    private double countOffset(Event e) {
-        long minutes = e.getStartDateTime().toLocalDate().atStartOfDay().until(e.getStartDateTime(), ChronoUnit.MINUTES);
-        double hours = minutes/60.0;
-        return hours * DAY_PX_HEIGHT;
+        DayUtils.applyEvents(dayPane, selectedDate, events, DAY_PX_WIDTH, DAY_PX_HEIGHT, 60);
     }
 
     public void setEvents(List<Event> events) {

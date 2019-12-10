@@ -112,6 +112,7 @@ public class CalendarViewPresenter {
                             .subscribe(() -> {
                                 this.calendarsList.getItems().remove(calendar);
                                 this.calendarsCombobox.getItems().remove(calendar);
+                                updateView();
                             }, error -> {
                                 deleteButton.setDisable(false);
                                 deleteButton.setText("Remove");
@@ -173,6 +174,7 @@ public class CalendarViewPresenter {
     public void setWeekViewContent() {
 
         ViewUtils.LoadedView loadedView = ViewUtils.loadView("week/WeekView.fxml");
+        ((WeekViewPresenter) loadedView.controller).setEvents(getEventsFromSelectedCalendars());
         ((WeekViewPresenter) loadedView.controller).setCurrentDate(selectedDate);
         weekViewTab.setContent(loadedView.view);
     }
@@ -200,7 +202,9 @@ public class CalendarViewPresenter {
                 || eventStartDatePicker.getValue() == null || eventEndDatePicker.getValue() == null ||
                 spinnerStartHour.getValue() == null || spinnerEndMinute.getValue() == null) {
             AlertPopup.showAlert("Event properties cannot be empty");
-        } else {
+        } else if(!eventStartDatePicker.getValue().isEqual(eventEndDatePicker.getValue())) {
+            AlertPopup.showAlert("Currently only one-day events are supported :(");
+        }else {
             Calendar calendar = (Calendar) calendarsCombobox.getValue();
 
             LocalDate startDate = eventStartDatePicker.getValue();

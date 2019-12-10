@@ -1,5 +1,6 @@
 package app.presenter.week;
 
+import app.presenter.DayUtils;
 import app.util.ViewUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -19,12 +20,13 @@ public class WeekViewDayPresenter {
     private static final double DAY_PX_HEIGHT = 52.0;
     private static final double DAY_PX_WIDTH = 75.0;
     private List<Event> events;
-    private LocalDate selectedDate;
 
     @FXML
     private VBox hoursPane;
 
     private Label dayOfWeek;
+
+    private LocalDate date;
 
     private String[] days = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
@@ -45,48 +47,17 @@ public class WeekViewDayPresenter {
     }
 
 
-    public void setDayNumber(int day) {
-        dayOfWeek.setText(days[day]);
+    public void setDate(LocalDate date) {
+        this.date = date;
+        dayOfWeek.setText(days[date.getDayOfWeek().getValue()-1]);
+        applyEvents();
     }
 
     private void applyEvents() {
-        List<Event> interestingEvents = events.stream()
-                .filter(e -> (selectedDate.isBefore(e.getEndDateTime().toLocalDate()) &&
-                        selectedDate.isAfter(e.getStartDateTime().toLocalDate())) ||
-                        selectedDate.isEqual(e.getStartDateTime().toLocalDate()) ||
-                        selectedDate.isEqual(e.getEndDateTime().toLocalDate()))
-                .collect(Collectors.toList());
-        System.out.println(Arrays.deepToString(interestingEvents.toArray()));
-        interestingEvents.forEach(e -> {
-            Label label = new Label(e.getTitle());
-
-            label.setPrefWidth(DAY_PX_WIDTH);
-            label.setLayoutX(60);
-            label.setPrefHeight(countHeight(e));
-            label.setStyle("-fx-background-color: #0000FF;");
-            label.setLayoutY(countOffset(e));
-            dayPane.getChildren().add(label);
-        });
-    }
-
-    private double countHeight(Event e) {
-        long minutes = e.getStartDateTime().until(e.getEndDateTime(), ChronoUnit.MINUTES);
-        double hours = minutes / 60.0;
-        return hours * DAY_PX_HEIGHT;
-    }
-
-    private double countOffset(Event e) {
-        long minutes = e.getStartDateTime().toLocalDate().atStartOfDay().until(e.getStartDateTime(), ChronoUnit.MINUTES);
-        double hours = minutes / 60.0;
-        return hours * DAY_PX_HEIGHT;
+        DayUtils.applyEvents(dayPane, date, events, DAY_PX_WIDTH, DAY_PX_HEIGHT, 0);
     }
 
     public void setEvents(List<Event> events) {
         this.events = events;
-    }
-
-    public void setSelectedDate(LocalDate selectedDate) {
-        this.selectedDate = selectedDate;
-        applyEvents();
     }
 }
