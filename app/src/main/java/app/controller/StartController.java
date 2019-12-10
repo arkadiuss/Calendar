@@ -41,8 +41,8 @@ public class StartController {
             this.primaryStage.setTitle("Calendar");
 
             CalendarViewPresenter controller = loader.getController();
-            controller.setSelectedDate(LocalDate.now());
             controller.setCurrentUser(user);
+            controller.setSelectedDate(LocalDate.now());
 
             primaryStage.setScene(scene);
             primaryStage.show();

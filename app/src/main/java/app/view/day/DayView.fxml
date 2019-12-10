@@ -8,10 +8,9 @@
    <children>
       <ScrollPane layoutX="-1.0" layoutY="-1.0" prefHeight="400.0" prefWidth="550.0" fitToWidth="true">
          <content>
-             <AnchorPane>
+             <AnchorPane fx:id="dayPane">
                 <children>
                     <VBox fx:id="hoursPane" prefHeight="1260"></VBox>
-                    <Label layoutY="40" prefWidth="550" prefHeight="40" text="Tu bedzie event" style="-fx-background-color: #0000FF;" />
                 </children>
              </AnchorPane>
          </content>

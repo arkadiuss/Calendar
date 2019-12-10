@@ -23,6 +23,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 
 public class CalendarViewPresenter {
@@ -81,14 +83,14 @@ public class CalendarViewPresenter {
         this.selectedDate = selectedDate;
         datePicker.setValue(selectedDate);
         setMonthViewContent();
-        setDayViewContent();
+        setDayViewContent(selectedDate);
         setWeekViewContent();
     }
 
     public void handleDatePickerChange(ActionEvent actionEvent) {
         selectedDate = datePicker.getValue();
         setMonthViewContent();
-        setDayViewContent();
+        setDayViewContent(selectedDate);
         setWeekViewContent();
     }
 
@@ -153,9 +155,14 @@ public class CalendarViewPresenter {
         monthViewTab.setContent(monthTabContent);
     }
 
-    public void setDayViewContent() {
+    public void setDayViewContent(LocalDate selectedDate) {
         ViewUtils.LoadedView lw = ViewUtils.loadView("day/DayView.fxml");
-        ((DayViewPresenter) lw.controller).setEvents(new ArrayList<>());
+        ((DayViewPresenter) lw.controller).setEvents(
+                //TODO: the best one!
+                Arrays.asList(
+                        new Event("Tile", new Place(), LocalDateTime.now(), LocalDateTime.now().plusHours(1))
+                ));
+        ((DayViewPresenter) lw.controller).setSelectedDate(selectedDate);
         dayViewTab.setContent(lw.view);
     }
 

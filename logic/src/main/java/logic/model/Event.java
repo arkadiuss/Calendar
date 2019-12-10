@@ -64,4 +64,13 @@ public class Event {
         return endDateTime;
     }
 
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "title='" + title + '\'' +
+                ", startDateTime=" + startDateTime +
+                ", endDateTime=" + endDateTime +
+                '}';
+    }
 }

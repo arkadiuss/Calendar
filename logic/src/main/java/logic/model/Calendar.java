@@ -40,6 +40,10 @@ public class Calendar {
         event.addCalendar(this);
     }
 
+    public Set<Event> getEvents() {
+        return events;
+    }
+
     public String getName() {
         return name;
     }
