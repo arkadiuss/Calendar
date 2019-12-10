@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.YearMonth;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -77,21 +77,19 @@ public class CalendarViewPresenter {
 
     private LocalDate selectedDate;
 
+    private List<Calendar> selectedCalendars = new ArrayList<>();
+
     private CalendarService calendarService = new CalendarService();
 
     public void setSelectedDate(LocalDate selectedDate) {
         this.selectedDate = selectedDate;
         datePicker.setValue(selectedDate);
-        setMonthViewContent();
-        setDayViewContent(selectedDate);
-        setWeekViewContent();
+        updateView();
     }
 
     public void handleDatePickerChange(ActionEvent actionEvent) {
         selectedDate = datePicker.getValue();
-        setMonthViewContent();
-        setDayViewContent(selectedDate);
-        setWeekViewContent();
+        updateView();
     }
 
     public void handleSetCurrentDateButton(ActionEvent actionEvent) {
@@ -106,6 +104,7 @@ public class CalendarViewPresenter {
                     deleteButton.setDisable(true);
                     deleteButton.setText("Deleting...");
                     currentUser.getCalendars().remove(calendar);
+                    selectedCalendars.remove(calendar);
                     calendarService.deleteCalendar(calendar)
                             .observeOn(JavaFxScheduler.platform())
                             .subscribe(() -> {
@@ -116,6 +115,12 @@ public class CalendarViewPresenter {
                                 deleteButton.setText("Remove");
                                 System.out.println(error.toString());
                             });
+                }, (calendar, isSelected) -> {
+                    if(isSelected)
+                        selectedCalendars.add(calendar);
+                    else
+                        selectedCalendars.remove(calendar);
+                    updateView();
                 }));
     }
 
@@ -155,19 +160,26 @@ public class CalendarViewPresenter {
         monthViewTab.setContent(monthTabContent);
     }
 
-    public void setDayViewContent(LocalDate selectedDate) {
+    private void setDayViewContent() {
         ViewUtils.LoadedView lw = ViewUtils.loadView("day/DayView.fxml");
-        ((DayViewPresenter) lw.controller).setEvents(
-                //TODO: the best one!
-                Arrays.asList(
-                        new Event("Tile", new Place(), LocalDateTime.now(), LocalDateTime.now().plusHours(1))
-                ));
+        ((DayViewPresenter) lw.controller).setEvents(getEventsFromSelectedCalendars());
         ((DayViewPresenter) lw.controller).setSelectedDate(selectedDate);
         dayViewTab.setContent(lw.view);
     }
 
+
     public void setWeekViewContent() {
         weekViewTab.setContent(ViewUtils.loadView("week/WeekView.fxml").view);
+    }
+
+    private void updateView() {
+        setDayViewContent();
+        setWeekViewContent();
+        setMonthViewContent();
+    }
+
+    private List<Event> getEventsFromSelectedCalendars() {
+        return selectedCalendars.stream().flatMap(c -> c.getEvents().stream()).collect(Collectors.toList());
     }
 
     public void setCurrentUser(User currentUser) {
@@ -216,6 +228,7 @@ public class CalendarViewPresenter {
                         .subscribe(() -> {
                             addEventButton.setText("Add event");
                             addEventButton.setDisable(false);
+                            updateView();
                         }, error -> {
                             addEventButton.setText("Add event");
                             addEventButton.setDisable(false);
