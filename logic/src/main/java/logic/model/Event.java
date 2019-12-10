@@ -22,6 +22,7 @@ public class Event {
     private Date date;
 
     @ManyToOne
+    @JoinColumn(name = "calendarId")
     private Calendar calendar;
 
     @OneToMany

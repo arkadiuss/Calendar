@@ -178,21 +178,25 @@ public class CalendarViewPresenter {
             if (startDateTime.compareTo(endDateTime) >= 0) {
                 AlertPopup.showAlert("End time and date must be later than start time and date");
             } else {
-                calendar.addEvent(new Event(eventNameField.getText(),
-                        new Place(placeNameField.getText(), addressNameField.getText()), startDateTime, endDateTime));
-                //todo add rx
+
+                addEventButton.setText("Adding event...");
+                addEventButton.setDisable(true);
+                Event newEvent = new Event(eventNameField.getText(),
+                        new Place(
+                                placeNameField.getText(),
+                                addressNameField.getText()),
+                        startDateTime, endDateTime);
+                calendar.addEvent(newEvent);
+
                 calendarService.updateCalendar(calendar).observeOn(JavaFxScheduler.platform())
                         .subscribe(() -> {
-                            addEventButton.setText("Adding event...");
-                            addEventButton.setDisable(true);
+                            addEventButton.setText("Add event");
+                            addEventButton.setDisable(false);
                         }, error -> {
                             addEventButton.setText("Add event");
                             addEventButton.setDisable(false);
                         });
             }
         }
-        addEventButton.setText("Add event");
-        addEventButton.setDisable(false);
-
     }
 }
