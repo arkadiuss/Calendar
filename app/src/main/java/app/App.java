@@ -6,6 +6,8 @@ package app;
 import app.controller.StartController;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import logic.model.User;
+import logic.service.UserService;
 
 public class App extends Application {
 
@@ -18,6 +20,7 @@ public class App extends Application {
         this.primaryStage.setTitle("Calendar");
         this.appController = new StartController(primaryStage);
         this.appController.initRootLayout();
+        UserService userService = new UserService();
     }
 
     public static void main(String[] args) {

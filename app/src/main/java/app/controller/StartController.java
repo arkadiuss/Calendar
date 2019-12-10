@@ -1,19 +1,19 @@
 package app.controller;
 
+import app.presenter.*;
 import app.presenter.CalendarViewPresenter;
 import app.presenter.LoginViewPresenter;
 import app.presenter.RegisterViewPresenter;
 import app.presenter.WelcomeViewPresenter;
-import app.view.calendar_list.CalendarListViewCell;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import logic.model.Calendar;
+import logic.model.Event;
 import logic.model.User;
-import logic.dao.CalendarDao;
-import logic.dao.UserDao;
 
 import java.io.File;
 import java.io.IOException;
@@ -104,6 +104,28 @@ public class StartController {
 
             // Set the person into the presenter.
             RegisterViewPresenter presenter = loader.getController();
+            presenter.setDialogStage(dialogStage);
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+        } catch (IOException e) {
+            //todo: add some troubleshooting
+            e.printStackTrace();
+        }
+    }
+
+    public void showEventDetailsWindow(Calendar calendar, Event event) {
+        try {
+            // Load the fxml file and create a new stage for the dialog
+            FXMLLoader loader = new FXMLLoader();
+            URL url = new File("src/main/java/app/view/EventDetailsView.fxml").toURI().toURL();
+            Stage dialogStage = getStage(loader, url, "Event details");
+
+            EventDetailsViewPresenter presenter = loader.getController();
+            presenter.setCalendar(calendar);
+            presenter.setEvent(event);
+            presenter.fillWithEventData();
             presenter.setDialogStage(dialogStage);
 
             // Show the dialog and wait until the user closes it

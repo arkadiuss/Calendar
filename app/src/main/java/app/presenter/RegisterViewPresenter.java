@@ -2,9 +2,7 @@ package app.presenter;
 
 import app.exceptions.UserAlreadyExistException;
 import app.util.AlertPopup;
-import io.reactivex.Scheduler;
 import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,10 +10,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import logic.model.User;
-import logic.dao.UserDao;
 import logic.service.UserService;
-
-import java.util.concurrent.TimeUnit;
 
 public class RegisterViewPresenter {
     @FXML

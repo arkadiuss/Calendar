@@ -1,6 +1,7 @@
 package logic.model;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,8 +17,13 @@ public class Event {
     private String title;
     @Embedded
     private Place place;
+    private LocalDateTime startDateTime;
+    private LocalDateTime endDateTime;
     private Date date;
-    private int calendarId;
+
+    @ManyToOne
+    @JoinColumn(name = "calendarId")
+    private Calendar calendar;
 
     @OneToMany
     @JoinColumn(name = "reminderId")
@@ -26,18 +32,36 @@ public class Event {
     public Event() {
     }
 
-    public Event(String title, Place place, Date date) {
+    public Event(String title, Place place, LocalDateTime startDateTime, LocalDateTime endDateTime) {
         this.title = title;
         this.place = place;
-        this.date = date;
-    }
-
-    public void setCalendarId(int calendarId) {
-        this.calendarId = calendarId;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
     }
 
     public void addReminder(Reminder reminder){
         reminders.add(reminder);
         reminder.setEventId(id);
     }
+
+    public void addCalendar(Calendar calendar) {
+        this.calendar = calendar;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Place getPlace() {
+        return place;
+    }
+
+    public LocalDateTime getStartDateTime() {
+        return startDateTime;
+    }
+
+    public LocalDateTime getEndDateTime() {
+        return endDateTime;
+    }
+
 }
