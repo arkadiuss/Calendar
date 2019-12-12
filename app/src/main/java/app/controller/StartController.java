@@ -11,8 +11,6 @@ import logic.model.Calendar;
 import logic.model.Event;
 import logic.model.User;
 
-import java.time.LocalDate;
-
 public class StartController {
     private Stage primaryStage;
 
@@ -23,14 +21,12 @@ public class StartController {
 
 
     public void showCalendar(User user) {
-        this.primaryStage.setTitle("Welcome");
         ViewUtils.LoadedView<HBox, CalendarViewPresenter> loadedView = ViewUtils.loadView("CalendarView.fxml");
         Scene scene = new Scene(loadedView.view);
         this.primaryStage.setTitle("Calendar");
 
         CalendarViewPresenter controller = loadedView.controller;
         controller.setCurrentUser(user);
-        controller.setSelectedDate(LocalDate.now());
 
         primaryStage.setScene(scene);
         primaryStage.show();

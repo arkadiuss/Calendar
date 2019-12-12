@@ -13,7 +13,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import logic.model.Calendar;
 import logic.model.Event;
@@ -24,7 +23,6 @@ import logic.service.CalendarService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -54,8 +52,6 @@ public class CalendarViewPresenter {
     @FXML
     private TextField addressNameField;
     @FXML
-    private HBox root;
-    @FXML
     private Tab dayViewTab;
     @FXML
     private Tab weekViewTab;
@@ -64,38 +60,25 @@ public class CalendarViewPresenter {
     @FXML
     private DatePicker datePicker;
     @FXML
-    private Button setCurrentDateButton;
-    @FXML
-    private VBox addCalendarView;
-    @FXML
     private LeftMenuCalendarPresenter addCalendarViewController;
     @FXML
     private Label welcomeLabel;
 
     private AppContext appContext;
 
-    private User currentUser;
-
-    private LocalDate selectedDate;
-
     private List<Calendar> selectedCalendars = new ArrayList<>();
 
     private CalendarService calendarService = new CalendarService();
+
 
     public CalendarViewPresenter() {
         appContext = DIProvider.getAppContaxt();
         appContext.setSelectedDate(LocalDate.now());
     }
 
-    public void setSelectedDate(LocalDate selectedDate) {
-        this.selectedDate = selectedDate;
-        datePicker.setValue(selectedDate);
-        updateView();
-    }
 
     public void handleDatePickerChange(ActionEvent actionEvent) {
-        selectedDate = datePicker.getValue();
-        updateView();
+        appContext.setSelectedDate(datePicker.getValue());
     }
 
     public void handleSetCurrentDateButton() {
@@ -120,28 +103,24 @@ public class CalendarViewPresenter {
             calendarsCombobox.getItems().remove(calendar);
             updateView();
         });
+        datePicker.setValue(LocalDate.now());
+        updateView();
     }
 
     public void setMonthViewContent() {
-        YearMonth yearMonth = YearMonth.of(selectedDate.getYear(), selectedDate.getMonth());
-        MonthView monthViewContent = new MonthView(this, yearMonth);
+        MonthView monthViewContent = new MonthView();
         VBox monthTabContent = monthViewContent.getMonthViewVBox();
         monthViewTab.setContent(monthTabContent);
     }
 
     private void setDayViewContent() {
         ViewUtils.LoadedView<Node, DayViewPresenter> lw = ViewUtils.loadView("day/DayView.fxml");
-        lw.controller.setEvents(getEventsFromSelectedCalendars());
-        lw.controller.setSelectedDate(selectedDate);
         dayViewTab.setContent(lw.view);
     }
 
 
     public void setWeekViewContent() {
-
         ViewUtils.LoadedView<Node, WeekViewPresenter> loadedView = ViewUtils.loadView("week/WeekView.fxml");
-        loadedView.controller.setEvents(getEventsFromSelectedCalendars());
-        loadedView.controller.setCurrentDate(selectedDate);
         weekViewTab.setContent(loadedView.view);
     }
 
