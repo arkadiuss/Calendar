@@ -4,7 +4,6 @@ import app.presenter.day.DayViewPresenter;
 import app.presenter.week.WeekViewPresenter;
 import app.util.AlertPopup;
 import app.util.ViewUtils;
-import app.view.calendar_list.CalendarListViewCell;
 import app.view.month.MonthView;
 import com.google.common.base.Strings;
 import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
@@ -65,15 +64,12 @@ public class CalendarViewPresenter {
     @FXML
     private Button setCurrentDateButton;
     @FXML
-    private ListView calendarsList;
+    private VBox addCalendarView;
     @FXML
-    private TextField newCalendarName;
-    @FXML
-    private Button addCalendarButton;
+    private LeftMenuCalendarPresenter addCalendarViewController;
     @FXML
     private Label welcomeLabel;
-    @FXML
-    private VBox leftVbox;
+
 
     private User currentUser;
 
@@ -101,59 +97,23 @@ public class CalendarViewPresenter {
 
     @FXML
     public void initialize() {
-        this.calendarsList.setCellFactory(listView ->
-                new CalendarListViewCell((calendar, deleteButton) -> {
-                    deleteButton.setDisable(true);
-                    deleteButton.setText("Deleting...");
-                    currentUser.getCalendars().remove(calendar);
-                    selectedCalendars.remove(calendar);
-                    calendarService.deleteCalendar(calendar)
-                            .observeOn(JavaFxScheduler.platform())
-                            .subscribe(() -> {
-                                this.calendarsList.getItems().remove(calendar);
-                                this.calendarsCombobox.getItems().remove(calendar);
-                                updateView();
-                            }, error -> {
-                                deleteButton.setDisable(false);
-                                deleteButton.setText("Remove");
-                                System.out.println(error.toString());
-                            });
-                }, (calendar, isSelected) -> {
-                    if (isSelected)
-                        selectedCalendars.add(calendar);
-                    else
-                        selectedCalendars.remove(calendar);
-                    updateView();
-                }));
-    }
+        addCalendarViewController.setOnNewCalendarAdded((calendar -> {
+            calendarsCombobox.getItems().add(calendar);
+        }));
+        addCalendarViewController.setOnSelectCalendar((calendar, isSelected) -> {
+            if (isSelected) {
+                selectedCalendars.add(calendar);
+            } else {
+                selectedCalendars.remove(calendar);
+            }
+            updateView();
+        });
 
-    public void handleAddNewCalendar(ActionEvent actionEvent) {
-        if (Strings.isNullOrEmpty(newCalendarName.getText())) {
-            AlertPopup.showAlert("Calendar name cannot be empty");
-            return;
-        }
-        Calendar calendar = new Calendar(newCalendarName.getText(), currentUser);
-//        calendar.addEvent(new Event("XMAS", new Place("EVERYWHERE", "EVERYWHERE"), new LocalDateTime(2019, 12, 24)));
-//        calendar.addEvent(new Event("event1", new Place("EVERYWHERE", "EVERYWHERE"), new Date(2019, 12, 6)));
-//        calendar.addEvent(new Event("event2", new Place("EVERYWHERE", "EVERYWHERE"), new Date(2019, 12, 5)));
-//        calendar.addEvent(new Event("event3", new Place("EVERYWHERE", "EVERYWHERE"), new Date(2019, 12, 7)));
-//        calendar.addEvent(new Event("event4", new Place("EVERYWHERE", "EVERYWHERE"), new Date(2019, 12, 7)));
-        addCalendarButton.setText("Adding...");
-        addCalendarButton.setDisable(true);
-        calendarService.addCalendar(calendar)
-                .andThen(calendarService.getCalendars())
-                .observeOn(JavaFxScheduler.platform())
-                .subscribe(calendars -> {
-                    calendarsList.getItems().add(calendar);
-                    calendarsCombobox.getItems().add(calendar);
-                    addCalendarButton.setText("Add");
-                    addCalendarButton.setDisable(false);
-                }, error -> {
-                    System.out.println(error);
-                    addCalendarButton.setText("Add");
-                    addCalendarButton.setDisable(false);
-//todo: print error about unadded calendar
-                });
+        addCalendarViewController.setOnRemoveCalendar(calendar -> {
+            selectedCalendars.remove(calendar);
+            calendarsCombobox.getItems().remove(calendar);
+            updateView();
+        });
     }
 
     public void setMonthViewContent() {
@@ -191,9 +151,9 @@ public class CalendarViewPresenter {
 
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
-        currentUser.getCalendars().forEach((calendar -> this.calendarsList.getItems().add(calendar)));
         welcomeLabel.setText(String.format("Welcome, %s", currentUser.getUsername()));
         calendarsCombobox.getItems().addAll(currentUser.getCalendars());
+        addCalendarViewController.setUser(currentUser);
     }
 
     public void handleAddEvent(ActionEvent event) {
