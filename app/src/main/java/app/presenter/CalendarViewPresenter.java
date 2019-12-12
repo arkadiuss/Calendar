@@ -30,28 +30,7 @@ import java.util.stream.Collectors;
 
 
 public class CalendarViewPresenter {
-    @FXML
-    public Spinner spinnerStartHour;
-    @FXML
-    public Spinner spinnerStartMinute;
-    @FXML
-    public Spinner spinnerEndHour;
-    @FXML
-    public Spinner spinnerEndMinute;
-    @FXML
-    private DatePicker eventStartDatePicker;
-    @FXML
-    private DatePicker eventEndDatePicker;
-    @FXML
-    private Button addEventButton;
-    @FXML
-    private ComboBox calendarsCombobox;
-    @FXML
-    private TextField eventNameField;
-    @FXML
-    private TextField placeNameField;
-    @FXML
-    private TextField addressNameField;
+
     @FXML
     private HBox root;
     @FXML
@@ -78,6 +57,9 @@ public class CalendarViewPresenter {
     private User currentUser;
 
     private LocalDate selectedDate;
+
+    @FXML
+    private RightAddEventMenuPresenter addEventViewController;
 
     private List<Calendar> selectedCalendars = new ArrayList<>();
 
@@ -111,7 +93,7 @@ public class CalendarViewPresenter {
                             .observeOn(JavaFxScheduler.platform())
                             .subscribe(() -> {
                                 this.calendarsList.getItems().remove(calendar);
-                                this.calendarsCombobox.getItems().remove(calendar);
+                                this.addEventViewController.getCalendarsCombobox().getItems().remove(calendar);
                                 updateView();
                             }, error -> {
                                 deleteButton.setDisable(false);
@@ -145,7 +127,7 @@ public class CalendarViewPresenter {
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(calendars -> {
                     calendarsList.getItems().add(calendar);
-                    calendarsCombobox.getItems().add(calendar);
+                    addEventViewController.getCalendarsCombobox().getItems().add(calendar);
                     addCalendarButton.setText("Add");
                     addCalendarButton.setDisable(false);
                 }, error -> {
@@ -193,56 +175,7 @@ public class CalendarViewPresenter {
         this.currentUser = currentUser;
         currentUser.getCalendars().forEach((calendar -> this.calendarsList.getItems().add(calendar)));
         welcomeLabel.setText(String.format("Welcome, %s", currentUser.getUsername()));
-        calendarsCombobox.getItems().addAll(currentUser.getCalendars());
+        addEventViewController.getCalendarsCombobox().getItems().addAll(currentUser.getCalendars());
     }
 
-    public void handleAddEvent(ActionEvent event) {
-        if (Strings.isNullOrEmpty(eventNameField.getText()) || Strings.isNullOrEmpty(addressNameField.getText())
-                || Strings.isNullOrEmpty(placeNameField.getText()) || calendarsCombobox.getValue() == null
-                || eventStartDatePicker.getValue() == null || eventEndDatePicker.getValue() == null ||
-                spinnerStartHour.getValue() == null || spinnerEndMinute.getValue() == null) {
-            AlertPopup.showAlert("Event properties cannot be empty");
-        } else if(!eventStartDatePicker.getValue().isEqual(eventEndDatePicker.getValue())) {
-            AlertPopup.showAlert("Currently only one-day events are supported :(");
-        }else {
-            Calendar calendar = (Calendar) calendarsCombobox.getValue();
-
-            LocalDate startDate = eventStartDatePicker.getValue();
-            LocalDate endDate = eventEndDatePicker.getValue();
-
-            LocalTime startTime = LocalTime.of((Integer) spinnerStartHour.getValue(),
-                    (Integer) spinnerStartMinute.getValue());
-            LocalTime endTime = LocalTime.of((Integer) spinnerEndHour.getValue(),
-                    (Integer) spinnerEndMinute.getValue());
-
-            LocalDateTime startDateTime = LocalDateTime.of(startDate.getYear(), startDate.getMonth(),
-                    startDate.getDayOfMonth(), startTime.getHour(), startTime.getMinute());
-            LocalDateTime endDateTime = LocalDateTime.of(endDate.getYear(), endDate.getMonth(),
-                    endDate.getDayOfMonth(), endTime.getHour(), endTime.getMinute());
-
-            if (startDateTime.compareTo(endDateTime) >= 0) {
-                AlertPopup.showAlert("End time and date must be later than start time and date");
-            } else {
-
-                addEventButton.setText("Adding event...");
-                addEventButton.setDisable(true);
-                Event newEvent = new Event(eventNameField.getText(),
-                        new Place(
-                                placeNameField.getText(),
-                                addressNameField.getText()),
-                        startDateTime, endDateTime);
-                calendar.addEvent(newEvent);
-
-                calendarService.updateCalendar(calendar).observeOn(JavaFxScheduler.platform())
-                        .subscribe(() -> {
-                            addEventButton.setText("Add event");
-                            addEventButton.setDisable(false);
-                            updateView();
-                        }, error -> {
-                            addEventButton.setText("Add event");
-                            addEventButton.setDisable(false);
-                        });
-            }
-        }
-    }
 }
