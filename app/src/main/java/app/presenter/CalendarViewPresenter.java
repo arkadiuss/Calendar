@@ -74,14 +74,6 @@ public class CalendarViewPresenter {
         addCalendarViewController.setOnNewCalendarAdded((calendar -> {
             addEventViewController.getCalendarsCombobox().getItems().add(calendar);
         }));
-        addCalendarViewController.setOnSelectCalendar((calendar, isSelected) -> {
-            if (isSelected) {
-                selectedCalendars.add(calendar);
-            } else {
-                selectedCalendars.remove(calendar);
-            }
-            updateView();
-        });
 
         addCalendarViewController.setOnRemoveCalendar(calendar -> {
             selectedCalendars.remove(calendar);
