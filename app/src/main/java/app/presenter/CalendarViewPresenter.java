@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import logic.model.Calendar;
 import logic.model.Event;
@@ -71,7 +72,7 @@ public class CalendarViewPresenter {
     @FXML
     public void initialize() {
         addCalendarViewController.setOnNewCalendarAdded((calendar -> {
-            calendarsCombobox.getItems().add(calendar);
+            addEventViewController.getCalendarsCombobox().getItems().add(calendar);
         }));
         addCalendarViewController.setOnSelectCalendar((calendar, isSelected) -> {
             if (isSelected) {
@@ -84,7 +85,7 @@ public class CalendarViewPresenter {
 
         addCalendarViewController.setOnRemoveCalendar(calendar -> {
             selectedCalendars.remove(calendar);
-            calendarsCombobox.getItems().remove(calendar);
+            addEventViewController.getCalendarsCombobox().getItems().remove(calendar);
             updateView();
         });
         datePicker.setValue(LocalDate.now());
