@@ -19,7 +19,6 @@ public class Event {
     private Place place;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
-    private Date date;
 
     @ManyToOne
     @JoinColumn(name = "calendarId")
@@ -28,6 +27,8 @@ public class Event {
     @OneToMany
     @JoinColumn(name = "reminderId")
     private Set<Reminder> reminders = new HashSet<>();
+
+    private String description;
 
     public Event() {
     }
@@ -62,6 +63,34 @@ public class Event {
 
     public LocalDateTime getEndDateTime() {
         return endDateTime;
+    }
+
+    public Calendar getCalendar() {
+        return this.calendar;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setPlace(Place place) {
+        this.place = place;
+    }
+
+    public void setStartDateTime(LocalDateTime startDateTime) {
+        this.startDateTime = startDateTime;
+    }
+
+    public void setEndDateTime(LocalDateTime endDateTime) {
+        this.endDateTime = endDateTime;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDescription(){
+        return this.description;
     }
 
 

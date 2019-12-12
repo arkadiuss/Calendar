@@ -123,7 +123,6 @@ public class StartController {
             Stage dialogStage = getStage(loader, url, "Event details");
 
             EventDetailsViewPresenter presenter = loader.getController();
-            presenter.setCalendar(calendar);
             presenter.setEvent(event);
             presenter.fillWithEventData();
             presenter.setDialogStage(dialogStage);
