@@ -3,6 +3,7 @@ package app.presenter.week;
 import app.presenter.DayUtils;
 import app.util.ViewUtils;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -31,12 +32,12 @@ public class WeekViewDayPresenter {
     public void initialize() {
         for (int i = 0; i < 25; i++) {
             if (i == 0) {
-                ViewUtils.LoadedView<Object> n = ViewUtils.loadView("week/WeekViewHour.fxml");
+                ViewUtils.LoadedView<Node, WeekViewDayPresenter> n = ViewUtils.loadView("week/WeekViewHour.fxml");
                 dayOfWeek = (Label) n.view.lookup("#hourView");
                 hoursPane.getChildren().add(n.view);
                 continue;
             }
-            ViewUtils.LoadedView<Object> n = ViewUtils.loadView("week/WeekViewHour.fxml");
+            ViewUtils.LoadedView<Node, WeekViewDayPresenter> n = ViewUtils.loadView("week/WeekViewHour.fxml");
             Label label = (Label) n.view.lookup("#hourView");
             label.setText((i - 1) + ":00");
             hoursPane.getChildren().add(n.view);
@@ -46,7 +47,7 @@ public class WeekViewDayPresenter {
 
     public void setDate(LocalDate date) {
         this.date = date;
-        dayOfWeek.setText(days[date.getDayOfWeek().getValue()-1]);
+        dayOfWeek.setText(days[date.getDayOfWeek().getValue() - 1]);
         applyEvents();
     }
 

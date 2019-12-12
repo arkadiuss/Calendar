@@ -1,8 +1,6 @@
 package app.util;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.util.Pair;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,26 +8,26 @@ import java.net.URL;
 
 public class ViewUtils {
 
-    public static class LoadedView<T> {
-        public final Node view;
+    public static class LoadedView<V, T> {
+        public final V view;
         public final T controller;
 
-        public LoadedView(Node view, T controller) {
+        public LoadedView(V view, T controller) {
             this.view = view;
             this.controller = controller;
         }
     }
 
-    public static LoadedView loadView(String location){
+    public static <V, T> LoadedView<V, T> loadView(String location) {
         FXMLLoader loader = new FXMLLoader();
-        URL url = null;
+        URL url;
         try {
             url = new File("src/main/java/app/view/" + location).toURI().toURL();
             loader.setLocation(url);
-            return new LoadedView(loader.load(), loader.getController());
+            return new LoadedView<V, T>((V) loader.load(), (T) loader.getController());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Cannot load view ", e);
         }
-        return null;
+
     }
 }

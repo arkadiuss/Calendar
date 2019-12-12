@@ -18,14 +18,14 @@ public class WeekViewPresenter {
     private List<Event> events;
 
     private void setupView() {
-        LocalDate startDayOfWeek = selectedDate.minusDays(selectedDate.getDayOfWeek().getValue()-1);
+        LocalDate startDayOfWeek = selectedDate.minusDays(selectedDate.getDayOfWeek().getValue() - 1);
         for (int i = 0; i < 7; i++) {
-            ViewUtils.LoadedView loadedView = ViewUtils.loadView("week/WeekViewDay.fxml");
+            ViewUtils.LoadedView<Node, WeekViewDayPresenter> loadedView = ViewUtils.loadView("week/WeekViewDay.fxml");
             Node n = loadedView.view;
             n.prefWidth(weekPane.getWidth() / 7.0);
             n.prefHeight(weekPane.getHeight());
-            ((WeekViewDayPresenter) loadedView.controller).setEvents(events);
-            ((WeekViewDayPresenter) loadedView.controller).setDate(startDayOfWeek.plusDays(i));
+            loadedView.controller.setEvents(events);
+            loadedView.controller.setDate(startDayOfWeek.plusDays(i));
             weekPane.getChildren().add(n);
         }
     }

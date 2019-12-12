@@ -10,6 +10,7 @@ import com.google.common.base.Strings;
 import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -23,7 +24,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.YearMonth;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -119,7 +119,7 @@ public class CalendarViewPresenter {
                                 System.out.println(error.toString());
                             });
                 }, (calendar, isSelected) -> {
-                    if(isSelected)
+                    if (isSelected)
                         selectedCalendars.add(calendar);
                     else
                         selectedCalendars.remove(calendar);
@@ -164,18 +164,18 @@ public class CalendarViewPresenter {
     }
 
     private void setDayViewContent() {
-        ViewUtils.LoadedView lw = ViewUtils.loadView("day/DayView.fxml");
-        ((DayViewPresenter) lw.controller).setEvents(getEventsFromSelectedCalendars());
-        ((DayViewPresenter) lw.controller).setSelectedDate(selectedDate);
+        ViewUtils.LoadedView<Node, DayViewPresenter> lw = ViewUtils.loadView("day/DayView.fxml");
+        lw.controller.setEvents(getEventsFromSelectedCalendars());
+        lw.controller.setSelectedDate(selectedDate);
         dayViewTab.setContent(lw.view);
     }
 
 
     public void setWeekViewContent() {
 
-        ViewUtils.LoadedView loadedView = ViewUtils.loadView("week/WeekView.fxml");
-        ((WeekViewPresenter) loadedView.controller).setEvents(getEventsFromSelectedCalendars());
-        ((WeekViewPresenter) loadedView.controller).setCurrentDate(selectedDate);
+        ViewUtils.LoadedView<Node, WeekViewPresenter> loadedView = ViewUtils.loadView("week/WeekView.fxml");
+        loadedView.controller.setEvents(getEventsFromSelectedCalendars());
+        loadedView.controller.setCurrentDate(selectedDate);
         weekViewTab.setContent(loadedView.view);
     }
 
@@ -202,9 +202,9 @@ public class CalendarViewPresenter {
                 || eventStartDatePicker.getValue() == null || eventEndDatePicker.getValue() == null ||
                 spinnerStartHour.getValue() == null || spinnerEndMinute.getValue() == null) {
             AlertPopup.showAlert("Event properties cannot be empty");
-        } else if(!eventStartDatePicker.getValue().isEqual(eventEndDatePicker.getValue())) {
+        } else if (!eventStartDatePicker.getValue().isEqual(eventEndDatePicker.getValue())) {
             AlertPopup.showAlert("Currently only one-day events are supported :(");
-        }else {
+        } else {
             Calendar calendar = (Calendar) calendarsCombobox.getValue();
 
             LocalDate startDate = eventStartDatePicker.getValue();
