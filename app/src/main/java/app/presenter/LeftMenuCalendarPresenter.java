@@ -29,17 +29,12 @@ public class LeftMenuCalendarPresenter {
     private Button addCalendarButton;
 
     private Consumer<Calendar> addedConsumer;
-    private BiConsumer<Calendar, Boolean> selectedConsumer;
     private Consumer<Calendar> removeConsumer;
     private User currentUser;
     private CalendarService calendarService = new CalendarService();
 
     public void setOnNewCalendarAdded(Consumer<Calendar> updateConsumer) {
         this.addedConsumer = updateConsumer;
-    }
-
-    public void setOnSelectCalendar(BiConsumer<Calendar, Boolean> updateConsumer) {
-        this.selectedConsumer = updateConsumer;
     }
 
     public void setOnRemoveCalendar(Consumer<Calendar> removeConsumer) {
@@ -74,9 +69,9 @@ public class LeftMenuCalendarPresenter {
                             });
                 }, (calendar, isSelected) -> {
                     if (isSelected)
-                        selectedConsumer.accept(calendar, true);
+                        appContext.selectCalendar(calendar);
                     else
-                        selectedConsumer.accept(calendar, false);
+                        appContext.unselectCalendar(calendar);
                 }));
     }
 

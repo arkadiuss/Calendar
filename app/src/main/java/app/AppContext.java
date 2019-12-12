@@ -7,13 +7,14 @@ import logic.model.Event;
 import logic.model.User;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class AppContext {
     private BehaviorSubject<User> currentUser = BehaviorSubject.create();
     private BehaviorSubject<LocalDate> selectedDate = BehaviorSubject.create();
-    private List<Calendar> selectedCalendars;
+    private List<Calendar> selectedCalendars = new ArrayList<>();
     private BehaviorSubject<List<Calendar>> selectedCalendarsObservable = BehaviorSubject.create();
 
     public Observable<User> observeUser() {
@@ -26,11 +27,13 @@ public class AppContext {
 
     public void selectCalendar(Calendar calendar) {
         selectedCalendars.add(calendar);
+        System.out.println(selectedCalendars.size());
         selectedCalendarsObservable.onNext(selectedCalendars);
     }
 
     public void unselectCalendar(Calendar calendar) {
         selectedCalendars.remove(calendar);
+        System.out.println(selectedCalendars.size());
         selectedCalendarsObservable.onNext(selectedCalendars);
     }
 
