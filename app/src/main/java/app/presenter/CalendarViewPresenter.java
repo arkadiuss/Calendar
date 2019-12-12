@@ -1,5 +1,7 @@
 package app.presenter;
 
+import app.AppContext;
+import app.di.DIProvider;
 import app.presenter.day.DayViewPresenter;
 import app.presenter.week.WeekViewPresenter;
 import app.util.AlertPopup;
@@ -70,6 +72,7 @@ public class CalendarViewPresenter {
     @FXML
     private Label welcomeLabel;
 
+    private AppContext appContext;
 
     private User currentUser;
 
@@ -78,6 +81,11 @@ public class CalendarViewPresenter {
     private List<Calendar> selectedCalendars = new ArrayList<>();
 
     private CalendarService calendarService = new CalendarService();
+
+    public CalendarViewPresenter() {
+        appContext = DIProvider.getAppContaxt();
+        appContext.setSelectedDate(LocalDate.now());
+    }
 
     public void setSelectedDate(LocalDate selectedDate) {
         this.selectedDate = selectedDate;
@@ -90,9 +98,7 @@ public class CalendarViewPresenter {
         updateView();
     }
 
-    public void handleSetCurrentDateButton(ActionEvent actionEvent) {
-        selectedDate = LocalDate.now();
-        datePicker.setValue(selectedDate);
+    public void handleSetCurrentDateButton() {
     }
 
     @FXML
@@ -150,10 +156,9 @@ public class CalendarViewPresenter {
     }
 
     public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
+        this.appContext.setCurrentUser(currentUser);
         welcomeLabel.setText(String.format("Welcome, %s", currentUser.getUsername()));
         calendarsCombobox.getItems().addAll(currentUser.getCalendars());
-        addCalendarViewController.setUser(currentUser);
     }
 
     public void handleAddEvent(ActionEvent event) {

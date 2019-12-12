@@ -1,5 +1,7 @@
 package app.presenter;
 
+import app.AppContext;
+import app.di.DIProvider;
 import app.util.AlertPopup;
 import app.view.calendar_list.CalendarListViewCell;
 import com.google.common.base.Strings;
@@ -18,6 +20,7 @@ import java.util.function.Consumer;
 
 public class LeftMenuCalendarPresenter {
 
+    private final AppContext appContext;
     @FXML
     private ListView calendarsList;
     @FXML
@@ -43,9 +46,13 @@ public class LeftMenuCalendarPresenter {
         this.removeConsumer = removeConsumer;
     }
 
-    public void setUser(User currentUser) {
-        this.currentUser = currentUser;
-        currentUser.getCalendars().forEach((calendar -> this.calendarsList.getItems().add(calendar)));
+    public LeftMenuCalendarPresenter() {
+        this.appContext = DIProvider.getAppContaxt();
+        appContext.observeUser().subscribe((user) -> {
+            this.currentUser = user;
+            user.getCalendars().forEach((calendar -> this.calendarsList.getItems().add(calendar)));
+        });
+
     }
 
     @FXML
