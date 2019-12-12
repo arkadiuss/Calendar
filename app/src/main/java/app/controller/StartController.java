@@ -1,11 +1,7 @@
 package app.controller;
 
 import app.presenter.*;
-import app.presenter.CalendarViewPresenter;
-import app.presenter.LoginViewPresenter;
-import app.presenter.RegisterViewPresenter;
-import app.presenter.WelcomeViewPresenter;
-import javafx.fxml.FXMLLoader;
+import app.util.ViewUtils;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -15,13 +11,9 @@ import logic.model.Calendar;
 import logic.model.Event;
 import logic.model.User;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.time.LocalDate;
-
 public class StartController {
     private Stage primaryStage;
+
 
     public StartController(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -29,118 +21,65 @@ public class StartController {
 
 
     public void showCalendar(User user) {
-        this.primaryStage.setTitle("Welcome");
-        // load layout from FXML file
-        FXMLLoader loader = new FXMLLoader();
-        try {
-            URL url = new File("src/main/java/app/view/CalendarView.fxml").toURI().toURL();
-            loader.setLocation(url);
-            HBox root = loader.load();
+        ViewUtils.LoadedView<HBox, CalendarViewPresenter> loadedView = ViewUtils.loadView("CalendarView.fxml");
+        Scene scene = new Scene(loadedView.view);
+        this.primaryStage.setTitle("Calendar");
 
-            Scene scene = new Scene(root);
-            this.primaryStage.setTitle("Calendar");
+        CalendarViewPresenter controller = loadedView.controller;
+        controller.setCurrentUser(user);
 
-            CalendarViewPresenter controller = loader.getController();
-            controller.setCurrentUser(user);
-            controller.setSelectedDate(LocalDate.now());
-
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     public void initRootLayout() {
-        try {
-            this.primaryStage.setTitle("Welcome");
-            // load layout from FXML file
-            FXMLLoader loader = new FXMLLoader();
-            URL url = new File("src/main/java/app/view/WelcomeView.fxml").toURI().toURL();
-            loader.setLocation(url);
-            AnchorPane rootLayout = loader.load();
+        this.primaryStage.setTitle("Welcome");
+        ViewUtils.LoadedView<AnchorPane, WelcomeViewPresenter> loadedView = ViewUtils.loadView("WelcomeView.fxml");
 
-            // set initial data into controller
-            WelcomeViewPresenter controller = loader.getController();
-            controller.setAppController(this);
+        AnchorPane rootLayout = loadedView.view;
+        WelcomeViewPresenter controller = loadedView.controller;
+        controller.setAppController(this);
 
-            // add layout to a scene and show them all
-            Scene scene = new Scene(rootLayout);
-            primaryStage.setScene(scene);
-            primaryStage.show();
+        Scene scene = new Scene(rootLayout);
+        primaryStage.setScene(scene);
+        primaryStage.show();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void showLoginWindow() {
-        try {
-            // Load the fxml file and create a new stage for the dialog
-            FXMLLoader loader = new FXMLLoader();
-            URL url = new File("src/main/java/app/view/LoginView.fxml").toURI().toURL();
-            Stage dialogStage = getStage(loader, url, "Login");
+        ViewUtils.LoadedView<AnchorPane, LoginViewPresenter> loadedView = ViewUtils.loadView("LoginView.fxml");
+        Stage dialogStage = getStage(loadedView.view, "Login");
+        LoginViewPresenter presenter = loadedView.controller;
+        presenter.setDialogStage(dialogStage);
+        presenter.setStartController(this);
 
-            // Set the person into the presenter.
-            LoginViewPresenter presenter = loader.getController();
-            presenter.setDialogStage(dialogStage);
-            presenter.setStartController(this);
+        dialogStage.showAndWait();
 
-            // Show the dialog and wait until the user closes it
-            dialogStage.showAndWait();
-
-        } catch (IOException e) {
-            //todo: add some troubleshooting
-            e.printStackTrace();
-        }
     }
 
     public void showRegisterWindow() {
-        try {
-            // Load the fxml file and create a new stage for the dialog
-            FXMLLoader loader = new FXMLLoader();
-            URL url = new File("src/main/java/app/view/RegisterView.fxml").toURI().toURL();
-            Stage dialogStage = getStage(loader, url, "Register");
+        ViewUtils.LoadedView<AnchorPane, RegisterViewPresenter> loadedView = ViewUtils.loadView("RegisterView.fxml");
+        Stage dialogStage = getStage(loadedView.view, "Register");
+        RegisterViewPresenter presenter = loadedView.controller;
+        presenter.setDialogStage(dialogStage);
+        dialogStage.showAndWait();
 
-            // Set the person into the presenter.
-            RegisterViewPresenter presenter = loader.getController();
-            presenter.setDialogStage(dialogStage);
-
-            // Show the dialog and wait until the user closes it
-            dialogStage.showAndWait();
-
-        } catch (IOException e) {
-            //todo: add some troubleshooting
-            e.printStackTrace();
-        }
     }
 
     public void showEventDetailsWindow(Calendar calendar, Event event) {
-        try {
-            // Load the fxml file and create a new stage for the dialog
-            FXMLLoader loader = new FXMLLoader();
-            URL url = new File("src/main/java/app/view/EventDetailsView.fxml").toURI().toURL();
-            Stage dialogStage = getStage(loader, url, "Event details");
+        ViewUtils.LoadedView<AnchorPane, EventDetailsViewPresenter> loadedView = ViewUtils.loadView("EventDetailsView.fxml");
+        Stage dialogStage = getStage(loadedView.view, "Event details");
 
-            EventDetailsViewPresenter presenter = loader.getController();
+        EventDetailsViewPresenter presenter = loadedView.controller;
             presenter.setEvent(event);
             presenter.fillWithEventData();
             presenter.setDialogStage(dialogStage);
 
-            // Show the dialog and wait until the user closes it
-            dialogStage.showAndWait();
 
-        } catch (IOException e) {
-            //todo: add some troubleshooting
-            e.printStackTrace();
-        }
+        dialogStage.showAndWait();
     }
 
-    private Stage getStage(FXMLLoader loader, URL url, String register) throws IOException {
-        loader.setLocation(url);
-        AnchorPane page = loader.load();
-
-        // Create the dialog Stage.
+    private Stage getStage(AnchorPane page, String register) {
         Stage dialogStage = new Stage();
         dialogStage.setTitle(register);
         dialogStage.initModality(Modality.WINDOW_MODAL);

@@ -1,10 +1,12 @@
 package app.view.month;
 
-import app.presenter.CalendarViewPresenter;
+import app.AppContext;
+import app.di.DIProvider;
 import com.google.common.collect.ImmutableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
@@ -19,15 +21,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class MonthView {
-    private CalendarViewPresenter calendarViewPresenter;
+
     private List<DayAnchorPane> monthDaysAnchors = new LinkedList<>();
     private VBox monthViewVBox;
     private YearMonth currentYearMonth;
+    private AppContext appContext;
 
-    public MonthView(CalendarViewPresenter calendarViewPresenter, YearMonth yearMonth) {
-        this.calendarViewPresenter = calendarViewPresenter;
-        currentYearMonth = yearMonth;
+    public MonthView() {
+        this.appContext = DIProvider.getAppContaxt();
+        appContext.observeSelectedDate().subscribe((date) -> {
+            currentYearMonth = YearMonth.of(date.getYear(), date.getMonth());
+            setUpView();
+        });
+    }
 
+    private void setUpView() {
         List<Label> dayLabels = ImmutableList.of("Monday", "Tuesday", "Wednesday", "Thursday",
                 "Friday", "Saturday", "Sunday")
                 .stream().map(Label::new).collect(Collectors.toList());
@@ -58,7 +66,6 @@ public class MonthView {
 
         fillDayNumbers();
         monthViewVBox = new VBox(dayLabelsGrid, monthGrid);
-
     }
 
     public void fillDayNumbers() {
@@ -73,15 +80,14 @@ public class MonthView {
         for (DayAnchorPane dayAnchorPane : monthDaysAnchors) {
             dayAnchorPane.setDate(dateIterator);
             Label label = new Label(String.valueOf(dateIterator.getDayOfMonth()));
-            dayAnchorPane.setLeftAnchor(label, 4.0);
+            AnchorPane.setLeftAnchor(label, 4.0);
             dayAnchorPane.getChildren().add(label);
             dayAnchorPane.setStyle("-fx-background-color: #FFFFFF;" +
                     " -fx-border-color: black; -fx-border-width: 1px 1px 1px 1px");
 
 
-            dayAnchorPane.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-                calendarViewPresenter.setSelectedDate(dayAnchorPane.getDate());
-            });
+            dayAnchorPane.addEventHandler(MouseEvent.MOUSE_CLICKED, e ->
+                    appContext.setSelectedDate(dayAnchorPane.getDate()));
 
             if (dateIterator.equals(LocalDate.now())) {
                 dayAnchorPane.setStyle("-fx-background-color: #FFCFFF;" +

@@ -1,42 +1,45 @@
 package app.presenter.week;
 
-import app.presenter.DayUtils;
+import app.AppContext;
+import app.di.DIProvider;
+import app.presenter.AbstractDayView;
 import app.util.ViewUtils;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import logic.model.Event;
 
 import java.time.LocalDate;
-import java.util.List;
 
 
-public class WeekViewDayPresenter {
+public class WeekViewDayPresenter extends AbstractDayView {
     public AnchorPane dayPane;
+    private AppContext appContext;
     private static final double DAY_PX_HEIGHT = 56.0;
     private static final double DAY_PX_WIDTH = 75.0;
-    private List<Event> events;
 
     @FXML
     private VBox hoursPane;
 
     private Label dayOfWeek;
 
-    private LocalDate date;
-
     private String[] days = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+
+    public WeekViewDayPresenter() {
+        this.appContext = DIProvider.getAppContaxt();
+    }
 
     @FXML
     public void initialize() {
         for (int i = 0; i < 25; i++) {
             if (i == 0) {
-                ViewUtils.LoadedView<Object> n = ViewUtils.loadView("week/WeekViewHour.fxml");
+                ViewUtils.LoadedView<Node, WeekViewDayPresenter> n = ViewUtils.loadView("week/WeekViewHour.fxml");
                 dayOfWeek = (Label) n.view.lookup("#hourView");
                 hoursPane.getChildren().add(n.view);
                 continue;
             }
-            ViewUtils.LoadedView<Object> n = ViewUtils.loadView("week/WeekViewHour.fxml");
+            ViewUtils.LoadedView<Node, WeekViewDayPresenter> n = ViewUtils.loadView("week/WeekViewHour.fxml");
             Label label = (Label) n.view.lookup("#hourView");
             label.setText((i - 1) + ":00");
             hoursPane.getChildren().add(n.view);
@@ -45,16 +48,10 @@ public class WeekViewDayPresenter {
 
 
     public void setDate(LocalDate date) {
-        this.date = date;
-        dayOfWeek.setText(days[date.getDayOfWeek().getValue()-1]);
-        applyEvents();
-    }
+        dayOfWeek.setText(days[date.getDayOfWeek().getValue() - 1]);
+        this.appContext.observeEvents().subscribe((events) -> {
+            applyEvents(dayPane, date, events, DAY_PX_WIDTH, DAY_PX_HEIGHT, 0);
+        });
 
-    private void applyEvents() {
-        DayUtils.applyEvents(dayPane, date, events, DAY_PX_WIDTH, DAY_PX_HEIGHT, 0);
-    }
-
-    public void setEvents(List<Event> events) {
-        this.events = events;
     }
 }
