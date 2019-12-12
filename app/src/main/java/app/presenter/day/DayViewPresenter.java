@@ -1,6 +1,6 @@
 package app.presenter.day;
 
-import app.presenter.DayUtils;
+import app.presenter.AbstractDayView;
 import app.util.ViewUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -12,7 +12,7 @@ import logic.model.Event;
 import java.time.LocalDate;
 import java.util.List;
 
-public class DayViewPresenter {
+public class DayViewPresenter extends AbstractDayView {
     private static final double DAY_PX_HEIGHT = 52.0;
     private static final double DAY_PX_WIDTH = 490.0;
 
@@ -36,9 +36,6 @@ public class DayViewPresenter {
         }
     }
 
-    private void applyEvents() {
-        DayUtils.applyEvents(dayPane, selectedDate, events, DAY_PX_WIDTH, DAY_PX_HEIGHT, 60);
-    }
 
     public void setEvents(List<Event> events) {
         this.events = events;
@@ -46,6 +43,6 @@ public class DayViewPresenter {
 
     public void setSelectedDate(LocalDate selectedDate) {
         this.selectedDate = selectedDate;
-        applyEvents();
+        applyEvents(dayPane, selectedDate, events, DAY_PX_WIDTH, DAY_PX_HEIGHT, 60);
     }
 }

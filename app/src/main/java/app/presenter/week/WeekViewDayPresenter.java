@@ -1,6 +1,6 @@
 package app.presenter.week;
 
-import app.presenter.DayUtils;
+import app.presenter.AbstractDayView;
 import app.util.ViewUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 
-public class WeekViewDayPresenter {
+public class WeekViewDayPresenter extends AbstractDayView {
     public AnchorPane dayPane;
     private static final double DAY_PX_HEIGHT = 56.0;
     private static final double DAY_PX_WIDTH = 75.0;
@@ -48,12 +48,9 @@ public class WeekViewDayPresenter {
     public void setDate(LocalDate date) {
         this.date = date;
         dayOfWeek.setText(days[date.getDayOfWeek().getValue() - 1]);
-        applyEvents();
+        applyEvents(dayPane, date, events, DAY_PX_WIDTH, DAY_PX_HEIGHT, 0);
     }
 
-    private void applyEvents() {
-        DayUtils.applyEvents(dayPane, date, events, DAY_PX_WIDTH, DAY_PX_HEIGHT, 0);
-    }
 
     public void setEvents(List<Event> events) {
         this.events = events;

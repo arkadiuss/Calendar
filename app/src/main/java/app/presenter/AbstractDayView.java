@@ -14,9 +14,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DayUtils {
+public abstract class AbstractDayView {
 
-    public static void applyEvents(Pane pane, LocalDate date, List<Event> events, double width, double height, double offsetX) {
+    public void applyEvents(Pane pane, LocalDate date, List<Event> events, double width, double height, double offsetX) {
         List<Event> interestingEvents = events.stream()
                 .filter(e -> (date.isBefore(e.getEndDateTime().toLocalDate()) &&
                         date.isAfter(e.getStartDateTime().toLocalDate())) ||
