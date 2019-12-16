@@ -45,7 +45,7 @@ public class DayViewPresenter {
     }
 
     private void applyEvents() {
-        DayUtils.applyEvents(dayPane, selectedDate, events, DAY_PX_WIDTH, DAY_PX_HEIGHT, 60);
+        DayUtils.applyEvents(dayPane, selectedDate, events, DAY_PX_WIDTH, DAY_PX_HEIGHT, 60,0);
     }
 
     public void setEvents(List<Event> events) {

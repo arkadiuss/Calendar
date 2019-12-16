@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class DayUtils {
 
-    public static void applyEvents(Pane pane, LocalDate date, List<Event> events, double width, double height, double offsetX) {
+    public static void applyEvents(Pane pane, LocalDate date, List<Event> events, double width, double height, double offsetX, double offsetY) {
         List<Event> interestingEvents = events.stream()
                 .filter(e -> (date.isBefore(e.getEndDateTime().toLocalDate()) &&
                         date.isAfter(e.getStartDateTime().toLocalDate())) ||
@@ -31,7 +31,7 @@ public class DayUtils {
             label.setLayoutX(offsetX);
             label.setPrefHeight(countHeight(e,height));
             label.setStyle("-fx-background-color: #0099FF; -fx-text-fill: #000000");
-            label.setLayoutY(countOffset(e,height));
+            label.setLayoutY(countOffset(e,height) + offsetY);
             label.setOnMouseClicked(event -> {
                 ViewUtils.LoadedView view = ViewUtils.loadView("EventDetailsView.fxml");
                 ((EventDetailsViewPresenter)view.controller).setEvent(e);

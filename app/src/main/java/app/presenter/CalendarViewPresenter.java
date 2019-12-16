@@ -23,9 +23,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.YearMonth;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -79,7 +77,7 @@ public class CalendarViewPresenter {
 
     private LocalDate selectedDate;
 
-    private List<Calendar> selectedCalendars = new ArrayList<>();
+    private Set<Calendar> selectedCalendars = new HashSet<>();
 
     private CalendarService calendarService = new CalendarService();
 
@@ -186,6 +184,9 @@ public class CalendarViewPresenter {
     }
 
     private List<Event> getEventsFromSelectedCalendars() {
+        for(Calendar c : selectedCalendars) {
+            System.out.println(c.getName());
+        }
         return selectedCalendars.stream().flatMap(c -> c.getEvents().stream()).collect(Collectors.toList());
     }
 

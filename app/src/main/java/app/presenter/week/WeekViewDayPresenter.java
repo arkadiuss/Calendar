@@ -14,7 +14,7 @@ import java.util.List;
 
 public class WeekViewDayPresenter {
     public AnchorPane dayPane;
-    private static final double DAY_PX_HEIGHT = 56.0;
+    private static final double DAY_PX_HEIGHT = 50.0;
     private static final double DAY_PX_WIDTH = 75.0;
     private List<Event> events;
 
@@ -51,7 +51,7 @@ public class WeekViewDayPresenter {
     }
 
     private void applyEvents() {
-        DayUtils.applyEvents(dayPane, date, events, DAY_PX_WIDTH, DAY_PX_HEIGHT, 0);
+        DayUtils.applyEvents(dayPane, date, events, DAY_PX_WIDTH, DAY_PX_HEIGHT, 0, 50);
     }
 
     public void setEvents(List<Event> events) {
