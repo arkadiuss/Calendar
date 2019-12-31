@@ -16,7 +16,7 @@ public class WeekViewPresenter {
 
     @FXML
     public void initialize() {
-        DIProvider.getAppContaxt().observeSelectedDate().subscribe((date) -> {
+        DIProvider.getAppContext().observeSelectedDate().subscribe((date) -> {
             selectedDate = date;
             setupView();
             Node node = weekPane.getChildren().get(selectedDate.getDayOfWeek().getValue() - 1);

@@ -28,7 +28,7 @@ public class MonthView {
     private AppContext appContext;
 
     public MonthView() {
-        this.appContext = DIProvider.getAppContaxt();
+        this.appContext = DIProvider.getAppContext();
         appContext.observeSelectedDate().subscribe((date) -> {
             currentYearMonth = YearMonth.of(date.getYear(), date.getMonth());
             setUpView();

@@ -16,7 +16,8 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractDayView {
 
-    public void applyEvents(Pane pane, LocalDate date, List<Event> events, double width, double height, double offsetX) {
+    public void applyEvents(Pane pane, LocalDate date, List<Event> events) {
+        pane.getChildren().clear();
         List<Event> interestingEvents = events.stream()
                 .filter(e -> (date.isBefore(e.getEndDateTime().toLocalDate()) &&
                         date.isAfter(e.getStartDateTime().toLocalDate())) ||
@@ -26,11 +27,11 @@ public abstract class AbstractDayView {
         interestingEvents.forEach(e -> {
             Label label = new Label(e.getTitle());
 
-            label.setPrefWidth(width);
-            label.setLayoutX(offsetX);
-            label.setPrefHeight(countHeight(e, height));
+            label.setPrefWidth(getHourWidth());
+            label.setLayoutX(getEventOffset());
+            label.setPrefHeight(countHeight(e));
             label.setStyle("-fx-background-color: #0099FF; -fx-text-fill: #000000");
-            label.setLayoutY(countOffset(e, height));
+            label.setLayoutY(countOffset(e));
             label.setOnMouseClicked(event -> {
                 ViewUtils.LoadedView<Node, EventDetailsViewPresenter> view = ViewUtils.loadView("EventDetailsView.fxml");
                 view.controller.setEvent(e);
@@ -43,15 +44,19 @@ public abstract class AbstractDayView {
         });
     }
 
-    private static double countHeight(Event e, double height) {
+    protected abstract double getHourHeight();
+    protected abstract double getEventOffset();
+    protected abstract double getHourWidth();
+
+    private double countHeight(Event e) {
         long minutes = e.getStartDateTime().until(e.getEndDateTime(), ChronoUnit.MINUTES);
         double hours = minutes / 60.0;
-        return hours * height;
+        return hours * getHourHeight();
     }
 
-    private static double countOffset(Event e, double height) {
+    private double countOffset(Event e) {
         long minutes = e.getStartDateTime().toLocalDate().atStartOfDay().until(e.getStartDateTime(), ChronoUnit.MINUTES);
         double hours = minutes / 60.0;
-        return hours * height;
+        return hours * getHourHeight();
     }
 }

@@ -27,7 +27,7 @@ public class WeekViewDayPresenter extends AbstractDayView {
     private String[] days = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
     public WeekViewDayPresenter() {
-        this.appContext = DIProvider.getAppContaxt();
+        this.appContext = DIProvider.getAppContext();
     }
 
     @FXML
@@ -50,8 +50,23 @@ public class WeekViewDayPresenter extends AbstractDayView {
     public void setDate(LocalDate date) {
         dayOfWeek.setText(days[date.getDayOfWeek().getValue() - 1]);
         this.appContext.observeEvents().subscribe((events) -> {
-            applyEvents(dayPane, date, events, DAY_PX_WIDTH, DAY_PX_HEIGHT, 0);
+            applyEvents(dayPane, date, events);
         });
 
+    }
+
+    @Override
+    protected double getHourHeight() {
+        return DAY_PX_HEIGHT;
+    }
+
+    @Override
+    protected double getEventOffset() {
+        return 0;
+    }
+
+    @Override
+    protected double getHourWidth() {
+        return DAY_PX_WIDTH;
     }
 }

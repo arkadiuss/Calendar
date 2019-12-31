@@ -18,13 +18,13 @@ public class DayViewPresenter extends AbstractDayView {
     private final AppContext appContext;
 
     @FXML
-    private AnchorPane dayPane;
+    private AnchorPane eventsPane;
 
     @FXML
     private VBox hoursPane;
 
     public DayViewPresenter() {
-        this.appContext = DIProvider.getAppContaxt();
+        this.appContext = DIProvider.getAppContext();
     }
 
     @FXML
@@ -41,8 +41,22 @@ public class DayViewPresenter extends AbstractDayView {
                 appContext.observeEvents(),
                 Pair::new
         ).subscribe((pair) -> {
-            applyEvents(dayPane, pair.getFirst(), pair.getSecond(), DAY_PX_WIDTH, DAY_PX_HEIGHT, 60);
+            applyEvents(eventsPane, pair.getFirst(), pair.getSecond());
         });
     }
 
+    @Override
+    protected double getHourHeight() {
+        return DAY_PX_HEIGHT;
+    }
+
+    @Override
+    protected double getEventOffset() {
+        return 60;
+    }
+
+    @Override
+    protected double getHourWidth() {
+        return DAY_PX_WIDTH;
+    }
 }

@@ -15,7 +15,6 @@ import logic.model.Calendar;
 import logic.model.User;
 import logic.service.CalendarService;
 
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class LeftMenuCalendarPresenter {
@@ -28,30 +27,25 @@ public class LeftMenuCalendarPresenter {
     @FXML
     private Button addCalendarButton;
 
-    private Consumer<Calendar> addedConsumer;
-    private Consumer<Calendar> removeConsumer;
     private User currentUser;
-    private CalendarService calendarService = new CalendarService();
-
-    public void setOnNewCalendarAdded(Consumer<Calendar> updateConsumer) {
-        this.addedConsumer = updateConsumer;
-    }
-
-    public void setOnRemoveCalendar(Consumer<Calendar> removeConsumer) {
-        this.removeConsumer = removeConsumer;
-    }
+    private CalendarService calendarService;
 
     public LeftMenuCalendarPresenter() {
-        this.appContext = DIProvider.getAppContaxt();
-        appContext.observeUser().subscribe((user) -> {
-            this.currentUser = user;
-            user.getCalendars().forEach((calendar -> this.calendarsList.getItems().add(calendar)));
-        });
-
+        this.appContext = DIProvider.getAppContext();
+        this.calendarService = DIProvider.getCalendarService();
     }
 
     @FXML
     public void initialize() {
+        appContext.observeUser()
+                .doOnNext(user -> this.currentUser = user)
+                .flatMap(calendarService::getCalendars)
+                .observeOn(JavaFxScheduler.platform())
+                .subscribe((calendars) -> {
+                            this.calendarsList.getItems().clear();
+                            this.calendarsList.getItems().addAll(calendars);
+                        });
+
         this.calendarsList.setCellFactory(listView ->
                 new CalendarListViewCell((calendar, deleteButton) -> {
                     deleteButton.setDisable(true);
@@ -60,8 +54,7 @@ public class LeftMenuCalendarPresenter {
                     calendarService.deleteCalendar(calendar)
                             .observeOn(JavaFxScheduler.platform())
                             .subscribe(() -> {
-                                this.calendarsList.getItems().remove(calendar);
-                                removeConsumer.accept(calendar);
+                                // ok
                             }, error -> {
                                 deleteButton.setDisable(false);
                                 deleteButton.setText("Remove");
@@ -84,19 +77,11 @@ public class LeftMenuCalendarPresenter {
         addCalendarButton.setText("Adding...");
         addCalendarButton.setDisable(true);
         calendarService.addCalendar(calendar)
-                .andThen(calendarService.getCalendars())
                 .observeOn(JavaFxScheduler.platform())
-                .subscribe(calendars -> {
-                    calendarsList.getItems().add(calendar);
-
-                    addedConsumer.accept(calendar);
-                    //calendarsCombobox.getItems().add(calendar);
-
-                    addCalendarButton.setText("Add");
-                    addCalendarButton.setDisable(false);
-                }, error -> {
-                    addCalendarButton.setText("Add");
-                    addCalendarButton.setDisable(false);
+                .subscribe(() -> {
+                   //ok
+                }, err -> {
+                    // not ok
                 });
     }
 }

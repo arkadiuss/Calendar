@@ -48,6 +48,10 @@ public class Calendar {
         return name;
     }
 
+    public User getUser() {
+        return user;
+    }
+
     @Override
     public String toString(){
         return "Calendar " + name;

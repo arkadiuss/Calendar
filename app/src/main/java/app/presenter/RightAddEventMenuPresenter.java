@@ -1,6 +1,9 @@
 package app.presenter;
 
+import app.AppContext;
+import app.di.DIProvider;
 import app.util.AlertPopup;
+import io.reactivex.rxjavafx.observers.JavaFxObserver;
 import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,21 +14,38 @@ import logic.model.Event;
 import logic.model.Place;
 import logic.service.CalendarService;
 
+import java.util.List;
+
 
 public class RightAddEventMenuPresenter extends AbstractEventViewPresenter{
     @FXML
-    public Button addEventButton;
+    private Button addEventButton;
     @FXML
-    private ComboBox calendarsCombobox;
+    private ComboBox<Calendar> calendarsCombobox;
 
-    private CalendarService calendarService = new CalendarService();
+    private AppContext appContext;
+    private CalendarService calendarService;
 
-    public ComboBox getCalendarsCombobox() {
-        return calendarsCombobox;
+    public RightAddEventMenuPresenter() {
+        appContext = DIProvider.getAppContext();
+        calendarService = DIProvider.getCalendarService();
+    }
+
+    @FXML
+    public void initialize() {
+        appContext.observeUser()
+                .flatMap(calendarService::getCalendars)
+                .observeOn(JavaFxScheduler.platform())
+                .subscribe(calendars -> {
+                    calendarsCombobox.getItems().clear();
+                    calendarsCombobox.getItems().addAll(calendars);
+                }, err -> {
+
+                });
     }
 
     public void handleAddEvent(ActionEvent event) {
-        if (super.areFieldsEmpty() || getCalendarsCombobox().getValue() == null) {
+        if (super.areFieldsEmpty() || calendarsCombobox.getValue() == null) {
             AlertPopup.showAlert("Event properties cannot be empty");
         } else if(!startDateField.getValue().isEqual(endDateField.getValue())) {
             AlertPopup.showAlert("Currently only one-day events are supported :(");
