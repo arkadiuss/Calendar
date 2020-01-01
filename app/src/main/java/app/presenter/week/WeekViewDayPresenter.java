@@ -4,13 +4,19 @@ import app.AppContext;
 import app.di.DIProvider;
 import app.presenter.AbstractDayView;
 import app.util.ViewUtils;
+import io.reactivex.Observable;
+import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
+import io.reactivex.subjects.BehaviorSubject;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import logic.service.CalendarService;
+import org.apache.commons.math3.util.Pair;
 
 import java.time.LocalDate;
+import java.util.stream.Collectors;
 
 
 public class WeekViewDayPresenter extends AbstractDayView {
@@ -18,16 +24,24 @@ public class WeekViewDayPresenter extends AbstractDayView {
     private AppContext appContext;
     private static final double DAY_PX_HEIGHT = 56.0;
     private static final double DAY_PX_WIDTH = 75.0;
+    private final CalendarService calendarService;
 
     @FXML
     private VBox hoursPane;
 
+    @FXML
+    private AnchorPane eventsPane;
+
+    @FXML
     private Label dayOfWeek;
+
+    private BehaviorSubject<LocalDate> date = BehaviorSubject.create();
 
     private String[] days = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
     public WeekViewDayPresenter() {
         this.appContext = DIProvider.getAppContext();
+        this.calendarService = DIProvider.getCalendarService();
     }
 
     @FXML
@@ -44,15 +58,29 @@ public class WeekViewDayPresenter extends AbstractDayView {
             label.setText((i - 1) + ":00");
             hoursPane.getChildren().add(n.view);
         }
+
+        date.subscribe(d -> {
+            dayOfWeek.setText(days[d.getDayOfWeek().getValue() - 1]);
+        }, err -> {});
+
+        Observable.combineLatest(
+                date,
+                appContext.observeUser().flatMap(calendarService::getCalendars),
+                appContext.observeSelectedCalendars(),
+                (localDate, calendars, selectedCalendars) -> new Pair<>(
+                        localDate,
+                        calendars.stream()
+                                .filter(c -> selectedCalendars.contains(c.getId()))
+                                .flatMap(c -> c.getEvents().stream())
+                                .collect(Collectors.toList())))
+                .observeOn(JavaFxScheduler.platform())
+                .subscribe((pair) -> {
+                    applyEvents(eventsPane, pair.getFirst(), pair.getSecond());
+                });
     }
 
-
-    public void setDate(LocalDate date) {
-        dayOfWeek.setText(days[date.getDayOfWeek().getValue() - 1]);
-        this.appContext.observeEvents().subscribe((events) -> {
-            applyEvents(dayPane, date, events);
-        });
-
+    public void setDate(LocalDate d) {
+        this.date.onNext(d);
     }
 
     @Override

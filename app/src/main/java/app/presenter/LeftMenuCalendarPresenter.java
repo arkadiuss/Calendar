@@ -62,9 +62,9 @@ public class LeftMenuCalendarPresenter {
                             });
                 }, (calendar, isSelected) -> {
                     if (isSelected)
-                        appContext.selectCalendar(calendar);
+                        appContext.selectCalendar(calendar.getId());
                     else
-                        appContext.unselectCalendar(calendar);
+                        appContext.unselectCalendar(calendar.getId());
                 }));
     }
 

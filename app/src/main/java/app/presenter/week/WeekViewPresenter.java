@@ -12,20 +12,19 @@ public class WeekViewPresenter {
 
     @FXML
     private HBox weekPane;
-    private LocalDate selectedDate;
 
     @FXML
     public void initialize() {
         DIProvider.getAppContext().observeSelectedDate().subscribe((date) -> {
-            selectedDate = date;
-            setupView();
-            Node node = weekPane.getChildren().get(selectedDate.getDayOfWeek().getValue() - 1);
+            setupView(date);
+            Node node = weekPane.getChildren().get(date.getDayOfWeek().getValue() - 1);
             node.setStyle("-fx-background-color: #FFCFFF;");
         });
 
     }
 
-    private void setupView() {
+    private void setupView(LocalDate selectedDate) {
+        weekPane.getChildren().clear();
         LocalDate startDayOfWeek = selectedDate.minusDays(selectedDate.getDayOfWeek().getValue() - 1);
         for (int i = 0; i < 7; i++) {
             ViewUtils.LoadedView<Node, WeekViewDayPresenter> loadedView = ViewUtils.loadView("week/WeekViewDay.fxml");

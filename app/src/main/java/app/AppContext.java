@@ -8,14 +8,16 @@ import logic.model.User;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class AppContext {
     private BehaviorSubject<User> currentUser = BehaviorSubject.create();
     private BehaviorSubject<LocalDate> selectedDate = BehaviorSubject.create();
-    private List<Calendar> selectedCalendars = new ArrayList<>();
-    private BehaviorSubject<List<Calendar>> selectedCalendarsObservable = BehaviorSubject.create();
+    private Set<Integer> selectedCalendars = new HashSet<>();
+    private BehaviorSubject<List<Integer>> selectedCalendarsObservable = BehaviorSubject.create();
 
     public Observable<User> observeUser() {
         return currentUser;
@@ -25,16 +27,14 @@ public class AppContext {
         this.currentUser.onNext(currentUser);
     }
 
-    public void selectCalendar(Calendar calendar) {
-        selectedCalendars.add(calendar);
-        System.out.println(selectedCalendars.size());
-        selectedCalendarsObservable.onNext(selectedCalendars);
+    public void selectCalendar(int calendarId) {
+        selectedCalendars.add(calendarId);
+        selectedCalendarsObservable.onNext(new ArrayList<>(selectedCalendars));
     }
 
-    public void unselectCalendar(Calendar calendar) {
-        selectedCalendars.remove(calendar);
-        System.out.println(selectedCalendars.size());
-        selectedCalendarsObservable.onNext(selectedCalendars);
+    public void unselectCalendar(int calendarId) {
+        selectedCalendars.remove(calendarId);
+        selectedCalendarsObservable.onNext(new ArrayList<>(selectedCalendars));
     }
 
     public Observable<LocalDate> observeSelectedDate() {
@@ -45,12 +45,7 @@ public class AppContext {
         this.selectedDate.onNext(selectedDate);
     }
 
-    public Observable<List<Calendar>> observeCalendars() {
+    public Observable<List<Integer>> observeSelectedCalendars() {
         return selectedCalendarsObservable;
-    }
-
-    public Observable<List<Event>> observeEvents() {
-        return selectedCalendarsObservable
-                .map(calendars -> calendars.stream().flatMap(c -> c.getEvents().stream()).collect(Collectors.toList()));
     }
 }

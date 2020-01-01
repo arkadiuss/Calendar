@@ -31,6 +31,10 @@ public class Calendar {
         user.addCalendar(this);
     }
 
+    public int getId() {
+        return id;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }

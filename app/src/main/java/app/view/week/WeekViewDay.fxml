@@ -2,11 +2,25 @@
 
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<AnchorPane fx:id="dayPane" xmlns="http://javafx.com/javafx"
+<?import javafx.scene.layout.StackPane?>
+<AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="app.presenter.week.WeekViewDayPresenter"
             prefHeight="400.0" prefWidth="75" maxWidth="75">
     <children>
-        <VBox fx:id="hoursPane" prefHeight="1260"></VBox>
+        <StackPane prefHeight="1260">
+            <children>
+                <StackPane prefHeight="1260">
+                    <children>
+                        <VBox fx:id="hoursPane" prefHeight="1260"></VBox>
+                    </children>
+                </StackPane>
+                <StackPane style="-fx-background-color: rgba(0,0,0,0);">
+                    <children>
+                        <AnchorPane prefHeight="1260" fx:id="eventsPane"></AnchorPane>
+                    </children>
+                </StackPane>
+            </children>
+        </StackPane>
     </children>
 </AnchorPane>
