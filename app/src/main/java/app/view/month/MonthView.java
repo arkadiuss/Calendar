@@ -5,7 +5,6 @@ import app.di.DIProvider;
 import com.google.common.collect.ImmutableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -22,8 +21,8 @@ import java.util.stream.Collectors;
 
 public class MonthView {
 
-    private List<DayAnchorPane> monthDaysAnchors = new LinkedList<>();
-    private VBox monthViewVBox;
+    private final List<DayAnchorPane> monthDaysAnchors = new LinkedList<>();
+    private final VBox monthViewVBox = new VBox();
     private YearMonth currentYearMonth;
     private AppContext appContext;
 
@@ -36,6 +35,8 @@ public class MonthView {
     }
 
     private void setUpView() {
+        monthViewVBox.getChildren().clear();
+        monthDaysAnchors.clear();
         List<Label> dayLabels = ImmutableList.of("Monday", "Tuesday", "Wednesday", "Thursday",
                 "Friday", "Saturday", "Sunday")
                 .stream().map(Label::new).collect(Collectors.toList());
@@ -65,10 +66,10 @@ public class MonthView {
         }
 
         fillDayNumbers();
-        monthViewVBox = new VBox(dayLabelsGrid, monthGrid);
+        monthViewVBox.getChildren().addAll(dayLabelsGrid, monthGrid);
     }
 
-    public void fillDayNumbers() {
+    private void fillDayNumbers() {
         LocalDate calendarStartDate = LocalDate.of(currentYearMonth.getYear(),
                 currentYearMonth.getMonthValue(), 1);
         LocalDate dateIterator = calendarStartDate;
@@ -86,9 +87,10 @@ public class MonthView {
                     " -fx-border-color: black; -fx-border-width: 1px 1px 1px 1px");
 
 
-            dayAnchorPane.addEventHandler(MouseEvent.MOUSE_CLICKED, e ->
-                    appContext.setSelectedDate(dayAnchorPane.getDate()));
+//            dayAnchorPane.addEventHandler(MouseEvent.MOUSE_CLICKED, e ->
+//                    appContext.setSelectedDate(dayAnchorPane.getDate()));
 
+            // shouldn't be selectedDate here?
             if (dateIterator.equals(LocalDate.now())) {
                 dayAnchorPane.setStyle("-fx-background-color: #FFCFFF;" +
                         " -fx-border-color: black; -fx-border-width: 1px 1px 1px 1px");

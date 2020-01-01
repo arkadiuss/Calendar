@@ -43,6 +43,11 @@ public class CalendarViewPresenter {
 
     @FXML
     public void initialize() {
+        // workaround
+        JavaFxObservable.valuesOf(datePicker.valueProperty())
+                .subscribe(d -> appContext.setSelectedDate(d));
+        datePicker.setValue(LocalDate.now());
+
         appContext.observeUser()
                 .subscribe(user -> {
                     welcomeLabel.setText(String.format("Welcome, %s", user.getUsername()));
@@ -54,11 +59,11 @@ public class CalendarViewPresenter {
     }
 
     public void handleDatePickerChange(ActionEvent actionEvent) {
-        appContext.setSelectedDate(datePicker.getValue());
+//        appContext.setSelectedDate(datePicker.getValue());
     }
 
     public void handleSetCurrentDateButton() {
-        appContext.setSelectedDate(LocalDate.now());
+        datePicker.setValue(LocalDate.now());
     }
 
     public void setMonthViewContent() {

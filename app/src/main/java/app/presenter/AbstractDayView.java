@@ -35,6 +35,8 @@ public abstract class AbstractDayView {
             label.setOnMouseClicked(event -> {
                 ViewUtils.LoadedView<Node, EventDetailsViewPresenter> view = ViewUtils.loadView("EventDetailsView.fxml");
                 view.controller.setEvent(e);
+                //not best solution
+                view.controller.setEventSaved(aBoolean -> label.setText(e.getTitle()));
                 Stage stage = new Stage();
                 stage.setTitle("Event details");
                 stage.setScene(new Scene((Parent) view.view, 600, 450));

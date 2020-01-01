@@ -6,6 +6,8 @@ import app.util.AlertPopup;
 import app.view.calendar_list.CalendarListViewCell;
 import com.google.common.base.Strings;
 import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -15,13 +17,11 @@ import logic.model.Calendar;
 import logic.model.User;
 import logic.service.CalendarService;
 
-import java.util.function.Consumer;
-
 public class LeftMenuCalendarPresenter {
 
     private final AppContext appContext;
     @FXML
-    private ListView calendarsList;
+    private ListView<Calendar> calendarsList;
     @FXML
     private TextField newCalendarName;
     @FXML
@@ -29,6 +29,7 @@ public class LeftMenuCalendarPresenter {
 
     private User currentUser;
     private CalendarService calendarService;
+    private ObservableList<Calendar> observableCalendars = FXCollections.observableArrayList();
 
     public LeftMenuCalendarPresenter() {
         this.appContext = DIProvider.getAppContext();
@@ -37,13 +38,15 @@ public class LeftMenuCalendarPresenter {
 
     @FXML
     public void initialize() {
+        calendarsList.setItems(observableCalendars);
+
         appContext.observeUser()
                 .doOnNext(user -> this.currentUser = user)
                 .flatMap(calendarService::getCalendars)
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe((calendars) -> {
-                            this.calendarsList.getItems().clear();
-                            this.calendarsList.getItems().addAll(calendars);
+                            observableCalendars.clear();
+                            observableCalendars.addAll(calendars);
                         });
 
         this.calendarsList.setCellFactory(listView ->
