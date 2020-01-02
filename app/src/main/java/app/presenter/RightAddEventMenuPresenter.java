@@ -47,8 +47,6 @@ public class RightAddEventMenuPresenter extends AbstractEventViewPresenter{
     public void handleAddEvent(ActionEvent event) {
         if (super.areFieldsEmpty() || calendarsCombobox.getValue() == null) {
             AlertPopup.showAlert("Event properties cannot be empty");
-        } else if(!startDateField.getValue().isEqual(endDateField.getValue())) {
-            AlertPopup.showAlert("Currently only one-day events are supported :(");
         }else {
             Calendar calendar = (Calendar) calendarsCombobox.getValue();
 

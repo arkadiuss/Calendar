@@ -14,6 +14,7 @@ import logic.model.Event;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,13 +30,16 @@ public abstract class AbstractDayView {
                 .filter(e -> DateUtils.IsCoincident(e.getStartDateTime(), e.getEndDateTime(), dayStart, dayEnd))
                 .collect(Collectors.toList());
         interestingEvents.forEach(e -> {
+            LocalDateTime startDate = DateUtils.maximum(e.getStartDateTime(), date.atStartOfDay());
+            LocalDateTime endDate = DateUtils.mininum(e.getEndDateTime(), date.atStartOfDay().plusDays(1));
+
             Label label = new Label(e.getTitle());
 
             label.setPrefWidth(getHourWidth());
             label.setLayoutX(getEventOffset());
-            label.setPrefHeight(countHeight(e));
+            label.setPrefHeight(countHeight(startDate, endDate));
             label.setStyle(String.format("-fx-background-color: %s; -fx-text-fill: #000000", context.getColor(e)));
-            label.setLayoutY(countOffset(e));
+            label.setLayoutY(countOffset(startDate));
             label.setOnMouseClicked(event -> {
                 ViewUtils.LoadedView<Node, EventDetailsViewPresenter> view = ViewUtils.loadView("EventDetailsView.fxml");
                 view.controller.setEvent(e);
@@ -55,14 +59,14 @@ public abstract class AbstractDayView {
     protected abstract double getHourWidth();
     protected abstract double getHeaderOffset();
 
-    private double countHeight(Event e) {
-        long minutes = e.getStartDateTime().until(e.getEndDateTime(), ChronoUnit.MINUTES);
-        double hours = minutes / 60.0;
-        return hours * getHourHeight();
+
+    private double countHeight(LocalDateTime startDate, LocalDateTime endDate) {
+        double hours = DateUtils.differenceInHours(startDate, endDate);
+        return hours* getHourHeight();
     }
 
-    private double countOffset(Event e) {
-        long minutes = e.getStartDateTime().toLocalDate().atStartOfDay().until(e.getStartDateTime(), ChronoUnit.MINUTES);
+    private double countOffset(LocalDateTime startTime) {
+        long minutes = startTime.toLocalDate().atStartOfDay().until(startTime, ChronoUnit.MINUTES);
         double hours = minutes / 60.0;
         return hours * getHourHeight() + getHeaderOffset();
     }

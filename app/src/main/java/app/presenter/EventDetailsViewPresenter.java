@@ -77,9 +77,8 @@ public class EventDetailsViewPresenter extends AbstractEventViewPresenter{
     public void handleSaveEvent(ActionEvent event) {
         if(super.areFieldsEmpty()){
             AlertPopup.showAlert("Event properties cannot be empty");
-        } else if(!startDateField.getValue().isEqual(endDateField.getValue())) {
-            AlertPopup.showAlert("Currently only one-day events are supported :(");
-        }else {
+        }
+        else {
             if (super.getStartDateTime().compareTo(super.getEndDateTime()) >= 0) {
                 AlertPopup.showAlert("End time and date must be later than start time and date");
             }else{
