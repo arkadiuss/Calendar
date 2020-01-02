@@ -14,7 +14,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 public abstract class AbstractDayView {
+    protected String[] days = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
     public void applyEvents(Pane pane, LocalDate date, List<Event> events) {
         pane.getChildren().clear();
@@ -49,6 +51,7 @@ public abstract class AbstractDayView {
     protected abstract double getHourHeight();
     protected abstract double getEventOffset();
     protected abstract double getHourWidth();
+    protected abstract double getHeaderOffset();
 
     private double countHeight(Event e) {
         long minutes = e.getStartDateTime().until(e.getEndDateTime(), ChronoUnit.MINUTES);
@@ -59,6 +62,6 @@ public abstract class AbstractDayView {
     private double countOffset(Event e) {
         long minutes = e.getStartDateTime().toLocalDate().atStartOfDay().until(e.getStartDateTime(), ChronoUnit.MINUTES);
         double hours = minutes / 60.0;
-        return hours * getHourHeight();
+        return hours * getHourHeight() + getHeaderOffset();
     }
 }
