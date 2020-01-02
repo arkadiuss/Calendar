@@ -10,7 +10,7 @@ javafx {
 }
 dependencies {
     implementation 'com.google.guava:guava:27.0.1-jre'
-    implementation project(':logic')
+    implementation project(path: ':logic')
     testImplementation 'junit:junit:4.12'
 
     implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
@@ -18,3 +18,7 @@ dependencies {
 }
 
 mainClassName = 'app.App'
+
+repositories{
+    jcenter()
+}

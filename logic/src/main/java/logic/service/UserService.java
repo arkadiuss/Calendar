@@ -6,6 +6,7 @@ import io.reactivex.schedulers.Schedulers;
 import logic.dao.UserDao;
 import logic.model.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public class UserService {
@@ -18,6 +19,11 @@ public class UserService {
     public Single<User> getUser(String name, String password) {
         return Single.fromCallable(() -> userDao.getUser(name, password))
                 .map(Optional::orElseThrow)
+                .subscribeOn(Schedulers.io());
+    }
+
+    public Single<List<User>> getUsersList() {
+        return Single.fromCallable(() -> userDao.getUsers())
                 .subscribeOn(Schedulers.io());
     }
 

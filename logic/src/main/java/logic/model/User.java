@@ -1,5 +1,7 @@
 package logic.model;
 
+import com.google.common.base.Objects;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -42,5 +44,20 @@ public class User {
 
     public Set<Calendar> getCalendars() {
         return calendars;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equal(username, user.username) &&
+                Objects.equal(password, user.password) &&
+                Objects.equal(email, user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(username, password, email);
     }
 }
