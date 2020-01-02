@@ -4,6 +4,7 @@
 package app;
 
 import app.controller.StartController;
+import app.util.ColorRandomizer;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import logic.service.UserService;
@@ -15,6 +16,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
+
+        System.out.println(ColorRandomizer.randomColor());
         UserService userService = new UserService();
         this.primaryStage = stage;
         this.primaryStage.setTitle("Calendar");

@@ -35,9 +35,12 @@ public class UserDao {
                 " and u.password = :password", User.class);
         q.setParameter("name", name);
         q.setParameter("password", password);
-        if (q.getResultList().size() == 1)
-            return Optional.of(Iterables.getOnlyElement(q.getResultList()));
-        else
-            return Optional.empty();
+        return Optional.ofNullable(q.getSingleResult());
+    }
+
+    public Optional<User> getUser(String name) {
+        TypedQuery<User> q = session.createQuery("from User as u where u.username = :name", User.class);
+        q.setParameter("name", name);
+        return Optional.ofNullable(q.getSingleResult());
     }
 }

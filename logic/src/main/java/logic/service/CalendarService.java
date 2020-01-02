@@ -7,7 +7,9 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 import logic.dao.CalendarDao;
 import logic.model.Calendar;
+import logic.model.Event;
 import logic.model.User;
+import logic.util.DateUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -42,16 +44,30 @@ public class CalendarService {
                 .doOnComplete(() -> updateUserCalendars(calendar.getUser()));
     }
 
-
     public Completable updateCalendar(Calendar calendar){
-        return Completable.fromAction(() -> calendarDao.updateCalendar(calendar))
+        Completable updateCompletable = Completable.fromAction(() -> calendarDao.updateCalendar(calendar))
                 .subscribeOn(Schedulers.io())
                 .doOnComplete(() -> updateUserCalendars(calendar.getUser()));
+
+        return updateCompletable;
+    }
+
+    private void checkConflictsForNewEvents(Calendar c) {
+
+    }
+
+    private boolean checkConflicts(Event event, List<Event> currentEvents) {
+        return currentEvents.stream()
+                .anyMatch(e -> DateUtils.IsCoincident(e.getStartDateTime(), e.getEndDateTime(), event.getStartDateTime(), event.getEndDateTime()));
     }
 
     private void updateUserCalendars(User user) {
-        Single.fromCallable(() -> calendarDao.getCalendars())
-                .subscribeOn(Schedulers.io())
+        getUserCalendars()
                 .subscribe(userCalendars.get(user)::onNext);
+    }
+
+    private Single<List<Calendar>> getUserCalendars() {
+        return Single.fromCallable(() -> calendarDao.getCalendars())
+                .subscribeOn(Schedulers.io());
     }
 }
