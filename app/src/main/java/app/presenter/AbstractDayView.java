@@ -24,8 +24,7 @@ public abstract class AbstractDayView {
         LocalDateTime dayStart = date.atStartOfDay();
         LocalDateTime dayEnd = date.atStartOfDay().plusDays(1);
         List<Event> interestingEvents = events.stream()
-                .filter(e -> DateUtils.IsBetween(e.getStartDateTime(), dayStart, dayEnd) ||
-                        DateUtils.IsBetween(e.getEndDateTime(), dayStart, dayEnd))
+                .filter(e -> DateUtils.IsCoincident(e.getStartDateTime(), e.getEndDateTime(), dayStart, dayEnd))
                 .collect(Collectors.toList());
         interestingEvents.forEach(e -> {
             Label label = new Label(e.getTitle());
