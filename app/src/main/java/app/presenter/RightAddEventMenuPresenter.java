@@ -65,13 +65,12 @@ public class RightAddEventMenuPresenter extends AbstractEventViewPresenter{
                         super.getStartDateTime(), super.getEndDateTime());
                 calendar.addEvent(newEvent);
 
-                //todo UPDATE VIEW
                 calendarService.updateCalendar(calendar).observeOn(JavaFxScheduler.platform())
                         .subscribe(() -> {
                             addEventButton.setText("Add event");
                             addEventButton.setDisable(false);
-                            //updateView();
                         }, error -> {
+                            AlertPopup.showAlert("Error");
                             addEventButton.setText("Add event");
                             addEventButton.setDisable(false);
                         });

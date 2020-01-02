@@ -6,6 +6,7 @@ import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 import logic.dao.CalendarDao;
+import logic.exceptions.EventConflictException;
 import logic.model.Calendar;
 import logic.model.Event;
 import logic.model.User;
@@ -14,6 +15,7 @@ import logic.util.DateUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CalendarService {
     private CalendarDao calendarDao;
@@ -49,16 +51,29 @@ public class CalendarService {
                 .subscribeOn(Schedulers.io())
                 .doOnComplete(() -> updateUserCalendars(calendar.getUser()));
 
-        return updateCompletable;
+        return getCalendars(calendar.getUser())
+                .flatMapCompletable(calendars -> {
+                    if(isConflict(calendar, calendars)) throw new EventConflictException("Unknown");
+                    return updateCompletable;
+                });
     }
 
-    private void checkConflictsForNewEvents(Calendar c) {
+    private boolean isConflict(Calendar calendar, List<Calendar> calendars) {
+        List<Event> restEvents = calendars.stream().flatMap(c -> c.getEvents().stream()).collect(Collectors.toList());
+        return getNewEvents(calendar).stream()
+                .anyMatch(e -> checkConflicts(e, restEvents));
+    }
 
+    private List<Event> getNewEvents(Calendar c) {
+        return c.getEvents()
+                .stream()
+                .filter(e -> e.getId() == 0)
+                .collect(Collectors.toList());
     }
 
     private boolean checkConflicts(Event event, List<Event> currentEvents) {
         return currentEvents.stream()
-                .anyMatch(e -> DateUtils.IsCoincident(e.getStartDateTime(), e.getEndDateTime(), event.getStartDateTime(), event.getEndDateTime()));
+                .anyMatch(e -> e.getId() != event.getId() && DateUtils.IsCoincident(e.getStartDateTime(), e.getEndDateTime(), event.getStartDateTime(), event.getEndDateTime()));
     }
 
     private void updateUserCalendars(User user) {

@@ -49,6 +49,10 @@ public class Event {
         this.calendar = calendar;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
     }
