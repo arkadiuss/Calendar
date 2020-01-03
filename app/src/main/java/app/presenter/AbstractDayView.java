@@ -14,7 +14,6 @@ import logic.model.Event;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +30,7 @@ public abstract class AbstractDayView {
                 .collect(Collectors.toList());
         interestingEvents.forEach(e -> {
             LocalDateTime startDate = DateUtils.maximum(e.getStartDateTime(), date.atStartOfDay());
-            LocalDateTime endDate = DateUtils.mininum(e.getEndDateTime(), date.atStartOfDay().plusDays(1));
+            LocalDateTime endDate = DateUtils.minimum(e.getEndDateTime(), date.atStartOfDay().plusDays(1));
 
             Label label = new Label(e.getTitle());
 

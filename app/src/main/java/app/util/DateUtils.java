@@ -23,7 +23,7 @@ public class DateUtils {
         return hours;
     }
 
-    public static LocalDateTime mininum(LocalDateTime localDateTime1, LocalDateTime localDateTime2) {
+    public static LocalDateTime minimum(LocalDateTime localDateTime1, LocalDateTime localDateTime2) {
         if (localDateTime1.isBefore(localDateTime2)) {
             return localDateTime1;
         }
