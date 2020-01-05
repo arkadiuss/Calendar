@@ -20,7 +20,7 @@ public class App {
 
     public static void main(String[] args) {
         Email from = new Email("calendar-notifier@aniolki_charliego.pl");
-        Sender sender = new Sender("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", from);
+        Sender sender = new Sender(System.getenv("API_KEY"), from);
         UserService userService = new UserService();
         while (true) {
             LocalDateTime now = LocalDateTime.now();
@@ -30,30 +30,29 @@ public class App {
             try {
                 Thread.sleep(MILLIS);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("Sleep interrupted", e);
             }
         }
-
     }
 
     private static void sendNotificationsToUsers(Sender sender, LocalDateTime now, List<User> users) {
-        for (User user : users) {
-            sendNotification(getUserUpcomingEvents(now, user), user, sender);
-        }
+        users.forEach(user -> sendNotification(getUserUpcomingEvents(now, user), user, sender));
     }
 
     private static Set<Event> getUserUpcomingEvents(LocalDateTime now, User user) {
         Set<Event> upcomingEvents = new HashSet<>();
-        for (Calendar calendar : user.getCalendars()) {
-            for (Event event : calendar.getEvents()) {
-                LocalDateTime diff = event.getStartDateTime().minusSeconds(SECONDS_BEFORE_EVENT).truncatedTo(ChronoUnit.MINUTES);
-                LocalDateTime truncated = now.truncatedTo(ChronoUnit.MINUTES);
-                if (diff.isEqual(truncated) || diff.isBefore(truncated)) {
-                    upcomingEvents.add(event);
-                }
+        user.getCalendars().forEach(calendar -> filterEvents(now, upcomingEvents, calendar));
+        return upcomingEvents;
+    }
+
+    private static void filterEvents(LocalDateTime now, Set<Event> upcomingEvents, Calendar calendar) {
+        for (Event event : calendar.getEvents()) {
+            LocalDateTime diff = event.getStartDateTime().minusSeconds(SECONDS_BEFORE_EVENT).truncatedTo(ChronoUnit.MINUTES);
+            LocalDateTime truncated = now.truncatedTo(ChronoUnit.MINUTES);
+            if (diff.isEqual(truncated)) {
+                upcomingEvents.add(event);
             }
         }
-        return upcomingEvents;
     }
 
     private static void sendNotification(Collection<Event> events, User user, Sender sender) {
