@@ -47,8 +47,12 @@ public class Event {
         reminder.setEventId(id);
     }
 
-    public void addCalendar(Calendar calendar) {
+    public void setCalendar(Calendar calendar) {
         this.calendar = calendar;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getTitle() {

@@ -1,6 +1,6 @@
 package app.presenter;
 
-import app.exceptions.UserAlreadyExistException;
+import logic.exceptions.UserAlreadyExistException;
 import app.util.AlertPopup;
 import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
 import javafx.event.ActionEvent;
@@ -43,13 +43,7 @@ public class RegisterViewPresenter {
             signUpButton.setText("Checking...");
             signUpButton.setDisable(true);
             User user = new User(usernameField.getText(), passwordField.getText(), emailField.getText());
-            userService.checkIfUserExists(usernameField.getText(), passwordField.getText())
-                    .observeOn(JavaFxScheduler.platform())
-                    .flatMapCompletable(exists -> {
-                        if(exists) throw new UserAlreadyExistException();
-                        signUpButton.setText("Adding...");
-                        return userService.addUser(user);
-                    })
+            userService.addUser(user)
                     .observeOn(JavaFxScheduler.platform())
                     .subscribe(() -> {
                         signUpButton.setText("Done!");

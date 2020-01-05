@@ -75,7 +75,7 @@ public class WeekViewDayPresenter extends AbstractDayView {
                                 .collect(Collectors.toList())))
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe((pair) -> {
-                    applyEvents(eventsPane, pair.getFirst(), pair.getSecond());
+                    applyEvents(appContext, eventsPane, pair.getFirst(), pair.getSecond());
                 });
     }
 

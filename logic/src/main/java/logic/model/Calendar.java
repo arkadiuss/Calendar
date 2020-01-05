@@ -42,7 +42,12 @@ public class Calendar {
 
     public void addEvent(Event event) {
         events.add(event);
-        event.addCalendar(this);
+        event.setCalendar(this);
+    }
+
+    public void removeEvent(Event event){
+        events.remove(event);
+        event.setCalendar(null);
     }
 
     public Set<Event> getEvents() {

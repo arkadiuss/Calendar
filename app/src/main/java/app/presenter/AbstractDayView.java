@@ -1,5 +1,7 @@
 package app.presenter;
 
+import app.AppContext;
+import app.util.DateUtils;
 import app.util.ViewUtils;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -10,19 +12,19 @@ import javafx.stage.Stage;
 import logic.model.Event;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class AbstractDayView {
 
-    public void applyEvents(Pane pane, LocalDate date, List<Event> events) {
+    public void applyEvents(AppContext context, Pane pane, LocalDate date, List<Event> events) {
         pane.getChildren().clear();
+        LocalDateTime dayStart = date.atStartOfDay();
+        LocalDateTime dayEnd = date.atStartOfDay().plusDays(1);
         List<Event> interestingEvents = events.stream()
-                .filter(e -> (date.isBefore(e.getEndDateTime().toLocalDate()) &&
-                        date.isAfter(e.getStartDateTime().toLocalDate())) ||
-                        date.isEqual(e.getStartDateTime().toLocalDate()) ||
-                        date.isEqual(e.getEndDateTime().toLocalDate()))
+                .filter(e -> DateUtils.IsCoincident(e.getStartDateTime(), e.getEndDateTime(), dayStart, dayEnd))
                 .collect(Collectors.toList());
         interestingEvents.forEach(e -> {
             Label label = new Label(e.getTitle());
@@ -30,7 +32,7 @@ public abstract class AbstractDayView {
             label.setPrefWidth(getHourWidth());
             label.setLayoutX(getEventOffset());
             label.setPrefHeight(countHeight(e));
-            label.setStyle("-fx-background-color: #0099FF; -fx-text-fill: #000000");
+            label.setStyle(String.format("-fx-background-color: %s; -fx-text-fill: #000000", context.getColor(e)));
             label.setLayoutY(countOffset(e));
             label.setOnMouseClicked(event -> {
                 ViewUtils.LoadedView<Node, EventDetailsViewPresenter> view = ViewUtils.loadView("EventDetailsView.fxml");
