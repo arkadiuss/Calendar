@@ -20,7 +20,7 @@ public class Calendar {
     private User user;
 
     @OneToMany(mappedBy = "calendar", cascade = CascadeType.ALL)
-    private Set<Event> events = new HashSet<>();
+    private Set<Event> events;
 
     public Calendar() {
     }
@@ -28,6 +28,7 @@ public class Calendar {
     public Calendar(String name, User user) {
         this.name = name;
         this.user = user;
+        this.events = new HashSet<>();
         user.addCalendar(this);
     }
 
@@ -39,9 +40,14 @@ public class Calendar {
         this.description = description;
     }
 
-    public void addEvent(Event event){
+    public void addEvent(Event event) {
         events.add(event);
-        event.addCalendar(this);
+        event.setCalendar(this);
+    }
+
+    public void removeEvent(Event event){
+        events.remove(event);
+        event.setCalendar(null);
     }
 
     public Set<Event> getEvents() {
@@ -57,7 +63,7 @@ public class Calendar {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Calendar " + name;
     }
 }

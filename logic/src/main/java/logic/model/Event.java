@@ -1,8 +1,10 @@
 package logic.model;
 
+import com.google.common.base.Objects;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,13 +42,17 @@ public class Event {
         this.endDateTime = endDateTime;
     }
 
-    public void addReminder(Reminder reminder){
+    public void addReminder(Reminder reminder) {
         reminders.add(reminder);
         reminder.setEventId(id);
     }
 
-    public void addCalendar(Calendar calendar) {
+    public void setCalendar(Calendar calendar) {
         this.calendar = calendar;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -89,17 +95,32 @@ public class Event {
         this.description = description;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return this.description;
     }
 
 
     @Override
     public String toString() {
-        return "Event{" +
-                "title='" + title + '\'' +
-                ", startDateTime=" + startDateTime +
-                ", endDateTime=" + endDateTime +
-                '}';
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return String.format("%s \n %s - %s", title, startDateTime.format(formatter), endDateTime.format(formatter));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return Objects.equal(title, event.title) &&
+                Objects.equal(place, event.place) &&
+                Objects.equal(startDateTime, event.startDateTime) &&
+                Objects.equal(endDateTime, event.endDateTime) &&
+                Objects.equal(calendar, event.calendar) &&
+                Objects.equal(description, event.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(title, place, startDateTime, endDateTime, calendar, description);
     }
 }
