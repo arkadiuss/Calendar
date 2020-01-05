@@ -1,6 +1,7 @@
 package logic.dao;
 
 import logic.model.Calendar;
+import logic.model.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -33,7 +34,6 @@ public class CalendarDao {
         transaction.begin();
         session.delete(calendar);
         transaction.commit();
-
     }
 
     public void updateCalendar(Calendar calendar) {

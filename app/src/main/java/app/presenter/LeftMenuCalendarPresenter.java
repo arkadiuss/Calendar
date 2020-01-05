@@ -82,9 +82,12 @@ public class LeftMenuCalendarPresenter {
         calendarService.addCalendar(calendar)
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(() -> {
-                   //ok
+                    addCalendarButton.setText("Add");
+                    addCalendarButton.setDisable(false);
                 }, err -> {
-                    // not ok
+                    AlertPopup.showAlert("Error occurred while adding calendar");
+                    addCalendarButton.setText("Add");
+                    addCalendarButton.setDisable(false);
                 });
     }
 }
