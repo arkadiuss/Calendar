@@ -57,6 +57,7 @@ public abstract class AbstractDayView {
                 Stage stage = new Stage();
                 stage.setTitle("Event details");
                 stage.setScene(new Scene((Parent) view.view, 600, 450));
+                view.controller.setDialogStage(stage);
                 stage.show();
             });
             pane.getChildren().add(label);

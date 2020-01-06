@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="456.0" prefWidth="600.0" style="-fx-background-image: url('https://www.myfreetextures.com/wp-content/uploads/2011/06/brushedsteel4.jpg');" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.presenter.EventDetailsViewPresenter">
     <children>
-        <BorderPane layoutX="117.0" layoutY="12.0" prefHeight="439.0" prefWidth="367.0">
+        <BorderPane layoutX="117.0" layoutY="12.0" prefHeight="436.0" prefWidth="367.0">
             <top>
                 <Label text="Event details" textFill="WHITE" BorderPane.alignment="CENTER">
                     <font>
@@ -16,7 +15,7 @@
                 </Label>
             </top>
             <center>
-                <GridPane prefHeight="410.0" prefWidth="367.0" BorderPane.alignment="CENTER">
+                <GridPane prefHeight="389.0" prefWidth="367.0" BorderPane.alignment="CENTER">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -31,8 +30,9 @@
                         <RowConstraints maxHeight="101.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="99.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="102.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
-                  <RowConstraints />
+                  <RowConstraints maxHeight="107.0" minHeight="10.0" prefHeight="102.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
                     </rowConstraints>
                     <children>
                         <Label text="Event name" textFill="WHITE" GridPane.rowIndex="1" />
@@ -78,15 +78,12 @@
                         </HBox>
                   <Label text="Description" textFill="WHITE" GridPane.rowIndex="9" />
                   <TextArea fx:id="descriptionArea" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="183.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                  <Button fx:id="saveButton" defaultButton="true" mnemonicParsing="false" onAction="#handleSaveEvent" text="Save" GridPane.halignment="CENTER" GridPane.rowIndex="10" GridPane.valignment="CENTER" />
+                  <Button fx:id="deleteButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleDeleteEvent" text="Remove" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="10" GridPane.valignment="CENTER" />
                     </children>
                 </GridPane>
             </center>
          <bottom>
-            <Button fx:id="saveButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleSaveEvent" text="Save" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets top="10.0" />
-               </BorderPane.margin>
-            </Button>
          </bottom>
         </BorderPane>
     </children>

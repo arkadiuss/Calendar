@@ -16,4 +16,9 @@ public class EventService {
         return Completable.fromAction(() -> eventDao.updateEvent(event))
                 .subscribeOn(Schedulers.io());
     }
+
+    public Completable deleteEvent(Event event) {
+        return Completable.fromAction(() -> eventDao.deleteEvent(event))
+                .subscribeOn(Schedulers.io());
+    }
 }
