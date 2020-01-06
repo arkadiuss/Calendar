@@ -21,8 +21,8 @@ public class EventsListPresenter {
     private List<Event> events = new ArrayList<>();
 
     public void addEvents(List<Event> events){
-        events.addAll(events);
-        events.forEach(e -> {
+        this.events.addAll(events);
+        this.events.forEach(e -> {
             eventsList.getItems().add(e);
         });
     }
@@ -56,6 +56,6 @@ public class EventsListPresenter {
     }
 
     private String setCell(String s){
-        return String.format("|%-30s|", s);
+        return String.format("%-30s", s);
     }
 }
