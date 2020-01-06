@@ -7,6 +7,7 @@ import logic.dao.UserDao;
 import logic.exceptions.UserAlreadyExistException;
 import logic.model.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public class UserService {
@@ -25,6 +26,11 @@ public class UserService {
     private Single<Boolean> checkIfUserExists(String name) {
         return Single.fromCallable(() -> userDao.getUser(name))
                 .map(Optional::isPresent)
+                .subscribeOn(Schedulers.io());
+    }
+
+    public Single<List<User>> getUsersList() {
+        return Single.fromCallable(() -> userDao.getUsers())
                 .subscribeOn(Schedulers.io());
     }
 
