@@ -73,11 +73,6 @@ public abstract class AbstractEventViewPresenter {
             this.startHourLabel.setVisible(false);
             this.endHourLabel.setVisible(false);
         }else{
-            this.spinnerStartHour.getValueFactory().setValue(0);
-            this.spinnerStartMinute.getValueFactory().setValue(0);
-            this.spinnerEndHour.getValueFactory().setValue(0);
-            this.spinnerEndMinute.getValueFactory().setValue(0);
-
             this.spinnerStartHour.setVisible(true);
             this.spinnerStartMinute.setVisible(true);
             this.spinnerEndHour.setVisible(true);
