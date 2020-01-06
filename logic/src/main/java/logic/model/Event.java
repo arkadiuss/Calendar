@@ -136,7 +136,8 @@ public class Event {
     }
 
     public boolean contains(String phrase){
-        return title.contains(phrase) || place.getName().contains(phrase)
-                || place.getAddress().contains(phrase) || description.contains(phrase);
+        phrase = phrase.toLowerCase();
+        return title.toLowerCase().contains(phrase) || place.getName().toLowerCase().contains(phrase)
+                || place.getAddress().toLowerCase().contains(phrase) || description.toLowerCase().contains(phrase);
     }
 }
