@@ -35,8 +35,7 @@ public class EventsListPresenter {
                     protected void updateItem(Event item, boolean empty) {
                         super.updateItem(item, empty);
                         if(item != null){
-                            setText(setCell(item.getTitle()) + setCell(item.getPlace().getName())
-                                    + setCell(item.getStartDateTime().toString()));
+                            setText(item.toString());
                         }
                     }
                 };
