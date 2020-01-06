@@ -61,6 +61,9 @@ public class EventDetailsViewPresenter extends AbstractEventViewPresenter{
         spinnerEndHour.getValueFactory().setValue(endDateTime.getHour());
         spinnerEndMinute.getValueFactory().setValue(endDateTime.getMinute());
         descriptionArea.setText(event.getDescription());
+
+        allDayCheckbox.setSelected(event.isAllDay());
+        handleAllDayCheckboxChange(new ActionEvent());
     }
 
 

@@ -8,7 +8,9 @@ import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import logic.exceptions.EventConflictException;
 import logic.model.Calendar;
 import logic.model.Event;
@@ -19,10 +21,12 @@ import java.util.List;
 
 
 public class RightAddEventMenuPresenter extends AbstractEventViewPresenter{
+
     @FXML
     private Button addEventButton;
     @FXML
     private ComboBox<Calendar> calendarsCombobox;
+
 
     private AppContext appContext;
     private CalendarService calendarService;
@@ -45,6 +49,7 @@ public class RightAddEventMenuPresenter extends AbstractEventViewPresenter{
                 });
     }
 
+
     public void handleAddEvent(ActionEvent event) {
         if (super.areFieldsEmpty() || calendarsCombobox.getValue() == null) {
             AlertPopup.showAlert("Event properties cannot be empty");
@@ -61,7 +66,7 @@ public class RightAddEventMenuPresenter extends AbstractEventViewPresenter{
                         new Place(
                                 placeNameField.getText(),
                                 addressNameField.getText()),
-                        super.getStartDateTime(), super.getEndDateTime());
+                        super.getStartDateTime(), super.getEndDateTime(), this.allDayCheckbox.isSelected());
                 calendar.addEvent(newEvent);
 
                 calendarService.updateCalendar(calendar).observeOn(JavaFxScheduler.platform())

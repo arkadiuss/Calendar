@@ -32,14 +32,17 @@ public class Event {
 
     private String description;
 
+    private boolean isAllDay;
+
     public Event() {
     }
 
-    public Event(String title, Place place, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+    public Event(String title, Place place, LocalDateTime startDateTime, LocalDateTime endDateTime, boolean isAllDay) {
         this.title = title;
         this.place = place;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
+        this.isAllDay = isAllDay;
     }
 
     public void addReminder(Reminder reminder) {
@@ -99,6 +102,13 @@ public class Event {
         return this.description;
     }
 
+    public void setAllDay(boolean allDay) {
+        this.isAllDay = allDay;
+    }
+
+    public boolean isAllDay() {
+        return isAllDay;
+    }
 
     @Override
     public String toString() {
@@ -116,11 +126,12 @@ public class Event {
                 Objects.equal(startDateTime, event.startDateTime) &&
                 Objects.equal(endDateTime, event.endDateTime) &&
                 Objects.equal(calendar, event.calendar) &&
-                Objects.equal(description, event.description);
+                Objects.equal(description, event.description) &&
+                Objects.equal(isAllDay, event.isAllDay);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(title, place, startDateTime, endDateTime, calendar, description);
+        return Objects.hashCode(title, place, startDateTime, endDateTime, calendar, description, isAllDay);
     }
 }

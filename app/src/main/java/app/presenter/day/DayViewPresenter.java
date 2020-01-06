@@ -26,6 +26,8 @@ public class DayViewPresenter extends AbstractDayView {
     private static final double HEADER_PX_HEIGHT = 75.0;
     private static final double OFFSET_PX_HEIGHT = 95.0;
     private static final double DAY_PX_WIDTH = 490.0;
+    private static final double DAY_EVENT_PX_HEIGHT = 24.0;
+    private static final double DAY_EVENT_PX_OFFSET = 65.0;
     private final AppContext appContext;
     private final CalendarService calendarService;
 
@@ -54,7 +56,7 @@ public class DayViewPresenter extends AbstractDayView {
         dayOfWeek.setPrefHeight(HEADER_PX_HEIGHT);
         hoursPane.getChildren().add(n_header.view);
 
-        appContext.observeSelectedDate().subscribe(date -> dayOfWeek.setText(days[ date.getDayOfWeek().getValue()- 1]));
+        appContext.observeSelectedDate().subscribe(date -> dayOfWeek.setText(days[date.getDayOfWeek().getValue() - 1]));
 
 
         for (int i = 0; i < 24; i++) {
@@ -99,5 +101,15 @@ public class DayViewPresenter extends AbstractDayView {
     @Override
     protected double getHourWidth() {
         return DAY_PX_WIDTH;
+    }
+
+    @Override
+    protected double getDayEventHeight() {
+        return DAY_EVENT_PX_HEIGHT;
+    }
+
+    @Override
+    protected double getDayEventOffset() {
+        return DAY_EVENT_PX_OFFSET;
     }
 }

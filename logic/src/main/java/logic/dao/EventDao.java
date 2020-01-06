@@ -25,4 +25,11 @@ public class EventDao {
         session.update(event);
         transaction.commit();
     }
+
+    public void deleteEvent(Event event) {
+        Transaction transaction = session.getTransaction();
+        transaction.begin();
+        session.delete(event);
+        transaction.commit();
+    }
 }

@@ -34,11 +34,21 @@ public abstract class AbstractDayView {
 
             Label label = new Label(e.getTitle());
 
-            label.setPrefWidth(getHourWidth());
-            label.setLayoutX(getEventOffset());
-            label.setPrefHeight(countHeight(startDate, endDate));
-            label.setStyle(String.format("-fx-background-color: %s; -fx-text-fill: #000000", context.getColor(e)));
-            label.setLayoutY(countOffset(startDate));
+            if(e.isAllDay()){
+                label.setPrefWidth(getHourWidth());
+                label.setLayoutX(getEventOffset());
+                label.setPrefHeight(getDayEventHeight());
+                label.setStyle(String.format("-fx-background-color: %s; -fx-text-fill: #000000", context.getColor(e)));
+                label.setLayoutY(getDayEventOffset());
+
+            }else{
+                label.setPrefWidth(getHourWidth());
+                label.setLayoutX(getEventOffset());
+                label.setPrefHeight(countHeight(startDate, endDate));
+                label.setStyle(String.format("-fx-background-color: %s; -fx-text-fill: #000000", context.getColor(e)));
+                label.setLayoutY(countOffset(startDate));
+            }
+
             label.setOnMouseClicked(event -> {
                 ViewUtils.LoadedView<Node, EventDetailsViewPresenter> view = ViewUtils.loadView("EventDetailsView.fxml");
                 view.controller.setEvent(e);
@@ -57,6 +67,8 @@ public abstract class AbstractDayView {
     protected abstract double getEventOffset();
     protected abstract double getHourWidth();
     protected abstract double getHeaderOffset();
+    protected abstract double getDayEventHeight();
+    protected abstract double getDayEventOffset();
 
 
     private double countHeight(LocalDateTime startDate, LocalDateTime endDate) {

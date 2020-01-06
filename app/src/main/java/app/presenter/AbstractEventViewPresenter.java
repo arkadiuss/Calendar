@@ -1,10 +1,9 @@
 package app.presenter;
 
 import com.google.common.base.Strings;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,6 +28,12 @@ public abstract class AbstractEventViewPresenter {
     public Spinner<Integer> spinnerEndHour;
     @FXML
     public Spinner<Integer> spinnerEndMinute;
+    @FXML
+    public CheckBox allDayCheckbox;
+    @FXML
+    public Label startHourLabel;
+    @FXML
+    public Label endHourLabel;
 
 
     protected boolean areFieldsEmpty() {
@@ -51,5 +56,34 @@ public abstract class AbstractEventViewPresenter {
                 spinnerEndMinute.getValue());
         return LocalDateTime.of(endDate.getYear(), endDate.getMonth(),
                 endDate.getDayOfMonth(), endTime.getHour(), endTime.getMinute());
+    }
+
+
+    public void handleAllDayCheckboxChange(ActionEvent event) {
+        if(this.allDayCheckbox.isSelected()){
+            this.spinnerStartHour.getValueFactory().setValue(0);
+            this.spinnerStartMinute.getValueFactory().setValue(1);
+            this.spinnerEndHour.getValueFactory().setValue(23);
+            this.spinnerEndMinute.getValueFactory().setValue(59);
+
+            this.spinnerStartHour.setVisible(false);
+            this.spinnerStartMinute.setVisible(false);
+            this.spinnerEndHour.setVisible(false);
+            this.spinnerEndMinute.setVisible(false);
+            this.startHourLabel.setVisible(false);
+            this.endHourLabel.setVisible(false);
+        }else{
+            this.spinnerStartHour.getValueFactory().setValue(0);
+            this.spinnerStartMinute.getValueFactory().setValue(0);
+            this.spinnerEndHour.getValueFactory().setValue(0);
+            this.spinnerEndMinute.getValueFactory().setValue(0);
+
+            this.spinnerStartHour.setVisible(true);
+            this.spinnerStartMinute.setVisible(true);
+            this.spinnerEndHour.setVisible(true);
+            this.spinnerEndMinute.setVisible(true);
+            this.startHourLabel.setVisible(true);
+            this.endHourLabel.setVisible(true);
+        }
     }
 }

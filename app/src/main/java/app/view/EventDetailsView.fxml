@@ -7,7 +7,7 @@
 
 <AnchorPane prefHeight="456.0" prefWidth="600.0" style="-fx-background-image: url('https://www.myfreetextures.com/wp-content/uploads/2011/06/brushedsteel4.jpg');" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.presenter.EventDetailsViewPresenter">
     <children>
-        <BorderPane layoutX="117.0" layoutY="24.0" prefHeight="407.0" prefWidth="367.0">
+        <BorderPane layoutX="117.0" layoutY="12.0" prefHeight="439.0" prefWidth="367.0">
             <top>
                 <Label text="Event details" textFill="WHITE" BorderPane.alignment="CENTER">
                     <font>
@@ -26,26 +26,29 @@
                         <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="89.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="99.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="101.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="99.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="102.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="102.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
+                  <RowConstraints />
                     </rowConstraints>
                     <children>
                         <Label text="Event name" textFill="WHITE" GridPane.rowIndex="1" />
                         <TextField fx:id="eventNameField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label text="Place name" textFill="WHITE" GridPane.rowIndex="2" />
                         <Label text="Address" textFill="WHITE" GridPane.rowIndex="3" />
-                        <Label text="Start date" textFill="WHITE" GridPane.rowIndex="4" />
-                        <Label text="Start time" textFill="WHITE" GridPane.rowIndex="5" />
-                        <Label text="End date" textFill="WHITE" GridPane.rowIndex="6" />
-                        <Label text="End time" textFill="WHITE" GridPane.rowIndex="7" />
+                        <Label text="Start date" textFill="WHITE" GridPane.rowIndex="5" />
+                        <Label fx:id="startHourLabel" text="Start time" textFill="WHITE" GridPane.rowIndex="6" />
+                        <Label text="End date" textFill="WHITE" GridPane.rowIndex="7" />
+                        <Label fx:id="endHourLabel" text="End time" textFill="WHITE" GridPane.rowIndex="8" />
                         <TextField fx:id="placeNameField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <TextField fx:id="addressNameField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <DatePicker fx:id="startDateField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <DatePicker fx:id="endDateField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                        <DatePicker fx:id="startDateField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <DatePicker fx:id="endDateField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <CheckBox fx:id="allDayCheckbox" mnemonicParsing="false" onAction="#handleAllDayCheckboxChange" text="All day" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                             <children>
                                 <Spinner fx:id="spinnerStartHour" editable="true" BorderPane.alignment="CENTER">
                                     <valueFactory>
@@ -59,7 +62,7 @@
                                 </Spinner>
                             </children>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
                             <children>
                                 <Spinner fx:id="spinnerEndHour" editable="true" BorderPane.alignment="CENTER">
                                     <valueFactory>
@@ -73,8 +76,8 @@
                                 </Spinner>
                             </children>
                         </HBox>
-                  <Label text="Description" textFill="WHITE" GridPane.rowIndex="8" />
-                  <TextArea fx:id="descriptionArea" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="183.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                  <Label text="Description" textFill="WHITE" GridPane.rowIndex="9" />
+                  <TextArea fx:id="descriptionArea" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="183.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                     </children>
                 </GridPane>
             </center>

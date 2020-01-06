@@ -26,6 +26,8 @@ public class WeekViewDayPresenter extends AbstractDayView {
     private static final double HEADER_PX_HEIGHT = 75.0;
     private static final double OFFSET_PX_HEIGHT = 95.0;
     private static final double DAY_PX_WIDTH = 75.0;
+    private static final double DAY_EVENT_PX_HEIGHT = 24.0;
+    private static final double DAY_EVENT_PX_OFFSET = 65.0;
     private final CalendarService calendarService;
 
     @FXML
@@ -63,7 +65,8 @@ public class WeekViewDayPresenter extends AbstractDayView {
 
         date.subscribe(d -> {
             dayOfWeek.setText(days[d.getDayOfWeek().getValue() - 1]);
-        }, err -> {});
+        }, err -> {
+        });
 
         Observable.combineLatest(
                 date,
@@ -98,6 +101,16 @@ public class WeekViewDayPresenter extends AbstractDayView {
     @Override
     protected double getHeaderOffset() {
         return OFFSET_PX_HEIGHT;
+    }
+
+    @Override
+    protected double getDayEventHeight() {
+        return DAY_EVENT_PX_HEIGHT;
+    }
+
+    @Override
+    protected double getDayEventOffset() {
+        return DAY_EVENT_PX_OFFSET;
     }
 
     @Override
