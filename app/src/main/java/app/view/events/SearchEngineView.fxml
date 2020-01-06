@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="60.0" prefWidth="212.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.presenter.SearchEnginePresenter">
+    <children>
+        <TextField fx:id="inputField" layoutY="25.0" prefHeight="25.0" prefWidth="160.0" promptText="Search..." />
+        <Button fx:id="searchButton" alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="160.0" layoutY="25.0"
+                mnemonicParsing="false" onAction="#handleSearchEvent" text="Search" textAlignment="CENTER">
+        </Button>
+    </children>
+</AnchorPane>

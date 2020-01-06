@@ -102,4 +102,9 @@ public class Event {
                 ", endDateTime=" + endDateTime +
                 '}';
     }
+
+    public boolean contains(String phrase){
+        return title.contains(phrase) || place.getName().contains(phrase)
+                || place.getAddress().contains(phrase) || description.contains(phrase);
+    }
 }
