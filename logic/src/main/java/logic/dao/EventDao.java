@@ -12,10 +12,24 @@ public class EventDao {
         session = HibernateProvider.getSession();
     }
 
+    public void addEvent(Event event) {
+        Transaction transaction = session.getTransaction();
+        transaction.begin();
+        session.save(event);
+        transaction.commit();
+    }
+
     public void updateEvent(Event event) {
         Transaction transaction = session.getTransaction();
         transaction.begin();
         session.update(event);
+        transaction.commit();
+    }
+
+    public void deleteEvent(Event event) {
+        Transaction transaction = session.getTransaction();
+        transaction.begin();
+        session.delete(event);
         transaction.commit();
     }
 }

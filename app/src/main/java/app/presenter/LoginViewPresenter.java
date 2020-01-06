@@ -1,7 +1,6 @@
 package app.presenter;
 
 import app.controller.StartController;
-import app.exceptions.UserAlreadyExistException;
 import app.util.AlertPopup;
 import com.google.common.base.Strings;
 import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
@@ -11,11 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import logic.model.User;
-import logic.dao.UserDao;
 import logic.service.UserService;
-
-import java.util.Optional;
 
 public class LoginViewPresenter {
 

@@ -22,8 +22,12 @@ import java.util.stream.Collectors;
 public class WeekViewDayPresenter extends AbstractDayView {
     public AnchorPane dayPane;
     private AppContext appContext;
-    private static final double DAY_PX_HEIGHT = 56.0;
+    private static final double DAY_PX_HEIGHT = 48.5;
+    private static final double HEADER_PX_HEIGHT = 75.0;
+    private static final double OFFSET_PX_HEIGHT = 95.0;
     private static final double DAY_PX_WIDTH = 75.0;
+    private static final double DAY_EVENT_PX_HEIGHT = 24.0;
+    private static final double DAY_EVENT_PX_OFFSET = 65.0;
     private final CalendarService calendarService;
 
     @FXML
@@ -37,7 +41,6 @@ public class WeekViewDayPresenter extends AbstractDayView {
 
     private BehaviorSubject<LocalDate> date = BehaviorSubject.create();
 
-    private String[] days = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
     public WeekViewDayPresenter() {
         this.appContext = DIProvider.getAppContext();
@@ -50,6 +53,7 @@ public class WeekViewDayPresenter extends AbstractDayView {
             if (i == 0) {
                 ViewUtils.LoadedView<Node, WeekViewDayPresenter> n = ViewUtils.loadView("week/WeekViewHour.fxml");
                 dayOfWeek = (Label) n.view.lookup("#hourView");
+                dayOfWeek.setPrefHeight(HEADER_PX_HEIGHT);
                 hoursPane.getChildren().add(n.view);
                 continue;
             }
@@ -61,7 +65,8 @@ public class WeekViewDayPresenter extends AbstractDayView {
 
         date.subscribe(d -> {
             dayOfWeek.setText(days[d.getDayOfWeek().getValue() - 1]);
-        }, err -> {});
+        }, err -> {
+        });
 
         Observable.combineLatest(
                 date,
@@ -75,7 +80,7 @@ public class WeekViewDayPresenter extends AbstractDayView {
                                 .collect(Collectors.toList())))
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe((pair) -> {
-                    applyEvents(eventsPane, pair.getFirst(), pair.getSecond());
+                    applyEvents(appContext, eventsPane, pair.getFirst(), pair.getSecond());
                 });
     }
 
@@ -91,6 +96,21 @@ public class WeekViewDayPresenter extends AbstractDayView {
     @Override
     protected double getEventOffset() {
         return 0;
+    }
+
+    @Override
+    protected double getHeaderOffset() {
+        return OFFSET_PX_HEIGHT;
+    }
+
+    @Override
+    protected double getDayEventHeight() {
+        return DAY_EVENT_PX_HEIGHT;
+    }
+
+    @Override
+    protected double getDayEventOffset() {
+        return DAY_EVENT_PX_OFFSET;
     }
 
     @Override

@@ -2,6 +2,8 @@ package logic.model;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,7 +22,7 @@ public class Calendar {
     private User user;
 
     @OneToMany(mappedBy = "calendar", cascade = CascadeType.ALL)
-    private Set<Event> events = new HashSet<>();
+    private List<Event> events;
 
     public Calendar() {
     }
@@ -28,6 +30,7 @@ public class Calendar {
     public Calendar(String name, User user) {
         this.name = name;
         this.user = user;
+        this.events = new LinkedList<>();
         user.addCalendar(this);
     }
 
@@ -39,12 +42,17 @@ public class Calendar {
         this.description = description;
     }
 
-    public void addEvent(Event event){
-        events.add(event);
-        event.addCalendar(this);
+    public void addEvent(Event event) {
+        event.setCalendar(this);
+        this.events.add(event);
     }
 
-    public Set<Event> getEvents() {
+    public void removeEvent(Event event) {
+        this.events.remove(event);
+        event.setCalendar(null);
+    }
+
+    public List<Event> getEvents() {
         return events;
     }
 
@@ -57,7 +65,7 @@ public class Calendar {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Calendar " + name;
     }
 }

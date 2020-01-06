@@ -8,7 +8,10 @@ import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import logic.exceptions.EventConflictException;
 import logic.model.Calendar;
 import logic.model.Event;
 import logic.model.Place;
@@ -18,10 +21,12 @@ import java.util.List;
 
 
 public class RightAddEventMenuPresenter extends AbstractEventViewPresenter{
+
     @FXML
     private Button addEventButton;
     @FXML
     private ComboBox<Calendar> calendarsCombobox;
+
 
     private AppContext appContext;
     private CalendarService calendarService;
@@ -44,13 +49,12 @@ public class RightAddEventMenuPresenter extends AbstractEventViewPresenter{
                 });
     }
 
+
     public void handleAddEvent(ActionEvent event) {
         if (super.areFieldsEmpty() || calendarsCombobox.getValue() == null) {
             AlertPopup.showAlert("Event properties cannot be empty");
-        } else if(!startDateField.getValue().isEqual(endDateField.getValue())) {
-            AlertPopup.showAlert("Currently only one-day events are supported :(");
         }else {
-            Calendar calendar = (Calendar) calendarsCombobox.getValue();
+            Calendar calendar = calendarsCombobox.getValue();
 
             if (super.getStartDateTime().compareTo(super.getEndDateTime()) >= 0) {
                 AlertPopup.showAlert("End time and date must be later than start time and date");
@@ -62,16 +66,20 @@ public class RightAddEventMenuPresenter extends AbstractEventViewPresenter{
                         new Place(
                                 placeNameField.getText(),
                                 addressNameField.getText()),
-                        super.getStartDateTime(), super.getEndDateTime());
+                        super.getStartDateTime(), super.getEndDateTime(), this.allDayCheckbox.isSelected());
                 calendar.addEvent(newEvent);
 
-                //todo UPDATE VIEW
                 calendarService.updateCalendar(calendar).observeOn(JavaFxScheduler.platform())
                         .subscribe(() -> {
                             addEventButton.setText("Add event");
                             addEventButton.setDisable(false);
-                            //updateView();
                         }, error -> {
+                            if(error instanceof EventConflictException) {
+                                AlertPopup.showAlert(error.getMessage());
+                            } else {
+                                AlertPopup.showAlert("Error occurred while adding event");
+                            }
+                            calendar.removeEvent(newEvent);
                             addEventButton.setText("Add event");
                             addEventButton.setDisable(false);
                         });

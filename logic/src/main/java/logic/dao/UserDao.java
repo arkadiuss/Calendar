@@ -40,4 +40,13 @@ public class UserDao {
         else
             return Optional.empty();
     }
+
+    public Optional<User> getUser(String name) {
+        TypedQuery<User> q = session.createQuery("from User as u where u.username = :name", User.class);
+        q.setParameter("name", name);
+        if (q.getResultList().size() == 1)
+            return Optional.of(Iterables.getOnlyElement(q.getResultList()));
+        else
+            return Optional.empty();
+    }
 }
