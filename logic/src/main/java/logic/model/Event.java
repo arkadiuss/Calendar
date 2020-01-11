@@ -113,7 +113,7 @@ public class Event {
     @Override
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        return String.format("Title: %s \n %s - %s", title, startDateTime.format(formatter), endDateTime.format(formatter));
+        return String.format("Title: %s \nPlace: %s \n %s - %s", title, place, startDateTime.format(formatter), endDateTime.format(formatter));
     }
 
     @Override

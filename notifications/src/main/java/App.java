@@ -16,7 +16,7 @@ import java.util.Set;
 public class App {
     private final static Logger logger = LoggerFactory.getLogger(Sender.class);
     private final static long SECONDS_BEFORE_EVENT = 10 * 60;
-    private final static int MILLIS = 20 * 1000;
+    private final static int MILLIS = 60 * 1000;
 
     public static void main(String[] args) {
         Email from = new Email("calendar-notifier@aniolki_charliego.pl");
@@ -56,6 +56,8 @@ public class App {
     }
 
     private static void sendNotification(Collection<Event> events, User user, Sender sender) {
+        if (events.isEmpty())
+            return;
         StringBuilder stringBuilder = new StringBuilder();
         events.forEach(event -> stringBuilder.append(event).append("\n"));
         String content = String.format("Dear %s,\nYou have following upcoming events:\n%s", user.getUsername(), stringBuilder.toString());
