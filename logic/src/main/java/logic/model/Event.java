@@ -113,7 +113,7 @@ public class Event {
     @Override
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        return String.format("%s \n %s - %s", title, startDateTime.format(formatter), endDateTime.format(formatter));
+        return String.format("Title: %s \n %s - %s", title, startDateTime.format(formatter), endDateTime.format(formatter));
     }
 
     @Override
@@ -135,7 +135,7 @@ public class Event {
         return Objects.hashCode(title, place, startDateTime, endDateTime, calendar, description, isAllDay);
     }
 
-    public boolean contains(String phrase){
+    public boolean contains(String phrase) {
         phrase = phrase.toLowerCase();
         return title.toLowerCase().contains(phrase) || place.getName().toLowerCase().contains(phrase)
                 || place.getAddress().toLowerCase().contains(phrase) || description.toLowerCase().contains(phrase);
