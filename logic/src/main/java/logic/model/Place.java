@@ -1,6 +1,6 @@
 package logic.model;
 
-import javax.persistence.*;
+import javax.persistence.Embeddable;
 
 @Embeddable
 public class Place {
@@ -29,5 +29,10 @@ public class Place {
 
     public String getAddress() {
         return address;
+    }
+
+    @Override
+    public String toString() {
+        return name + ", " + address;
     }
 }
