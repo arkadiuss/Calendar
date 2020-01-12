@@ -121,18 +121,12 @@ public class Event {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Event event = (Event) o;
-        return Objects.equal(title, event.title) &&
-                Objects.equal(place, event.place) &&
-                Objects.equal(startDateTime, event.startDateTime) &&
-                Objects.equal(endDateTime, event.endDateTime) &&
-                Objects.equal(calendar, event.calendar) &&
-                Objects.equal(description, event.description) &&
-                Objects.equal(isAllDay, event.isAllDay);
+        return id == event.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(title, place, startDateTime, endDateTime, calendar, description, isAllDay);
+        return id;
     }
 
     public boolean contains(String phrase) {

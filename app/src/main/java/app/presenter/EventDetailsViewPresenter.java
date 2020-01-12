@@ -124,12 +124,12 @@ public class EventDetailsViewPresenter extends AbstractEventViewPresenter {
         Calendar calendar = this.event.getCalendar();
         calendar.removeEvent(this.event);
 
-        eventService.deleteEvent(this.event).andThen(calendarService.updateCalendar(calendar)).observeOn(JavaFxScheduler.platform())
-        .subscribe(() -> {
+        eventService.deleteEvent(this.event)
+                .andThen(calendarService.updateCalendar(calendar)).observeOn(JavaFxScheduler.platform())
+                .subscribe(() -> {
                     deleteButton.setText("Remove");
                     deleteButton.setDisable(false);
                     this.dialogStage.close();
-
                 },
                 error -> {
                     deleteButton.setText("Remove");

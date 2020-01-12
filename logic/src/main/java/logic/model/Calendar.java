@@ -22,7 +22,7 @@ public class Calendar {
     private User user;
 
     @OneToMany(mappedBy = "calendar", cascade = CascadeType.ALL)
-    private List<Event> events;
+    private Set<Event> events;
 
     public Calendar() {
     }
@@ -30,7 +30,7 @@ public class Calendar {
     public Calendar(String name, User user) {
         this.name = name;
         this.user = user;
-        this.events = new LinkedList<>();
+        this.events = new HashSet<>();
         user.addCalendar(this);
     }
 
@@ -52,7 +52,7 @@ public class Calendar {
         event.setCalendar(null);
     }
 
-    public List<Event> getEvents() {
+    public Set<Event> getEvents() {
         return events;
     }
 
