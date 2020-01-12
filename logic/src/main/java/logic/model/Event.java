@@ -137,7 +137,14 @@ public class Event {
 
     public boolean contains(String phrase) {
         phrase = phrase.toLowerCase();
-        return title.toLowerCase().contains(phrase) || place.getName().toLowerCase().contains(phrase)
-                || place.getAddress().toLowerCase().contains(phrase) || description.toLowerCase().contains(phrase);
+        return compare(phrase, title) || compare(place.getName(), phrase)
+                || compare(place.getAddress(), phrase) || compare(description, phrase);
+    }
+
+    private boolean compare(String first, String second) {
+        if (first == null || second == null) {
+            return false;
+        }
+        return first.toLowerCase().equals(second.toLowerCase());
     }
 }
