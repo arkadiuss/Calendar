@@ -40,7 +40,7 @@ public class Sender {
         Request request = new Request();
         request.setMethod(Method.POST);
         request.setEndpoint("mail/send");
-        request.setBody(mail.build());
+        request.setBody(mail.buildPretty());
         return request;
     }
 }
