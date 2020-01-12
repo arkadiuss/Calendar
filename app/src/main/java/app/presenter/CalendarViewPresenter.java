@@ -8,6 +8,7 @@ import app.util.ViewUtils;
 import app.view.month.MonthView;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import io.reactivex.rxjavafx.observers.JavaFxObserver;
+import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -43,10 +44,13 @@ public class CalendarViewPresenter {
 
     @FXML
     public void initialize() {
-        // workaround
         JavaFxObservable.valuesOf(datePicker.valueProperty())
                 .subscribe(d -> appContext.setSelectedDate(d));
-        datePicker.setValue(LocalDate.now());
+
+        appContext.observeSelectedDate()
+                .observeOn(JavaFxScheduler.platform())
+                .subscribe(d -> datePicker.setValue(d));
+        appContext.setSelectedDate(LocalDate.now());
 
         appContext.observeUser()
                 .subscribe(user -> {
@@ -56,10 +60,6 @@ public class CalendarViewPresenter {
         setDayViewContent();
         setWeekViewContent();
         setMonthViewContent();
-    }
-
-    public void handleDatePickerChange(ActionEvent actionEvent) {
-//        appContext.setSelectedDate(datePicker.getValue());
     }
 
     public void handleSetCurrentDateButton() {

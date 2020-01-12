@@ -24,6 +24,7 @@ public class DateUtils {
     public static boolean IsCoincidentExclusive(LocalDateTime range1Start, LocalDateTime range1End,
                                        LocalDateTime range2Start, LocalDateTime range2End) {
         return IsBetweenExclusive(range1Start, range2Start, range2End) || IsBetweenExclusive(range1End, range2Start, range2End) ||
-                IsBetweenExclusive(range2Start, range1Start, range1End) || IsBetweenExclusive(range2End, range1Start, range1End);
+                IsBetweenExclusive(range2Start, range1Start, range1End) || IsBetweenExclusive(range2End, range1Start, range1End) ||
+                range1Start.equals(range2Start) || range1End.equals(range2End);
     }
 }

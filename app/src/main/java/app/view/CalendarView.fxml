@@ -28,7 +28,7 @@
                                 <Font name="System Bold" size="14.0" />
                             </font>
                         </Label>
-                        <DatePicker fx:id="datePicker" onAction="#handleDatePickerChange" style="-fx-background-color: #AEADAD;" />
+                        <DatePicker fx:id="datePicker" style="-fx-background-color: #AEADAD;" />
                         <Button fx:id="setCurrentDateButton" mnemonicParsing="false" onAction="#handleSetCurrentDateButton" text="Set current" />
                     </children>
                 </HBox>

@@ -58,7 +58,9 @@ public class CalendarService {
     private Optional<Event> findConflict(Calendar calendar, List<Calendar> calendars) {
         List<Event> restEvents = calendars.stream().flatMap(c -> c.getEvents().stream()).collect(Collectors.toList());
         return getNewEvents(calendar).stream()
-                .filter(e -> checkConflicts(e, restEvents))
+                .map(e -> checkConflicts(e, restEvents))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .findAny();
     }
 
@@ -69,9 +71,10 @@ public class CalendarService {
                 .collect(Collectors.toList());
     }
 
-    private boolean checkConflicts(Event event, List<Event> currentEvents) {
+    private Optional<Event> checkConflicts(Event event, List<Event> currentEvents) {
         return currentEvents.stream()
-                .anyMatch(e -> e.getId() != event.getId() && DateUtils.IsCoincidentExclusive(e.getStartDateTime(), e.getEndDateTime(), event.getStartDateTime(), event.getEndDateTime()));
+                .filter(e -> e.getId() != event.getId() && DateUtils.IsCoincidentExclusive(e.getStartDateTime(), e.getEndDateTime(), event.getStartDateTime(), event.getEndDateTime()))
+                .findAny();
     }
 
     private void updateUserCalendars(User user) {
