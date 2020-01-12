@@ -50,6 +50,7 @@ public class App {
             LocalDateTime diff = event.getStartDateTime().minusSeconds(SECONDS_BEFORE_EVENT).truncatedTo(ChronoUnit.MINUTES);
             LocalDateTime truncated = now.truncatedTo(ChronoUnit.MINUTES);
             if (diff.isEqual(truncated)) {
+                System.out.println(event);
                 upcomingEvents.add(event);
             }
         }
@@ -59,8 +60,11 @@ public class App {
         if (events.isEmpty())
             return;
         StringBuilder stringBuilder = new StringBuilder();
-        events.forEach(event -> stringBuilder.append(event).append("\n"));
-        String content = String.format("Dear %s,\nYou have following upcoming events:\n%s", user.getUsername(), stringBuilder.toString());
+        events.forEach(event -> stringBuilder.append(event).append("\n\n"));
+        StringBuilder contentBuilder = new StringBuilder();
+        contentBuilder.append("Dear ").append(user.getUsername()).append("\n\n").append("You have following upcoming events:").append("\n\n").append(stringBuilder.toString());
+        String content = contentBuilder.toString();
+        System.out.println(content);
         sender.sendNotification(new Email(user.getEmail()), content);
     }
 }
