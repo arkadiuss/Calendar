@@ -45,30 +45,37 @@ public class LeftMenuCalendarPresenter {
                 .flatMap(calendarService::getCalendars)
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe((calendars) -> {
-                            observableCalendars.clear();
-                            observableCalendars.addAll(calendars);
-                        });
+                    observableCalendars.clear();
+                    observableCalendars.addAll(calendars);
+                });
 
         this.calendarsList.setCellFactory(listView ->
-                new CalendarListViewCell((calendar, deleteButton) -> {
-                    deleteButton.setDisable(true);
-                    deleteButton.setText("Deleting...");
-                    currentUser.getCalendars().remove(calendar);
-                    calendarService.deleteCalendar(calendar)
-                            .observeOn(JavaFxScheduler.platform())
-                            .subscribe(() -> {
-                                // ok
-                            }, error -> {
-                                deleteButton.setDisable(false);
-                                deleteButton.setText("Remove");
-                                System.out.println(error.toString());
-                            });
-                }, (calendar, isSelected) -> {
-                    if (isSelected)
-                        appContext.selectCalendar(calendar.getId());
-                    else
-                        appContext.unselectCalendar(calendar.getId());
-                }));
+                new CalendarListViewCell(
+                        (checkbox, calendar) -> {
+                            if (appContext.getSelectedCalendars().contains(calendar.getId())) {
+                                checkbox.selectedProperty().setValue(true);
+                            }
+                        },
+                        (calendar, deleteButton) -> {
+                            deleteButton.setDisable(true);
+                            deleteButton.setText("Deleting...");
+                            currentUser.getCalendars().remove(calendar);
+                            calendarService.deleteCalendar(calendar)
+                                    .observeOn(JavaFxScheduler.platform())
+                                    .subscribe(() -> {
+                                        // ok
+                                    }, error -> {
+                                        deleteButton.setDisable(false);
+                                        deleteButton.setText("Remove");
+                                        System.out.println(error.toString());
+                                    });
+                        },
+                        (calendar, isSelected) -> {
+                            if (isSelected)
+                                appContext.selectCalendar(calendar.getId());
+                            else
+                                appContext.unselectCalendar(calendar.getId());
+                        }));
     }
 
     public void handleAddNewCalendar(ActionEvent actionEvent) {

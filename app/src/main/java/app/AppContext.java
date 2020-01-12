@@ -3,13 +3,11 @@ package app;
 import app.util.ColorRandomizer;
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
-import logic.model.Calendar;
 import logic.model.Event;
 import logic.model.User;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class AppContext {
     private BehaviorSubject<User> currentUser = BehaviorSubject.create();
@@ -36,6 +34,10 @@ public class AppContext {
         selectedCalendarsObservable.onNext(new ArrayList<>(selectedCalendars));
     }
 
+    public Set<Integer> getSelectedCalendars() {
+        return selectedCalendars;
+    }
+
     public Observable<LocalDate> observeSelectedDate() {
         return selectedDate;
     }
@@ -50,7 +52,7 @@ public class AppContext {
 
     public String getColor(Event e) {
         int id = e.getCalendar().getId();
-        if(!color.containsKey(id)) {
+        if (!color.containsKey(id)) {
             color.put(id, ColorRandomizer.randomColor());
         }
         return color.get(id).replace("0x", "#");
