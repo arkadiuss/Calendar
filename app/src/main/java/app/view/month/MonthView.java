@@ -5,6 +5,7 @@ import app.di.DIProvider;
 import com.google.common.collect.ImmutableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -87,8 +88,8 @@ public class MonthView {
                     " -fx-border-color: black; -fx-border-width: 1px 1px 1px 1px");
 
 
-//            dayAnchorPane.addEventHandler(MouseEvent.MOUSE_CLICKED, e ->
-//                    appContext.setSelectedDate(dayAnchorPane.getDate()));
+            dayAnchorPane.addEventHandler(MouseEvent.MOUSE_CLICKED, e ->
+                    appContext.setSelectedDate(dayAnchorPane.getDate()));
 
             // shouldn't be selectedDate here?
             if (dateIterator.equals(LocalDate.now())) {
