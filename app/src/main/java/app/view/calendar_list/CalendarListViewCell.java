@@ -2,21 +2,25 @@ package app.view.calendar_list;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import logic.model.Calendar;
 
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class CalendarListViewCell extends ListCell<Calendar> {
+    private BiConsumer<CheckBox, Calendar> setupCheckBoxValue;
     private BiConsumer<Calendar, Button> removeCalendarCallback;
     private BiConsumer<Calendar, Boolean> selectCalendarCallback;
 
-    public CalendarListViewCell(BiConsumer<Calendar, Button> removeCalendarCallback,
+    public CalendarListViewCell(BiConsumer<CheckBox, Calendar> setupCheckBoxValue, BiConsumer<Calendar, Button> removeCalendarCallback,
                                 BiConsumer<Calendar, Boolean> selectCalendarCallback) {
+        this.setupCheckBoxValue = setupCheckBoxValue;
         this.removeCalendarCallback = removeCalendarCallback;
         this.selectCalendarCallback = selectCalendarCallback;
     }
@@ -46,9 +50,9 @@ public class CalendarListViewCell extends ListCell<Calendar> {
                 selectCalendarCallback.accept(calendar, checkBox.isSelected());
                 System.out.println("Calendar in use: " + checkBox.selectedProperty().getValue());
             });
+            setupCheckBoxValue.accept(checkBox, calendar);
 
             root.getChildren().addAll(removeButton, checkBox);
-
             setText(null);
             setGraphic(root);
         } else {
