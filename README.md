@@ -4,8 +4,8 @@
 Database is setup using Azure SQL Server. Credentials (they can be public it's just small calendar): \
 server: arkadiussqlserver.database.windows.net \
 port: 1433 \
-username: calendar \
-password: strongP4ssword
+username: doesn't matter anyway ;)
+password: doesn't matter anyway ;)
 
 ## Setup
 To open project using IntelliJ just choose `Import Project` from context menu and choose gradle as a project type :)
